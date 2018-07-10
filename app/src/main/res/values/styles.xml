@@ -1,0 +1,55 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="TextDarkGrey12">
+        <item name="android:textSize">@dimen/standard12sp</item>
+        <item name="android:textColor">@color/dark_grey</item>
+    </style>
+
+    <style name="TextDarkGrey14">
+        <item name="android:textSize">@dimen/standard14sp</item>
+        <item name="android:textColor">@color/dark_grey</item>
+    </style>
+
+    <style name="TextDarkGrey16">
+        <item name="android:textSize">@dimen/standard16sp</item>
+        <item name="android:textColor">@color/dark_grey</item>
+    </style>
+
+    <style name="TextDarkGrey20">
+        <item name="android:textSize">@dimen/standard20sp</item>
+        <item name="android:textColor">@color/dark_grey</item>
+    </style>
+
+    <style name="TextWhite14">
+        <item name="android:textSize">@dimen/standard14sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TextWhite34">
+        <item name="android:textSize">@dimen/standard34sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TextWhite60">
+        <item name="android:textSize">@dimen/standard60sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TextPink16">
+        <item name="android:textSize">@dimen/standard16sp</item>
+        <item name="android:textColor">@color/pink</item>
+    </style>
+
+</resources>
