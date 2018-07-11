@@ -1,4 +1,4 @@
-package huitca1212.tiempoourense.ui
+package huitca1212.tiempoourense.view
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -6,11 +6,10 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import huitca1212.tiempoourense.R
-import huitca1212.tiempoourense.ui.utils.gone
-import huitca1212.tiempoourense.ui.utils.showToast
-import huitca1212.tiempoourense.ui.utils.visible
+import huitca1212.tiempoourense.view.util.gone
+import huitca1212.tiempoourense.view.util.showToast
+import huitca1212.tiempoourense.view.util.visible
 import kotlinx.android.synthetic.main.fragment_weather.view.*
 
 class StationFragment : Fragment(), StationViewTranslator, SwipeRefreshLayout.OnRefreshListener {
@@ -32,9 +31,7 @@ class StationFragment : Fragment(), StationViewTranslator, SwipeRefreshLayout.On
 
     private var stationId: String = ""
     private lateinit var rootView: View
-    private val presenter: StationPresenter by lazy {
-        StationPresenter(this)
-    }
+    private val presenter: StationPresenter = StationPresenter(this)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootView = inflater.inflate(R.layout.fragment_weather, container, false)

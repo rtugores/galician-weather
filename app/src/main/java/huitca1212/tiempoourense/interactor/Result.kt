@@ -1,4 +1,4 @@
-package huitca1212.tiempoourense.business
+package huitca1212.tiempoourense.interactor
 
 import java.io.IOException
 

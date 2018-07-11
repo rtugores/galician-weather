@@ -1,7 +1,7 @@
 package huitca1212.tiempoourense.model
 
 import com.google.gson.annotations.SerializedName
-import huitca1212.tiempoourense.business.GetLastMinutesUseCase
+import huitca1212.tiempoourense.interactor.GetLastMinutesUseCase
 
 
 data class DataLastMinutes(

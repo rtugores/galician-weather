@@ -1,7 +1,7 @@
 package huitca1212.tiempoourense.model
 
 import com.google.gson.annotations.SerializedName
-import huitca1212.tiempoourense.business.GetDailyUseCase
+import huitca1212.tiempoourense.interactor.GetDailyUseCase
 
 data class DataDaily(
     var rainValue: Float? = null,

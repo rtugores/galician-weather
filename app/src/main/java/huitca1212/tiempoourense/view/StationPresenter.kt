@@ -1,8 +1,8 @@
-package huitca1212.tiempoourense.ui
+package huitca1212.tiempoourense.view
 
-import huitca1212.tiempoourense.business.GetDailyUseCase
-import huitca1212.tiempoourense.business.GetLastMinutesUseCase
-import huitca1212.tiempoourense.business.Success
+import huitca1212.tiempoourense.interactor.GetDailyUseCase
+import huitca1212.tiempoourense.interactor.GetLastMinutesUseCase
+import huitca1212.tiempoourense.interactor.Success
 import huitca1212.tiempoourense.model.DataDailyWrapper
 import huitca1212.tiempoourense.model.DataLastMinutesWrapper
 import kotlinx.coroutines.experimental.android.UI
@@ -19,8 +19,8 @@ class StationPresenter(val view: StationViewTranslator) {
     private fun retrieveStationData() {
         view.showLoaderScreen()
         launch(UI) {
-            val lastMinutesInfo = GetLastMinutesUseCase(stationId).execute().await()
-            val dailyInfo = GetDailyUseCase(stationId).execute().await()
+            val lastMinutesInfo = GetLastMinutesUseCase().execute(stationId).await()
+            val dailyInfo = GetDailyUseCase().execute(stationId).await()
 
             if (lastMinutesInfo is Success && dailyInfo is Success) {
                 processLastMinutesInfo(lastMinutesInfo.response)

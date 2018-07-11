@@ -1,4 +1,4 @@
-package huitca1212.tiempoourense.ui
+package huitca1212.tiempoourense.view
 
 import android.os.Bundle
 import android.support.design.widget.TabLayout

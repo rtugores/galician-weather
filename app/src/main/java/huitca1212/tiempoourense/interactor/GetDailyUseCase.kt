@@ -1,15 +1,19 @@
-package huitca1212.tiempoourense.business
+package huitca1212.tiempoourense.interactor
 
+import huitca1212.tiempoourense.network.NetworkApi
 import kotlinx.coroutines.experimental.async
-import retrofit2.Call
 import java.io.IOException
 
 
-abstract class DefaultUseCase<out T> {
+class GetDailyUseCase {
 
-    fun execute() = async {
+    companion object {
+        const val RAIN_PARAM = "PP_SUM_1.5m"
+    }
+
+    fun execute(stationId: String) = async {
         try {
-            val response = call().execute()
+            val response = NetworkApi.stationApi.getDailyDataStation(stationId).execute()
             if (response.isSuccessful) {
                 response.body()?.let {
                     Success(it)
@@ -23,6 +27,4 @@ abstract class DefaultUseCase<out T> {
             Error(e)
         }
     }
-
-    abstract fun call(): Call<out T>
 }

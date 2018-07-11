@@ -1,4 +1,4 @@
-package huitca1212.tiempoourense.ui.utils
+package huitca1212.tiempoourense.view.util
 
 import android.view.View
 
