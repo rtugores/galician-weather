@@ -64,7 +64,9 @@ class StationFragment : Fragment(), StationViewTranslator, SwipeRefreshLayout.On
             infoGroup.gone()
             progressBar.gone()
         }
-        Toast.makeText(activity, "Algo fue mal", Toast.LENGTH_SHORT).show()
+        activity?.run {
+            Toast.makeText(activity, "Algo fue mal", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun showDataScreen() {
