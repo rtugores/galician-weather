@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import huitca1212.tiempoourense.R
 import huitca1212.tiempoourense.ui.utils.gone
+import huitca1212.tiempoourense.ui.utils.showToast
 import huitca1212.tiempoourense.ui.utils.visible
 import kotlinx.android.synthetic.main.fragment_weather.view.*
 
@@ -65,7 +66,7 @@ class StationFragment : Fragment(), StationViewTranslator, SwipeRefreshLayout.On
             progressBar.gone()
         }
         activity?.run {
-            Toast.makeText(activity, "Algo fue mal", Toast.LENGTH_SHORT).show()
+            showToast(R.string.request_failure_error)
         }
     }
 

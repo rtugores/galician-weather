@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Tiempo Ourense</string>
+
+    <string name="request_failure_error">Algo fue mal</string>
     <string name="no_rain">No llueve</string>
     <string name="no_rain_all_day">No ha llovido en todo el día</string>
 </resources>
