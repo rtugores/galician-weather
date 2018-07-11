@@ -33,28 +33,22 @@ class StationPresenter(val view: StationViewTranslator) {
     }
 
     private fun processLastMinutesInfo(lastMinutesInfo: DataLastMinutesWrapper) {
-        lastMinutesInfo.list.firstOrNull()?.measureLastMinutes?.forEach {
-            when (it.parameterCode) {
-                GetLastMinutesUseCase.TEMPERATURE_PARAM -> view.updateTemperature(it.value!!, it.units!!)
-                GetLastMinutesUseCase.RAIN_PARAM -> {
-                    if (it.value != null && it.value > 0) {
-                        view.updateCurrentRain(it.value, it.units!!)
-                    } else {
-                        view.updateCurrentRainNoRain()
-                    }
-                }
+        lastMinutesInfo.getLastMinutes()?.let {
+            view.updateTemperature(it.temperatureValue!!, it.temperatureUnits!!)
+            if (it.rainValue!! > 0) {
+                view.updateCurrentRain(it.rainValue!!, it.rainUnits!!)
+            } else {
+                view.updateCurrentRainNoRain()
             }
         }
     }
 
     private fun processDailyInfo(dailyInfo: DataDailyWrapper) {
-        dailyInfo.list?.firstOrNull()?.stations?.firstOrNull()?.measuresDaily?.forEach {
-            if (it.parameterCode == GetDailyUseCase.RAIN_PARAM) {
-                if (it.value != null && it.value > 0) {
-                    view.updateDailyRain(it.value, it.units!!)
-                } else {
-                    view.updateDailyRainNoRain()
-                }
+        dailyInfo.getDataDaily()?.let {
+            if (it.rainValue!! > 0) {
+                view.updateDailyRain(it.rainValue!!, it.rainUnits!!)
+            } else {
+                view.updateDailyRainNoRain()
             }
         }
     }

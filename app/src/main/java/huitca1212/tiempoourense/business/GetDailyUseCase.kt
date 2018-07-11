@@ -11,5 +11,4 @@ class GetDailyUseCase(private val stationId: String) : DefaultUseCase<DataDailyW
     }
 
     override fun call() = ApiUtils.dataService.getDailyDataStation(stationId)
-
 }

@@ -83,7 +83,7 @@
             android:id="@+id/infoGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="infoRainDaily,infoTemperature,screenTranslucent,infoRain" />
+            app:constraint_referenced_ids="infoRainDaily,infoTemperature,infoRain" />
 
     </android.support.constraint.ConstraintLayout>
 </android.support.v4.widget.SwipeRefreshLayout>
