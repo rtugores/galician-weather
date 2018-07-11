@@ -8,16 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import huitca1212.tiempoourense.R
-import huitca1212.tiempoourense.business.Error
-import huitca1212.tiempoourense.business.GetDailyUseCase
-import huitca1212.tiempoourense.business.GetLastMinutesUseCase
-import huitca1212.tiempoourense.business.Success
 import huitca1212.tiempoourense.ui.utils.gone
 import huitca1212.tiempoourense.ui.utils.visible
-import kotlinx.android.synthetic.main.fragment_weather.*
 import kotlinx.android.synthetic.main.fragment_weather.view.*
 
-class StationFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
+class StationFragment : Fragment(), StationViewTranslator, SwipeRefreshLayout.OnRefreshListener {
 
     companion object {
 
@@ -34,16 +29,16 @@ class StationFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         }
     }
 
-    private var stationId: String? = null
-    private var currentTemperature: Float? = null
-    private var currentRain: Float? = null
-    private var dailyRain: Float? = null
-
+    private var stationId: String = ""
     private lateinit var rootView: View
+    private val presenter: StationPresenter by lazy {
+        StationPresenter(this)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootView = inflater.inflate(R.layout.fragment_weather, container, false)
-        stationId = arguments?.getString(STATION_ID_ARG, STATION_ID_OURENSE_ESTACION)
+        stationId = arguments!!.getString(STATION_ID_ARG, STATION_ID_OURENSE_ESTACION)
+        presenter.stationId = stationId
 
         return rootView
     }
@@ -55,73 +50,52 @@ class StationFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     override fun onResume() {
         super.onResume()
-        retrieveStationData(stationId!!, true)
+        presenter.onResume()
     }
 
-    private fun retrieveStationData(stationId: String, showLoader: Boolean) {
-        rootView.infoContainer.gone()
-        rootView.progressBar.visibility = if (showLoader) View.VISIBLE else View.GONE
+    override fun showLoaderScreen() {
+        rootView.infoGroup.gone()
+        rootView.progressBar.visible()
+    }
 
-        GetLastMinutesUseCase().execute(stationId) {
-            when (it) {
-                is Success -> {
-                    it.response.list.first().measureLastMinutes?.forEach {
-                        when (it.parameterCode) {
-                            GetLastMinutesUseCase.TEMPERATURE_PARAM -> {
-                                currentTemperature = it.value
-                                rootView.infoTemperature.text = ("%.1f".format(currentTemperature) + it.units)
-                            }
-                            GetLastMinutesUseCase.RAIN_PARAM -> {
-                                currentRain = it.value
-                                rootView.infoRain.text = if (currentRain != null && currentRain!! > 0) {
-                                    "Lluvia: " + currentRain + it.units
-                                } else {
-                                    getString(R.string.no_rain)
-                                }
-                            }
-                        }
-                    }
-                    getDailyData(stationId)
-                }
+    override fun showErrorScreen() {
+        with(rootView) {
+            swipeRefreshContainer.isRefreshing = false
+            infoGroup.gone()
+            progressBar.gone()
+        }
+        Toast.makeText(activity, "Algo fue mal", Toast.LENGTH_SHORT).show()
+    }
 
-                is Error -> {
-                    rootView.infoContainer.gone()
-                    rootView.progressBar.gone()
-                    Toast.makeText(activity, "Algo fue mal", Toast.LENGTH_SHORT).show()
-                }
-            }
+    override fun showDataScreen() {
+        with(rootView) {
+            swipeRefreshContainer.isRefreshing = false
+            infoGroup.visible()
+            progressBar.gone()
         }
     }
 
-    private fun getDailyData(stationId: String) {
-        GetDailyUseCase().execute(stationId) {
-            when (it) {
-                is Success -> {
-                    it.response.list?.get(0)?.stations?.get(0)?.measuresDaily?.forEach {
-                        if (it.parameterCode == GetDailyUseCase.RAIN_PARAM) {
-                            dailyRain = it.value
-                            rootView.infoRainDaily.text = if (dailyRain != null && dailyRain!! > 0) {
-                                "Lluvia acumulada: " + dailyRain + it.units
-                            } else {
-                                getString(R.string.no_rain_all_day)
-                            }
-                        }
-                    }
-                    rootView.infoContainer.visible()
-                    rootView.progressBar.gone()
-                    swipeRefreshContainer.isRefreshing = false
-                }
-                is Error -> {
-                    rootView.infoContainer.gone()
-                    rootView.progressBar.visible()
-                    Toast.makeText(activity, "Algo fue mal", Toast.LENGTH_SHORT).show()
-                    rootView.swipeRefreshContainer.isRefreshing = false
-                }
-            }
-        }
+    override fun updateTemperature(value: Float, units: String) {
+        rootView.infoTemperature.text = ("%.1f".format(value) + units)
+    }
+
+    override fun updateCurrentRain(value: Float, units: String) {
+        rootView.infoRain.text = ("Lluvia: $value$units")
+    }
+
+    override fun updateCurrentRainNoRain() {
+        rootView.infoRain.text = getString(R.string.no_rain)
+    }
+
+    override fun updateDailyRain(value: Float, units: String) {
+        rootView.infoRainDaily.text = ("Lluvia acumulada: $value$units")
+    }
+
+    override fun updateDailyRainNoRain() {
+        rootView.infoRainDaily.text = getString(R.string.no_rain_all_day)
     }
 
     override fun onRefresh() {
-        retrieveStationData(stationId!!, false)
+        presenter.onRefresh()
     }
 }

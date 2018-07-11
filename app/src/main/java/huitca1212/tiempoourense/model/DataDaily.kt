@@ -2,6 +2,7 @@ package huitca1212.tiempoourense.model
 
 import com.google.gson.annotations.SerializedName
 
+
 data class DataDailyWrapper(
     @SerializedName("listDatosDiarios") val list: List<DataStationDaily>?
 )
