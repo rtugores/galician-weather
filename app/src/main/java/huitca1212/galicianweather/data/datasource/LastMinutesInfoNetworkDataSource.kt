@@ -1,22 +1,23 @@
-package huitca1212.tiempoourense.data.datasource
+package huitca1212.galicianweather.data.datasource
 
-import huitca1212.tiempoourense.interactor.Error
-import huitca1212.tiempoourense.interactor.IOError
-import huitca1212.tiempoourense.interactor.Success
-import huitca1212.tiempoourense.network.StationApi
+import huitca1212.galicianweather.interactor.Error
+import huitca1212.galicianweather.interactor.IOError
+import huitca1212.galicianweather.interactor.Success
+import huitca1212.galicianweather.network.StationApi
 import java.io.IOException
 
-class DailyInfoNetworkDataSource(
+class LastMinutesInfoNetworkDataSource(
     private val stationApi: StationApi
 ) {
 
     companion object {
+        const val TEMPERATURE_PARAM = "TA_AVG_1.5m"
         const val RAIN_PARAM = "PP_SUM_1.5m"
     }
 
-    fun getDailyInfo(stationId: String) =
+    fun getLastMinutesInfo(stationId: String) =
         try {
-            val response = stationApi.getDailyInfo(stationId).execute()
+            val response = stationApi.getLastMinutesDataStation(stationId).execute()
             if (response.isSuccessful) {
                 response.body()?.let {
                     Success(it)

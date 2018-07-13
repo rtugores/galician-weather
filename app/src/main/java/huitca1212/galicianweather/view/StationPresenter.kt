@@ -1,11 +1,11 @@
-package huitca1212.tiempoourense.view
+package huitca1212.galicianweather.view
 
-import huitca1212.tiempoourense.interactor.Success
-import huitca1212.tiempoourense.interactor.usecase.DailyInfoUseCase
-import huitca1212.tiempoourense.interactor.usecase.LastMinutesInfoUseCase
-import huitca1212.tiempoourense.model.DataDailyWrapper
-import huitca1212.tiempoourense.model.DataLastMinutesWrapper
-import huitca1212.tiempoourense.network.StationApi
+import huitca1212.galicianweather.interactor.Success
+import huitca1212.galicianweather.interactor.usecase.DailyInfoUseCase
+import huitca1212.galicianweather.interactor.usecase.LastMinutesInfoUseCase
+import huitca1212.galicianweather.model.DataDailyWrapper
+import huitca1212.galicianweather.model.DataLastMinutesWrapper
+import huitca1212.galicianweather.network.StationApi
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch

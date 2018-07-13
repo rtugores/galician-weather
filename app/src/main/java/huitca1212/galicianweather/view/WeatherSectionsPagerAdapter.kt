@@ -1,4 +1,4 @@
-package huitca1212.tiempoourense.view
+package huitca1212.galicianweather.view
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager

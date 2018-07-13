@@ -1,9 +1,9 @@
-package huitca1212.tiempoourense.interactor.usecase
+package huitca1212.galicianweather.interactor.usecase
 
-import huitca1212.tiempoourense.interactor.DataPolicy
-import huitca1212.tiempoourense.data.datasource.DailyInfoNetworkDataSource
-import huitca1212.tiempoourense.data.repository.DailyInfoRepository
-import huitca1212.tiempoourense.network.StationApi
+import huitca1212.galicianweather.interactor.DataPolicy
+import huitca1212.galicianweather.data.datasource.DailyInfoNetworkDataSource
+import huitca1212.galicianweather.data.repository.DailyInfoRepository
+import huitca1212.galicianweather.network.StationApi
 import kotlinx.coroutines.experimental.async
 
 

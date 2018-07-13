@@ -1,4 +1,4 @@
-package huitca1212.tiempoourense.view.util
+package huitca1212.galicianweather.view.util
 
 import android.view.View
 

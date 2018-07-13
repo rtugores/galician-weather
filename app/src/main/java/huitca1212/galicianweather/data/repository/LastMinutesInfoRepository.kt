@@ -1,8 +1,8 @@
-package huitca1212.tiempoourense.data.repository
+package huitca1212.galicianweather.data.repository
 
-import huitca1212.tiempoourense.data.datasource.LastMinutesInfoNetworkDataSource
-import huitca1212.tiempoourense.interactor.DataPolicy
-import huitca1212.tiempoourense.interactor.Error
+import huitca1212.galicianweather.data.datasource.LastMinutesInfoNetworkDataSource
+import huitca1212.galicianweather.interactor.DataPolicy
+import huitca1212.galicianweather.interactor.Error
 
 class LastMinutesInfoRepository(private val dataSource: LastMinutesInfoNetworkDataSource) {
 

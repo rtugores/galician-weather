@@ -1,4 +1,4 @@
-package huitca1212.tiempoourense.view
+package huitca1212.galicianweather.view
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -6,11 +6,11 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import huitca1212.tiempoourense.R
-import huitca1212.tiempoourense.network.StationApi
-import huitca1212.tiempoourense.view.util.gone
-import huitca1212.tiempoourense.view.util.showToast
-import huitca1212.tiempoourense.view.util.visible
+import huitca1212.galicianweather.R
+import huitca1212.galicianweather.network.StationApi
+import huitca1212.galicianweather.view.util.gone
+import huitca1212.galicianweather.view.util.showToast
+import huitca1212.galicianweather.view.util.visible
 import kotlinx.android.synthetic.main.fragment_weather.view.*
 import org.koin.android.ext.android.inject
 

@@ -1,8 +1,8 @@
-package huitca1212.tiempoourense.data.repository
+package huitca1212.galicianweather.data.repository
 
-import huitca1212.tiempoourense.data.datasource.DailyInfoNetworkDataSource
-import huitca1212.tiempoourense.interactor.DataPolicy
-import huitca1212.tiempoourense.interactor.Error
+import huitca1212.galicianweather.data.datasource.DailyInfoNetworkDataSource
+import huitca1212.galicianweather.interactor.DataPolicy
+import huitca1212.galicianweather.interactor.Error
 
 class DailyInfoRepository(private val dataSource: DailyInfoNetworkDataSource) {
 

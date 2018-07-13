@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Tiempo Ourense</string>
+    <string name="app_name">Galician weather</string>
 
     <string name="request_failure_error">Algo fue mal</string>
     <string name="no_rain">No llueve</string>

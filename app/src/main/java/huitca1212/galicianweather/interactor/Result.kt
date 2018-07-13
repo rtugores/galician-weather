@@ -1,4 +1,4 @@
-package huitca1212.tiempoourense.interactor
+package huitca1212.galicianweather.interactor
 
 import java.io.IOException
 

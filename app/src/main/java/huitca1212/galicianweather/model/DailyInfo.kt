@@ -1,7 +1,7 @@
-package huitca1212.tiempoourense.model
+package huitca1212.galicianweather.model
 
 import com.google.gson.annotations.SerializedName
-import huitca1212.tiempoourense.data.datasource.DailyInfoNetworkDataSource
+import huitca1212.galicianweather.data.datasource.DailyInfoNetworkDataSource
 
 data class DataDaily(
     var rainValue: Float? = null,

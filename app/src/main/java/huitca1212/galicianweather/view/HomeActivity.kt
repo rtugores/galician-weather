@@ -1,9 +1,9 @@
-package huitca1212.tiempoourense.view
+package huitca1212.galicianweather.view
 
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v7.app.AppCompatActivity
-import huitca1212.tiempoourense.R
+import huitca1212.galicianweather.R
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity() {

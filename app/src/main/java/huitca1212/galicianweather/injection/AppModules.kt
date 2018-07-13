@@ -1,7 +1,7 @@
-package huitca1212.tiempoourense.injection
+package huitca1212.galicianweather.injection
 
 import android.util.Log
-import huitca1212.tiempoourense.network.StationApi
+import huitca1212.galicianweather.network.StationApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module.Module
