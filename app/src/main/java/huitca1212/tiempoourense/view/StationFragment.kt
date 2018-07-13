@@ -7,15 +7,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import huitca1212.tiempoourense.R
+import huitca1212.tiempoourense.network.StationApi
 import huitca1212.tiempoourense.view.util.gone
 import huitca1212.tiempoourense.view.util.showToast
 import huitca1212.tiempoourense.view.util.visible
 import kotlinx.android.synthetic.main.fragment_weather.view.*
+import org.koin.android.ext.android.inject
 
 class StationFragment : Fragment(), StationViewTranslator, SwipeRefreshLayout.OnRefreshListener {
 
-    companion object {
+    private val stationApi: StationApi by inject()
 
+    companion object {
         const val STATION_ID_OURENSE_ESTACION = "10155"
         const val STATION_ID_OURENSE_OURENSE = "10148"
         private const val STATION_ID_ARG = "station_id_arg"
@@ -31,7 +34,7 @@ class StationFragment : Fragment(), StationViewTranslator, SwipeRefreshLayout.On
 
     private var stationId: String = ""
     private lateinit var rootView: View
-    private val presenter: StationPresenter = StationPresenter(this)
+    private val presenter: StationPresenter = StationPresenter(this, stationApi)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootView = inflater.inflate(R.layout.fragment_weather, container, false)

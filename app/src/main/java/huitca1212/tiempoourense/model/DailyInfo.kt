@@ -1,7 +1,7 @@
 package huitca1212.tiempoourense.model
 
 import com.google.gson.annotations.SerializedName
-import huitca1212.tiempoourense.data.datasource.DailyInfoDataSource
+import huitca1212.tiempoourense.data.datasource.DailyInfoNetworkDataSource
 
 data class DataDaily(
     var rainValue: Float? = null,
@@ -15,7 +15,7 @@ data class DataDailyWrapper(
     fun getDataDaily(): DataDaily? {
         val info = DataDaily()
         list?.firstOrNull()?.stations?.firstOrNull()?.measuresDaily?.forEach {
-            if (it.parameterCode == DailyInfoDataSource.RAIN_PARAM) {
+            if (it.parameterCode == DailyInfoNetworkDataSource.RAIN_PARAM) {
                 info.rainValue = it.value
                 info.rainUnits = it.units
             }

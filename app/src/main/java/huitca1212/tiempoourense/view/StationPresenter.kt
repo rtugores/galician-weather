@@ -1,15 +1,19 @@
 package huitca1212.tiempoourense.view
 
+import huitca1212.tiempoourense.interactor.Success
 import huitca1212.tiempoourense.interactor.usecase.DailyInfoUseCase
 import huitca1212.tiempoourense.interactor.usecase.LastMinutesInfoUseCase
-import huitca1212.tiempoourense.interactor.Success
 import huitca1212.tiempoourense.model.DataDailyWrapper
 import huitca1212.tiempoourense.model.DataLastMinutesWrapper
+import huitca1212.tiempoourense.network.StationApi
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 
-class StationPresenter(val view: StationViewTranslator) {
+class StationPresenter(
+    private val view: StationViewTranslator,
+    private val stationApi: StationApi
+) {
 
     var stationId: String = ""
     private var jobs = mutableListOf<Job>()
@@ -25,8 +29,8 @@ class StationPresenter(val view: StationViewTranslator) {
     private fun retrieveStationData() {
         view.showLoaderScreen()
         val job = launch(UI) {
-            val lastMinutesInfo = LastMinutesInfoUseCase().execute(stationId).await()
-            val dailyInfo = DailyInfoUseCase().execute(stationId).await()
+            val lastMinutesInfo = LastMinutesInfoUseCase(stationApi).execute(stationId).await()
+            val dailyInfo = DailyInfoUseCase(stationApi).execute(stationId).await()
 
             if (lastMinutesInfo is Success && dailyInfo is Success) {
                 processLastMinutesInfo(lastMinutesInfo.response)

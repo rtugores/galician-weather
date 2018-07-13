@@ -1,9 +1,7 @@
 package huitca1212.tiempoourense.model
 
 import com.google.gson.annotations.SerializedName
-import huitca1212.tiempoourense.data.datasource.DailyInfoDataSource
-import huitca1212.tiempoourense.data.datasource.LastMinutesInfoDataSource
-import huitca1212.tiempoourense.interactor.usecase.LastMinutesInfoUseCase
+import huitca1212.tiempoourense.data.datasource.LastMinutesInfoNetworkDataSource
 
 
 data class DataLastMinutes(
@@ -21,11 +19,11 @@ data class DataLastMinutesWrapper(
         val info = DataLastMinutes()
         list.firstOrNull()?.measureLastMinutes?.forEach {
             when (it.parameterCode) {
-                LastMinutesInfoDataSource.TEMPERATURE_PARAM -> {
+                LastMinutesInfoNetworkDataSource.TEMPERATURE_PARAM -> {
                     info.temperatureValue = it.value
                     info.temperatureUnits = it.units
                 }
-                LastMinutesInfoDataSource.RAIN_PARAM -> {
+                LastMinutesInfoNetworkDataSource.RAIN_PARAM -> {
                     info.rainValue = it.value
                     info.rainUnits = it.units
                 }

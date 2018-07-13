@@ -1,10 +1,10 @@
 package huitca1212.tiempoourense.data.repository
 
-import huitca1212.tiempoourense.data.datasource.DailyInfoDataSource
+import huitca1212.tiempoourense.data.datasource.DailyInfoNetworkDataSource
 import huitca1212.tiempoourense.interactor.DataPolicy
 import huitca1212.tiempoourense.interactor.Error
 
-class DailyInfoRepository(private val dataSource: DailyInfoDataSource) {
+class DailyInfoRepository(private val dataSource: DailyInfoNetworkDataSource) {
 
     fun getDailyInfo(policy: DataPolicy, stationId: String) =
         when (policy) {

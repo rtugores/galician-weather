@@ -3,10 +3,12 @@ package huitca1212.tiempoourense.data.datasource
 import huitca1212.tiempoourense.interactor.Error
 import huitca1212.tiempoourense.interactor.IOError
 import huitca1212.tiempoourense.interactor.Success
-import huitca1212.tiempoourense.network.NetworkApi
+import huitca1212.tiempoourense.network.StationApi
 import java.io.IOException
 
-class LastMinutesInfoDataSource {
+class LastMinutesInfoNetworkDataSource(
+    private val stationApi: StationApi
+) {
 
     companion object {
         const val TEMPERATURE_PARAM = "TA_AVG_1.5m"
@@ -15,7 +17,7 @@ class LastMinutesInfoDataSource {
 
     fun getLastMinutesInfo(stationId: String) =
         try {
-            val response = NetworkApi.stationApi.getLastMinutesDataStation(stationId).execute()
+            val response = stationApi.getLastMinutesDataStation(stationId).execute()
             if (response.isSuccessful) {
                 response.body()?.let {
                     Success(it)
