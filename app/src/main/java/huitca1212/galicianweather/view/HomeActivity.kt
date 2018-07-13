@@ -12,16 +12,16 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        setSupportActionBar(toolbar)
+        setSupportActionBar(homeToolbar)
 
-        viewPager.adapter = WeatherSectionsPagerAdapter(supportFragmentManager)
+        stationsViewPager.adapter = StationsPageAdapter(supportFragmentManager)
 
-        tabLayout.apply {
+        homeTabLayout.apply {
             addTab(newTab().setText("Ourense-Estacións"))
             addTab(newTab().setText("Ourense-Ourense"))
         }
 
-        viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
-        tabLayout.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(viewPager))
+        stationsViewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(homeTabLayout))
+        homeTabLayout.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(stationsViewPager))
     }
 }
