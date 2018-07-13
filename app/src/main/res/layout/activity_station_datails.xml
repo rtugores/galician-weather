@@ -7,14 +7,14 @@
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="wrap_content">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/stationToolbar"
+            android:id="@+id/stationDetailsToolbar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_height"
-            android:background="@color/blue" />
+            android:background="@color/blue"
+            app:titleTextColor="@color/white" />
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
@@ -28,29 +28,18 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/screenBackground"
+                android:id="@+id/stationDetailsImage"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="200dp"
                 android:scaleType="centerCrop"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/ourense" />
 
-            <View
-                android:id="@+id/screenTranslucent"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="@color/transparent_black_20p"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <TextView
                 android:id="@+id/infoTemperature"
-                style="@style/TextWhite60"
+                style="@style/TextDarkGrey34"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="24dp"
@@ -58,14 +47,13 @@
                 app:layout_constraintBottom_toTopOf="@+id/infoRain"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.3"
+                app:layout_constraintTop_toBottomOf="@+id/stationDetailsImage"
                 app:layout_constraintVertical_chainStyle="packed"
                 tools:text="24ºC" />
 
             <TextView
                 android:id="@+id/infoRain"
-                style="@style/TextWhite34"
+                style="@style/TextDarkGrey34"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -77,7 +65,7 @@
 
             <TextView
                 android:id="@+id/infoRainDaily"
-                style="@style/TextWhite34"
+                style="@style/TextDarkGrey34"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -94,7 +82,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/stationDetailsImage" />
 
             <android.support.constraint.Group
                 android:id="@+id/infoGroup"

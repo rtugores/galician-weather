@@ -7,14 +7,15 @@
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="wrap_content">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/homeToolbar"
+            app:titleTextColor="@color/white"
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_height"
-            android:background="@color/blue" />
+            android:background="@color/blue"
+            app:title="@string/app_name" />
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v7.widget.RecyclerView

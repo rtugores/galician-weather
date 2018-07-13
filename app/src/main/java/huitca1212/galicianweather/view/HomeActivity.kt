@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import huitca1212.galicianweather.R
+import huitca1212.galicianweather.model.Station
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity(), HomeViewTranslator {
@@ -22,8 +23,8 @@ class HomeActivity : AppCompatActivity(), HomeViewTranslator {
             presenter.onStationClick(it)
         }.apply {
             stationNames = mutableListOf(
-                StationDetailsActivity.STATION_ID_OURENSE_ESTACION,
-                StationDetailsActivity.STATION_ID_OURENSE_OURENSE
+                Station("10155", "Ourense-Estacións", R.drawable.estacion),
+                Station("10148", "Ourense - Ourense", R.drawable.ourense)
             )
         }
 
@@ -34,7 +35,7 @@ class HomeActivity : AppCompatActivity(), HomeViewTranslator {
         }
     }
 
-    override fun openStationDetailsScreen(stationName: String) {
-        StationDetailsActivity.startActivity(this, StationDetailsActivity.STATION_ID_OURENSE_ESTACION)
+    override fun openStationDetailsScreen(station: Station) {
+        StationDetailsActivity.startActivity(this, station)
     }
 }

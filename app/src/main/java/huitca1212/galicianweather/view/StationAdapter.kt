@@ -6,15 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import huitca1212.galicianweather.R
+import huitca1212.galicianweather.model.Station
 import kotlinx.android.synthetic.main.item_station.view.*
 
 class StationAdapter(
     private val context: Context,
-    private val listener: (String) -> Unit
+    private val listener: (Station) -> Unit
 ) :
     RecyclerView.Adapter<StationAdapter.StationViewHolder>() {
 
-    var stationNames = mutableListOf<String>()
+    var stationNames = mutableListOf<Station>()
         set(value) {
             field.clear()
             field.addAll(value)
@@ -37,9 +38,10 @@ class StationAdapter(
         holder.bind(stationNames[position])
     }
 
-    inner class StationViewHolder(private val item: View) : RecyclerView.ViewHolder(item) {
-        fun bind(stationName: String) {
-            item.itemStationName.text = stationName
+    class StationViewHolder(private val item: View) : RecyclerView.ViewHolder(item) {
+        fun bind(station: Station) {
+            item.itemStationName.text = station.name
+            item.itemStationImage.setImageResource(station.imageResId)
         }
     }
 }

@@ -5,44 +5,39 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import huitca1212.galicianweather.R
+import huitca1212.galicianweather.model.Station
 import huitca1212.galicianweather.network.StationApi
 import huitca1212.galicianweather.view.util.gone
 import huitca1212.galicianweather.view.util.showToast
 import huitca1212.galicianweather.view.util.visible
-import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.activity_station.*
+import kotlinx.android.synthetic.main.activity_station_datails.*
 import org.koin.android.ext.android.inject
 
 class StationDetailsActivity : AppCompatActivity(), StationViewTranslator {
 
-    private val stationApi: StationApi by inject()
-
     companion object {
-        const val STATION_ID_OURENSE_ESTACION = "10155"
-        const val STATION_ID_OURENSE_OURENSE = "10148"
-        private const val STATION_ID_ARG = "station_id_arg"
+        const val ARG_STATION = "arg_station"
 
-        fun startActivity(context: Context, stationId: String) {
+        fun startActivity(context: Context, station: Station) {
             context.startActivity(
                 Intent(context, StationDetailsActivity::class.java)
-                    .putExtra(STATION_ID_ARG, stationId)
+                    .putExtra(ARG_STATION, station)
             )
         }
     }
 
-    private var stationId: String = ""
+    private val stationApi: StationApi by inject()
     private val presenter: StationPresenter = StationPresenter(this, stationApi)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_station)
+        setContentView(R.layout.activity_station_datails)
+        setSupportActionBar(stationDetailsToolbar)
+        supportActionBar!!.apply {
+            setDisplayShowTitleEnabled(false)
+        }
 
-        setSupportActionBar(stationToolbar)
-
-        stationId = intent.extras!!.getString(STATION_ID_ARG, STATION_ID_OURENSE_ESTACION)
-        presenter.stationId = stationId
-
-        screenBackground.setImageResource(if (stationId == STATION_ID_OURENSE_ESTACION) R.drawable.estacion else R.drawable.ourense)
+        presenter.onCreate(intent.extras)
     }
 
     override fun onResume() {
@@ -69,6 +64,11 @@ class StationDetailsActivity : AppCompatActivity(), StationViewTranslator {
     override fun showDataScreen() {
         infoGroup.visible()
         progressBar.gone()
+    }
+
+    override fun initScreenInfo(name: String, image: Int) {
+        stationDetailsToolbar.title = name
+        stationDetailsImage.setImageResource(image)
     }
 
     override fun updateTemperature(value: Float, units: String) {

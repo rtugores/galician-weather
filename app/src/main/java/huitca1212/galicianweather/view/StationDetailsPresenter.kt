@@ -1,10 +1,13 @@
 package huitca1212.galicianweather.view
 
+import android.os.Bundle
+import android.support.annotation.DrawableRes
 import huitca1212.galicianweather.interactor.Success
 import huitca1212.galicianweather.interactor.usecase.DailyInfoUseCase
 import huitca1212.galicianweather.interactor.usecase.LastMinutesInfoUseCase
 import huitca1212.galicianweather.model.DataDailyWrapper
 import huitca1212.galicianweather.model.DataLastMinutesWrapper
+import huitca1212.galicianweather.model.Station
 import huitca1212.galicianweather.network.StationApi
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.UI
@@ -15,8 +18,13 @@ class StationPresenter(
     private val stationApi: StationApi
 ) {
 
-    var stationId: String = ""
+    lateinit var station: Station
     private var jobs = mutableListOf<Job>()
+
+    fun onCreate(extras: Bundle) {
+        station = extras.getSerializable(StationDetailsActivity.ARG_STATION) as Station
+        view.initScreenInfo(station.name, station.imageResId)
+    }
 
     fun onResume() {
         retrieveStationData()
@@ -29,8 +37,8 @@ class StationPresenter(
     private fun retrieveStationData() {
         view.showLoaderScreen()
         val job = launch(UI) {
-            val lastMinutesInfo = LastMinutesInfoUseCase(stationApi).execute(stationId).await()
-            val dailyInfo = DailyInfoUseCase(stationApi).execute(stationId).await()
+            val lastMinutesInfo = LastMinutesInfoUseCase(stationApi).execute(station.code).await()
+            val dailyInfo = DailyInfoUseCase(stationApi).execute(station.code).await()
 
             if (lastMinutesInfo is Success && dailyInfo is Success) {
                 processLastMinutesInfo(lastMinutesInfo.response)
@@ -63,13 +71,10 @@ class StationPresenter(
             }
         }
     }
-
-    fun onRefresh() {
-        retrieveStationData()
-    }
 }
 
 interface StationViewTranslator {
+    fun initScreenInfo(name: String, @DrawableRes image: Int)
     fun updateTemperature(value: Float, units: String)
     fun updateCurrentRain(value: Float, units: String)
     fun updateCurrentRainNoRain()
