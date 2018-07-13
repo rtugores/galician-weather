@@ -1,19 +1,21 @@
-package huitca1212.tiempoourense.interactor
+package huitca1212.tiempoourense.data.datasource
 
+import huitca1212.tiempoourense.interactor.Error
+import huitca1212.tiempoourense.interactor.IOError
+import huitca1212.tiempoourense.interactor.Success
 import huitca1212.tiempoourense.network.NetworkApi
-import kotlinx.coroutines.experimental.async
 import java.io.IOException
 
-
-class GetDailyUseCase {
+class LastMinutesInfoDataSource {
 
     companion object {
+        const val TEMPERATURE_PARAM = "TA_AVG_1.5m"
         const val RAIN_PARAM = "PP_SUM_1.5m"
     }
 
-    fun execute(stationId: String) = async {
+    fun getLastMinutesInfo(stationId: String) =
         try {
-            val response = NetworkApi.stationApi.getDailyDataStation(stationId).execute()
+            val response = NetworkApi.stationApi.getLastMinutesDataStation(stationId).execute()
             if (response.isSuccessful) {
                 response.body()?.let {
                     Success(it)
@@ -26,5 +28,4 @@ class GetDailyUseCase {
         } catch (e: Exception) {
             Error(e)
         }
-    }
 }

@@ -1,7 +1,9 @@
 package huitca1212.tiempoourense.model
 
 import com.google.gson.annotations.SerializedName
-import huitca1212.tiempoourense.interactor.GetLastMinutesUseCase
+import huitca1212.tiempoourense.data.datasource.DailyInfoDataSource
+import huitca1212.tiempoourense.data.datasource.LastMinutesInfoDataSource
+import huitca1212.tiempoourense.interactor.usecase.LastMinutesInfoUseCase
 
 
 data class DataLastMinutes(
@@ -14,15 +16,16 @@ data class DataLastMinutes(
 data class DataLastMinutesWrapper(
     @SerializedName("listUltimos10min") val list: List<DataStationLastMinutes>
 ) {
+
     fun getLastMinutes(): DataLastMinutes? {
         val info = DataLastMinutes()
         list.firstOrNull()?.measureLastMinutes?.forEach {
             when (it.parameterCode) {
-                GetLastMinutesUseCase.TEMPERATURE_PARAM -> {
+                LastMinutesInfoDataSource.TEMPERATURE_PARAM -> {
                     info.temperatureValue = it.value
                     info.temperatureUnits = it.units
                 }
-                GetLastMinutesUseCase.RAIN_PARAM -> {
+                LastMinutesInfoDataSource.RAIN_PARAM -> {
                     info.rainValue = it.value
                     info.rainUnits = it.units
                 }

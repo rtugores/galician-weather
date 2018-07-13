@@ -51,6 +51,11 @@ class StationFragment : Fragment(), StationViewTranslator, SwipeRefreshLayout.On
         presenter.onResume()
     }
 
+    override fun onPause() {
+        presenter.onPause()
+        super.onPause()
+    }
+
     override fun showLoaderScreen() {
         rootView.infoGroup.gone()
         rootView.progressBar.visible()

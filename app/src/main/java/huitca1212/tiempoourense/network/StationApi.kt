@@ -11,5 +11,5 @@ interface StationApi {
     fun getLastMinutesDataStation(@Query("idEst") stationId: String): Call<DataLastMinutesWrapper>
 
     @GET("datosDiariosEstacionsMeteo.action")
-    fun getDailyDataStation(@Query("idEst") stationId: String): Call<DataDailyWrapper>
+    fun getDailyInfo(@Query("idEst") stationId: String): Call<DataDailyWrapper>
 }
