@@ -1,7 +1,7 @@
 package huitca1212.galicianweather.network
 
-import huitca1212.galicianweather.model.DataDailyWrapper
-import huitca1212.galicianweather.model.DataLastMinutesWrapper
+import huitca1212.galicianweather.data.datasource.model.DataDailyWrapper
+import huitca1212.galicianweather.data.datasource.model.DataLastMinutesWrapper
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

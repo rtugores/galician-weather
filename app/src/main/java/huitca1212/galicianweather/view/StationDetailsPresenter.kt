@@ -2,21 +2,17 @@ package huitca1212.galicianweather.view
 
 import android.os.Bundle
 import android.support.annotation.DrawableRes
+import huitca1212.galicianweather.data.datasource.model.DataDailyWrapper
+import huitca1212.galicianweather.data.datasource.model.DataLastMinutesWrapper
 import huitca1212.galicianweather.interactor.Success
 import huitca1212.galicianweather.interactor.usecase.DailyInfoUseCase
 import huitca1212.galicianweather.interactor.usecase.LastMinutesInfoUseCase
-import huitca1212.galicianweather.model.DataDailyWrapper
-import huitca1212.galicianweather.model.DataLastMinutesWrapper
-import huitca1212.galicianweather.model.Station
 import huitca1212.galicianweather.network.StationApi
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 
-class StationPresenter(
-    private val view: StationViewTranslator,
-    private val stationApi: StationApi
-) {
+class StationPresenter(private val view: StationViewTranslator, private val stationApi: StationApi) {
 
     lateinit var station: Station
     private var jobs = mutableListOf<Job>()
@@ -37,8 +33,11 @@ class StationPresenter(
     private fun retrieveStationData() {
         view.showLoaderScreen()
         val job = launch(UI) {
-            val lastMinutesInfo = LastMinutesInfoUseCase(stationApi).execute(station.code).await()
-            val dailyInfo = DailyInfoUseCase(stationApi).execute(station.code).await()
+            val lastMinutesInfoJob = LastMinutesInfoUseCase(stationApi).execute(station.code)
+            val dailyInfoJob = DailyInfoUseCase(stationApi).execute(station.code)
+
+            val lastMinutesInfo = lastMinutesInfoJob.await()
+            val dailyInfo = dailyInfoJob.await()
 
             if (lastMinutesInfo is Success && dailyInfo is Success) {
                 processLastMinutesInfo(lastMinutesInfo.response)

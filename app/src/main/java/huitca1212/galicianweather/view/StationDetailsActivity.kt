@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import huitca1212.galicianweather.R
-import huitca1212.galicianweather.model.Station
 import huitca1212.galicianweather.network.StationApi
 import huitca1212.galicianweather.view.util.gone
 import huitca1212.galicianweather.view.util.showToast

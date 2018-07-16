@@ -1,4 +1,4 @@
-package huitca1212.galicianweather.model
+package huitca1212.galicianweather.data.datasource.model
 
 import com.google.gson.annotations.SerializedName
 
