@@ -15,7 +15,7 @@ data class DataLastMinutesWrapper(
     @SerializedName("listUltimos10min") val list: List<DataStationLastMinutes>
 ) {
 
-    fun getLastMinutes(): DataLastMinutes? {
+    fun getDataLastMinutes(): DataLastMinutes? {
         val info = DataLastMinutes()
         list.firstOrNull()?.measureLastMinutes?.forEach {
             when (it.parameterCode) {
