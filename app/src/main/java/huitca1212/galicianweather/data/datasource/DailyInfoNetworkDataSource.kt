@@ -4,9 +4,7 @@ import huitca1212.galicianweather.data.datasource.model.DataDailyWrapper
 import huitca1212.galicianweather.network.StationApi
 import huitca1212.galicianweather.usecase.Success
 
-class DailyInfoNetworkDataSource(
-    private val stationApi: StationApi
-) {
+class DailyInfoNetworkDataSource(private val stationApi: StationApi) {
 
     companion object {
         const val RAIN_PARAM = "PP_SUM_1.5m"
