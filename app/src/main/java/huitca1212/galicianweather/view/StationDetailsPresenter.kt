@@ -9,7 +9,6 @@ import huitca1212.galicianweather.usecase.DailyInfoUseCase
 import huitca1212.galicianweather.usecase.LastMinutesInfoUseCase
 import huitca1212.galicianweather.usecase.Success
 import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.cancel
 import kotlinx.coroutines.experimental.launch
 
 class StationPresenter(private val view: StationViewTranslator, private val stationApi: StationApi) {
@@ -23,10 +22,6 @@ class StationPresenter(private val view: StationViewTranslator, private val stat
 
     fun onResume() {
         retrieveStationData()
-    }
-
-    fun onPause() {
-        UI.cancel()
     }
 
     private fun retrieveStationData() {
