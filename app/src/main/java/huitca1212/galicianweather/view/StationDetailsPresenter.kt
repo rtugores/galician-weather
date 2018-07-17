@@ -8,12 +8,14 @@ import huitca1212.galicianweather.network.StationApi
 import huitca1212.galicianweather.usecase.DailyInfoUseCase
 import huitca1212.galicianweather.usecase.LastMinutesInfoUseCase
 import huitca1212.galicianweather.usecase.Success
+import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 
 class StationPresenter(private val view: StationViewTranslator, private val stationApi: StationApi) {
 
     lateinit var station: Station
+    var jobs = mutableListOf<Job>()
 
     fun onCreate(extras: Bundle) {
         station = extras.getSerializable(StationDetailsActivity.ARG_STATION) as Station
@@ -24,11 +26,16 @@ class StationPresenter(private val view: StationViewTranslator, private val stat
         retrieveStationData()
     }
 
+    fun onPause() {
+        jobs.forEach { it.cancel() }
+        jobs.clear()
+    }
+
     private fun retrieveStationData() {
         view.showLoaderScreen()
-        launch(UI) {
-            val lastMinutesInfoJob = LastMinutesInfoUseCase(stationApi).execute(station.code)
-            val dailyInfoJob = DailyInfoUseCase(stationApi).execute(station.code)
+        val job = launch(UI) {
+            val lastMinutesInfoJob = LastMinutesInfoUseCase(stationApi).execute(station.code).also { jobs.add(it) }
+            val dailyInfoJob = DailyInfoUseCase(stationApi).execute(station.code).also { jobs.add(it) }
 
             val lastMinutesInfo = lastMinutesInfoJob.await()
             val dailyInfo = dailyInfoJob.await()
@@ -41,6 +48,7 @@ class StationPresenter(private val view: StationViewTranslator, private val stat
                 view.showErrorScreen()
             }
         }
+        jobs.add(job)
     }
 
     private fun processLastMinutesInfo(lastMinutesInfo: DataLastMinutesWrapper) {
