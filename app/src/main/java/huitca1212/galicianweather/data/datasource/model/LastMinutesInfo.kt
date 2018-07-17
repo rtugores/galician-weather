@@ -5,10 +5,10 @@ import huitca1212.galicianweather.data.datasource.LastMinutesInfoNetworkDataSour
 
 
 data class DataLastMinutes(
-    var temperatureValue: Float? = null,
-    var temperatureUnits: String? = null,
-    var rainValue: Float? = null,
-    var rainUnits: String? = null
+    var temperatureValue: Float = -1f,
+    var temperatureUnits: String = "",
+    var rainValue: Float = -1f,
+    var rainUnits: String = ""
 )
 
 data class DataLastMinutesWrapper(
@@ -20,20 +20,24 @@ data class DataLastMinutesWrapper(
         list.firstOrNull()?.measureLastMinutes?.forEach {
             when (it.parameterCode) {
                 LastMinutesInfoNetworkDataSource.TEMPERATURE_PARAM -> {
-                    info.temperatureValue = it.value
-                    info.temperatureUnits = it.units
+                    if (it.value == null || it.units == null) {
+                        return null
+                    } else {
+                        info.temperatureValue = it.value
+                        info.temperatureUnits = it.units
+                    }
                 }
                 LastMinutesInfoNetworkDataSource.RAIN_PARAM -> {
-                    info.rainValue = it.value
-                    info.rainUnits = it.units
+                    if (it.value == null || it.units == null) {
+                        return null
+                    } else {
+                        info.rainValue = it.value
+                        info.rainUnits = it.units
+                    }
                 }
             }
         }
-        return if (info.temperatureValue == null || info.temperatureUnits == null || info.rainValue == null || info.rainUnits == null) {
-            null
-        } else {
-            info
-        }
+        return if (info.temperatureValue == -1f || info.temperatureUnits == "" || info.rainValue == -1f || info.rainUnits == "") null else info
     }
 }
 

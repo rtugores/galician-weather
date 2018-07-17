@@ -53,9 +53,9 @@ class StationPresenter(private val view: StationViewTranslator, private val stat
 
     private fun processLastMinutesInfo(lastMinutesInfo: DataLastMinutesWrapper) {
         lastMinutesInfo.getLastMinutes()?.let {
-            view.updateTemperature(it.temperatureValue!!, it.temperatureUnits!!)
-            if (it.rainValue!! > 0) {
-                view.updateCurrentRain(it.rainValue!!, it.rainUnits!!)
+            view.updateTemperature(it.temperatureValue, it.temperatureUnits)
+            if (it.rainValue > 0) {
+                view.updateCurrentRain(it.rainValue, it.rainUnits)
             } else {
                 view.updateCurrentRainNoRain()
             }
@@ -64,8 +64,8 @@ class StationPresenter(private val view: StationViewTranslator, private val stat
 
     private fun processDailyInfo(dailyInfo: DataDailyWrapper) {
         dailyInfo.getDataDaily()?.let {
-            if (it.rainValue!! > 0) {
-                view.updateDailyRain(it.rainValue!!, it.rainUnits!!)
+            if (it.rainValue > 0) {
+                view.updateDailyRain(it.rainValue, it.rainUnits)
             } else {
                 view.updateDailyRainNoRain()
             }
