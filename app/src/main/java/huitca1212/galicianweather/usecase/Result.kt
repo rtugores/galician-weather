@@ -4,8 +4,8 @@ import java.io.IOException
 
 
 @Suppress("unused")
-sealed class Result<T>
+interface Result<T>
 
-data class Success<T>(val response: T) : Result<T>()
-data class IOError(val exception: IOException) : Result<Nothing>()
-data class Error(val exception: Exception = Exception()) : Result<Nothing>()
+data class Success<T>(val response: T) : Result<T>
+data class IOError<T>(val exception: IOException) : Result<T>
+data class Error<T>(val exception: Exception = Exception()) : Result<T>
