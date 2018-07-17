@@ -71,11 +71,11 @@ class StationDetailsActivity : AppCompatActivity(), StationViewTranslator {
     }
 
     override fun updateTemperature(value: Float, units: String) {
-        infoTemperature.text = ("%.1f".format(value) + units)
+        infoTemperature.text = getString(R.string.temperature_last_minutes).format(value, units)
     }
 
     override fun updateCurrentRain(value: Float, units: String) {
-        infoRain.text = ("Lluvia: $value$units")
+        infoRain.text = getString(R.string.rain_last_minutes).format(value, units)
     }
 
     override fun updateCurrentRainNoRain() {
@@ -83,7 +83,7 @@ class StationDetailsActivity : AppCompatActivity(), StationViewTranslator {
     }
 
     override fun updateDailyRain(value: Float, units: String) {
-        infoRainDaily.text = ("Lluvia acumulada: $value$units")
+        infoRainDaily.text = getString(R.string.rain_daily).format(value, units)
     }
 
     override fun updateDailyRainNoRain() {

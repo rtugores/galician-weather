@@ -15,7 +15,7 @@ import kotlinx.coroutines.experimental.launch
 class StationPresenter(private val view: StationViewTranslator, private val stationApi: StationApi) {
 
     lateinit var station: Station
-    var jobs = mutableListOf<Job>()
+    private var jobs = mutableListOf<Job>()
 
     fun onCreate(extras: Bundle) {
         station = extras.getSerializable(StationDetailsActivity.ARG_STATION) as Station
