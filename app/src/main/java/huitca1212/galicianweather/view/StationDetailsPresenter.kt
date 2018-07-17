@@ -12,7 +12,7 @@ import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 
-class StationPresenter(private val view: StationViewTranslator, private val stationApi: StationApi) {
+class StationDetailsPresenter(private val view: StationViewTranslator, private val stationApi: StationApi) {
 
     lateinit var station: Station
     private var jobs = mutableListOf<Job>()

@@ -26,7 +26,7 @@ class StationDetailsActivity : AppCompatActivity(), StationViewTranslator {
     }
 
     private val stationApi: StationApi by inject()
-    private val presenter: StationPresenter = StationPresenter(this, stationApi)
+    private val presenter: StationDetailsPresenter = StationDetailsPresenter(this, stationApi)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
