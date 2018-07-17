@@ -1,8 +1,8 @@
 package huitca1212.galicianweather.data.datasource
 
-import huitca1212.galicianweather.interactor.Error
-import huitca1212.galicianweather.interactor.IOError
-import huitca1212.galicianweather.interactor.Success
+import huitca1212.galicianweather.usecase.Error
+import huitca1212.galicianweather.usecase.IOError
+import huitca1212.galicianweather.usecase.Success
 import huitca1212.galicianweather.network.StationApi
 import java.io.IOException
 

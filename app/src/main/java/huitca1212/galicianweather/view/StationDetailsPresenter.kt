@@ -4,10 +4,11 @@ import android.os.Bundle
 import android.support.annotation.DrawableRes
 import huitca1212.galicianweather.data.datasource.model.DataDailyWrapper
 import huitca1212.galicianweather.data.datasource.model.DataLastMinutesWrapper
-import huitca1212.galicianweather.interactor.Success
-import huitca1212.galicianweather.interactor.usecase.DailyInfoUseCase
-import huitca1212.galicianweather.interactor.usecase.LastMinutesInfoUseCase
+import huitca1212.galicianweather.usecase.Success
+import huitca1212.galicianweather.usecase.DailyInfoUseCase
+import huitca1212.galicianweather.usecase.LastMinutesInfoUseCase
 import huitca1212.galicianweather.network.StationApi
+import huitca1212.galicianweather.usecase.IOError
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch

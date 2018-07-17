@@ -1,8 +1,8 @@
-package huitca1212.galicianweather.interactor.usecase
+package huitca1212.galicianweather.usecase
 
 import huitca1212.galicianweather.data.datasource.LastMinutesInfoNetworkDataSource
 import huitca1212.galicianweather.data.repository.LastMinutesInfoRepository
-import huitca1212.galicianweather.interactor.DataPolicy
+import huitca1212.galicianweather.usecase.DataPolicy
 import huitca1212.galicianweather.network.StationApi
 import kotlinx.coroutines.experimental.async
 

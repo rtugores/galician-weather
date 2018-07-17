@@ -1,4 +1,4 @@
-package huitca1212.galicianweather.interactor
+package huitca1212.galicianweather.usecase
 
 import java.io.IOException
 
