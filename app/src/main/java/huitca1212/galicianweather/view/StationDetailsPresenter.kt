@@ -8,14 +8,13 @@ import huitca1212.galicianweather.network.StationApi
 import huitca1212.galicianweather.usecase.DailyInfoUseCase
 import huitca1212.galicianweather.usecase.LastMinutesInfoUseCase
 import huitca1212.galicianweather.usecase.Success
-import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.cancel
 import kotlinx.coroutines.experimental.launch
 
 class StationPresenter(private val view: StationViewTranslator, private val stationApi: StationApi) {
 
     lateinit var station: Station
-    private var job = Job()
 
     fun onCreate(extras: Bundle) {
         station = extras.getSerializable(StationDetailsActivity.ARG_STATION) as Station
@@ -27,12 +26,12 @@ class StationPresenter(private val view: StationViewTranslator, private val stat
     }
 
     fun onPause() {
-        job.cancel()
+        UI.cancel()
     }
 
     private fun retrieveStationData() {
         view.showLoaderScreen()
-        launch(UI + job) {
+        launch(UI) {
             val lastMinutesInfoJob = LastMinutesInfoUseCase(stationApi).execute(station.code)
             val dailyInfoJob = DailyInfoUseCase(stationApi).execute(station.code)
 
