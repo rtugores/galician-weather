@@ -11,14 +11,12 @@ import huitca1212.galicianweather.usecase.DailyInfoUseCase
 import huitca1212.galicianweather.usecase.LastMinutesInfoUseCase
 import huitca1212.galicianweather.usecase.NoInternetError
 import huitca1212.galicianweather.usecase.Success
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import huitca1212.galicianweather.view.util.CoroutinesManager
 
 class StationDetailsPresenter(private val view: StationViewTranslator, private val stationApi: StationApi) {
 
     lateinit var station: Station
-    private var jobs = mutableListOf<Job>()
+    private val coroutinesManager = CoroutinesManager()
 
     fun onCreate(extras: Bundle) {
         station = extras.getSerializable(StationDetailsActivity.ARG_STATION) as Station
@@ -30,19 +28,18 @@ class StationDetailsPresenter(private val view: StationViewTranslator, private v
     }
 
     fun onPause() {
-        jobs.forEach { it.cancel() }
-        jobs.clear()
+        coroutinesManager.cancelAll()
     }
 
     private fun retrieveStationData() {
         view.showLoaderScreen()
-        val job = launch(UI) {
+        coroutinesManager.launchAsync {
             val lastMinutesInfoJob = LastMinutesInfoUseCase(LastMinutesInfoNetworkDataSource(stationApi))
                 .execute(station.code)
-                .also { jobs.add(it) }
+                .also { coroutinesManager.add(it) }
             val dailyInfoJob = DailyInfoUseCase(DailyInfoNetworkDataSource(stationApi))
                 .execute(station.code)
-                .also { jobs.add(it) }
+                .also { coroutinesManager.add(it) }
 
             val lastMinutesInfo = lastMinutesInfoJob.await()
             val dailyInfo = dailyInfoJob.await()
@@ -59,7 +56,6 @@ class StationDetailsPresenter(private val view: StationViewTranslator, private v
                     view.showErrorScreen()
             }
         }
-        jobs.add(job)
     }
 
     private fun processLastMinutesInfo(lastMinutesInfo: DataLastMinutesWrapper) {
