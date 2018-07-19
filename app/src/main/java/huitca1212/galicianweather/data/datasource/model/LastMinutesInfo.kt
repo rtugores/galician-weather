@@ -37,7 +37,7 @@ data class DataLastMinutesWrapper(
                 }
             }
         }
-        return if (info.temperatureValue == -1f || info.temperatureUnits == "" || info.rainValue == -1f || info.rainUnits == "") null else info
+        return info
     }
 }
 

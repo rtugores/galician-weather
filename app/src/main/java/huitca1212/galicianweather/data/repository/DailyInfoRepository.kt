@@ -10,6 +10,5 @@ class DailyInfoRepository(private val dataSource: DailyInfoNetworkDataSource) {
         when (policy) {
             DataPolicy.LOCAL -> Error()
             DataPolicy.NETWORK -> dataSource.getDailyInfo(stationId)
-            DataPolicy.NETWORK_AND_LOCAL -> dataSource.getDailyInfo(stationId)
         }
 }

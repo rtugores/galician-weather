@@ -7,6 +7,7 @@ import huitca1212.galicianweather.data.datasource.model.DataLastMinutesWrapper
 import huitca1212.galicianweather.network.StationApi
 import huitca1212.galicianweather.usecase.DailyInfoUseCase
 import huitca1212.galicianweather.usecase.LastMinutesInfoUseCase
+import huitca1212.galicianweather.usecase.NoInternetError
 import huitca1212.galicianweather.usecase.Success
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.UI
@@ -40,12 +41,16 @@ class StationDetailsPresenter(private val view: StationViewTranslator, private v
             val lastMinutesInfo = lastMinutesInfoJob.await()
             val dailyInfo = dailyInfoJob.await()
 
-            if (lastMinutesInfo is Success && dailyInfo is Success) {
-                processLastMinutesInfo(lastMinutesInfo.response)
-                processDailyInfo(dailyInfo.response)
-                view.showDataScreen()
-            } else {
-                view.showErrorScreen()
+            when {
+                lastMinutesInfo is Success && dailyInfo is Success -> {
+                    processLastMinutesInfo(lastMinutesInfo.response)
+                    processDailyInfo(dailyInfo.response)
+                    view.showDataScreen()
+                }
+                lastMinutesInfo is NoInternetError || dailyInfo is NoInternetError ->
+                    view.showNoInternetScreen()
+                else ->
+                    view.showErrorScreen()
             }
         }
         jobs.add(job)
@@ -82,5 +87,6 @@ interface StationViewTranslator {
     fun updateDailyRainNoRain()
     fun showLoaderScreen()
     fun showErrorScreen()
+    fun showNoInternetScreen()
     fun showDataScreen()
 }

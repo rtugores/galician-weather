@@ -1,7 +1,6 @@
 package huitca1212.galicianweather.usecase
 
 import kotlinx.coroutines.experimental.async
-import java.io.IOException
 import kotlin.coroutines.experimental.CoroutineContext
 
 
@@ -10,12 +9,10 @@ abstract class BaseUseCase<in P, T>(private val coroutineContext: CoroutineConte
     fun execute(params: P) = async(coroutineContext) {
         try {
             repositoryCall(params)
-        } catch (e: IOException) {
-            IOError<T>(e)
         } catch (e: Exception) {
-            Error<T>(e)
+            Error(e)
         }
     }
 
-    abstract fun repositoryCall(params: P): Result<T>
+    abstract fun repositoryCall(params: P): Result<out T>
 }

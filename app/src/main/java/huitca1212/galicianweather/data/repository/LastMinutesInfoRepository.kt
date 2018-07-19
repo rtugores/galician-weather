@@ -10,6 +10,5 @@ class LastMinutesInfoRepository(private val dataSource: LastMinutesInfoNetworkDa
         when (policy) {
             DataPolicy.LOCAL -> Error()
             DataPolicy.NETWORK -> dataSource.getLastMinutesInfo(stationId)
-            DataPolicy.NETWORK_AND_LOCAL -> dataSource.getLastMinutesInfo(stationId)
         }
 }

@@ -60,6 +60,12 @@ class StationDetailsActivity : AppCompatActivity(), StationViewTranslator {
         showToast(R.string.request_failure_error)
     }
 
+    override fun showNoInternetScreen() {
+        infoGroup.gone()
+        progressBar.gone()
+        showToast(R.string.request_no_internet_error)
+    }
+
     override fun showDataScreen() {
         infoGroup.visible()
         progressBar.gone()
