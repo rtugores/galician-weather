@@ -2,6 +2,8 @@ package huitca1212.galicianweather.view
 
 import android.os.Bundle
 import android.support.annotation.DrawableRes
+import huitca1212.galicianweather.data.datasource.DailyInfoNetworkDataSource
+import huitca1212.galicianweather.data.datasource.LastMinutesInfoNetworkDataSource
 import huitca1212.galicianweather.data.datasource.model.DataDailyWrapper
 import huitca1212.galicianweather.data.datasource.model.DataLastMinutesWrapper
 import huitca1212.galicianweather.network.StationApi
@@ -35,8 +37,12 @@ class StationDetailsPresenter(private val view: StationViewTranslator, private v
     private fun retrieveStationData() {
         view.showLoaderScreen()
         val job = launch(UI) {
-            val lastMinutesInfoJob = LastMinutesInfoUseCase(stationApi).execute(station.code).also { jobs.add(it) }
-            val dailyInfoJob = DailyInfoUseCase(stationApi).execute(station.code).also { jobs.add(it) }
+            val lastMinutesInfoJob = LastMinutesInfoUseCase(LastMinutesInfoNetworkDataSource(stationApi))
+                .execute(station.code)
+                .also { jobs.add(it) }
+            val dailyInfoJob = DailyInfoUseCase(DailyInfoNetworkDataSource(stationApi))
+                .execute(station.code)
+                .also { jobs.add(it) }
 
             val lastMinutesInfo = lastMinutesInfoJob.await()
             val dailyInfo = dailyInfoJob.await()
