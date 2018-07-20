@@ -10,7 +10,7 @@ abstract class BaseUseCase<in P, T>(private val coroutineContext: CoroutineConte
         try {
             repositoryCall(params)
         } catch (e: Exception) {
-            Error(e)
+            Error<T>(e)
         }
     }
 

@@ -7,10 +7,7 @@ import huitca1212.galicianweather.data.datasource.LastMinutesInfoNetworkDataSour
 import huitca1212.galicianweather.data.datasource.model.DataDailyWrapper
 import huitca1212.galicianweather.data.datasource.model.DataLastMinutesWrapper
 import huitca1212.galicianweather.network.StationApi
-import huitca1212.galicianweather.usecase.DailyInfoUseCase
-import huitca1212.galicianweather.usecase.LastMinutesInfoUseCase
-import huitca1212.galicianweather.usecase.NoInternetError
-import huitca1212.galicianweather.usecase.Success
+import huitca1212.galicianweather.usecase.*
 import huitca1212.galicianweather.view.util.CoroutinesManager
 
 class StationDetailsPresenter(private val view: StationViewTranslator, private val stationApi: StationApi) {
@@ -44,21 +41,29 @@ class StationDetailsPresenter(private val view: StationViewTranslator, private v
             val lastMinutesInfo = lastMinutesInfoJob.await()
             val dailyInfo = dailyInfoJob.await()
 
-            when {
-                lastMinutesInfo is Success && dailyInfo is Success -> {
-                    processLastMinutesInfo(lastMinutesInfo.response)
-                    processDailyInfo(dailyInfo.response)
-                    view.showDataScreen()
-                }
-                lastMinutesInfo is NoInternetError || dailyInfo is NoInternetError ->
-                    view.showNoInternetScreen()
-                else ->
-                    view.showErrorScreen()
-            }
+            processResponses(lastMinutesInfo, dailyInfo)
         }
     }
 
-    private fun processLastMinutesInfo(lastMinutesInfo: DataLastMinutesWrapper) {
+    private suspend fun processResponses(lastMinutesInfo: Result<out DataLastMinutesWrapper>, dailyInfo: Result<out DataDailyWrapper>) {
+        when {
+            lastMinutesInfo is Success && dailyInfo is Success -> {
+                processLastMinutesInfo(lastMinutesInfo.response)
+                processDailyInfo(dailyInfo.response)
+                view.showDataScreen()
+            }
+            lastMinutesInfo is NoInternetError || dailyInfo is NoInternetError ->
+                if (view.showNoInternetDialog() == DialogResult.RETRY) {
+                    retrieveStationData()
+                }
+            else ->
+                if (view.showErrorDialog() == DialogResult.RETRY) {
+                    retrieveStationData()
+                }
+        }
+    }
+
+    private suspend fun processLastMinutesInfo(lastMinutesInfo: DataLastMinutesWrapper) {
         lastMinutesInfo.getDataLastMinutes()?.let {
             view.updateTemperature(it.temperatureValue, it.temperatureUnits)
             if (it.rainValue > 0) {
@@ -66,17 +71,17 @@ class StationDetailsPresenter(private val view: StationViewTranslator, private v
             } else {
                 view.updateCurrentRainNoRain()
             }
-        } ?: view.showErrorScreen()
+        } ?: view.showErrorDialog()
     }
 
-    private fun processDailyInfo(dailyInfo: DataDailyWrapper) {
+    private suspend fun processDailyInfo(dailyInfo: DataDailyWrapper) {
         dailyInfo.getDataDaily()?.let {
             if (it.rainValue > 0) {
                 view.updateDailyRain(it.rainValue, it.rainUnits)
             } else {
                 view.updateDailyRainNoRain()
             }
-        } ?: view.showErrorScreen()
+        } ?: view.showErrorDialog()
     }
 }
 
@@ -88,7 +93,7 @@ interface StationViewTranslator {
     fun updateDailyRain(value: Float, units: String)
     fun updateDailyRainNoRain()
     fun showLoaderScreen()
-    fun showErrorScreen()
-    fun showNoInternetScreen()
+    suspend fun showErrorDialog(): DialogResult
+    suspend fun showNoInternetDialog(): DialogResult
     fun showDataScreen()
 }

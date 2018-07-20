@@ -1,8 +1,10 @@
 package huitca1212.galicianweather.data.datasource
 
+import huitca1212.galicianweather.data.datasource.model.DataLastMinutesWrapper
 import huitca1212.galicianweather.network.StationApi
 import huitca1212.galicianweather.usecase.Error
 import huitca1212.galicianweather.usecase.NoInternetError
+import huitca1212.galicianweather.usecase.Result
 import huitca1212.galicianweather.usecase.Success
 import java.io.IOException
 
@@ -13,7 +15,7 @@ class LastMinutesInfoNetworkDataSource(private val stationApi: StationApi) {
         const val RAIN_PARAM = "PP_SUM_1.5m"
     }
 
-    fun getLastMinutesInfo(stationId: String) =
+    fun getLastMinutesInfo(stationId: String): Result<DataLastMinutesWrapper> =
         try {
             val response = stationApi.getLastMinutesDataStation(stationId).execute()
             if (response.isSuccessful) {
