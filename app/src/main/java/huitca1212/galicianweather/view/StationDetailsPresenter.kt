@@ -66,6 +66,7 @@ class StationDetailsPresenter(private val view: StationViewTranslator, private v
     private suspend fun processLastMinutesInfo(lastMinutesInfo: DataLastMinutesWrapper) {
         lastMinutesInfo.getDataLastMinutes()?.let {
             view.updateTemperature(it.temperatureValue, it.temperatureUnits)
+            view.updateHumidity(it.humidityValue, it.humidityUnits)
             view.updateCurrentRain(it.rainValue, it.rainUnits)
         } ?: view.showErrorDialog()
     }
@@ -80,6 +81,7 @@ class StationDetailsPresenter(private val view: StationViewTranslator, private v
 interface StationViewTranslator {
     fun initScreenInfo(name: String, @DrawableRes image: Int)
     fun updateTemperature(value: Float, units: String)
+    fun updateHumidity(value: Float, units: String)
     fun updateCurrentRain(value: Float, units: String)
     fun updateDailyRain(value: Float, units: String)
     fun showLoaderScreen()

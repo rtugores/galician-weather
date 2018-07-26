@@ -12,6 +12,7 @@ class LastMinutesInfoNetworkDataSource(private val stationApi: StationApi) {
 
     companion object {
         const val TEMPERATURE_PARAM = "TA_AVG_1.5m"
+        const val HUMIDITY_PARAM = "HR_AVG_1.5m"
         const val RAIN_PARAM = "PP_SUM_1.5m"
     }
 

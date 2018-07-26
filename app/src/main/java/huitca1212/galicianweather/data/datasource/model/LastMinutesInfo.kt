@@ -7,6 +7,8 @@ import huitca1212.galicianweather.data.datasource.LastMinutesInfoNetworkDataSour
 data class DataLastMinutes(
     var temperatureValue: Float = -1f,
     var temperatureUnits: String = "",
+    var humidityValue: Float = -1f,
+    var humidityUnits: String = "",
     var rainValue: Float = -1f,
     var rainUnits: String = ""
 )
@@ -25,6 +27,14 @@ data class DataLastMinutesWrapper(
                     } else {
                         info.temperatureValue = it.value
                         info.temperatureUnits = it.units
+                    }
+                }
+                LastMinutesInfoNetworkDataSource.HUMIDITY_PARAM -> {
+                    if (it.value == null || it.units == null) {
+                        return null
+                    } else {
+                        info.humidityValue = it.value
+                        info.humidityUnits = it.units
                     }
                 }
                 LastMinutesInfoNetworkDataSource.RAIN_PARAM -> {

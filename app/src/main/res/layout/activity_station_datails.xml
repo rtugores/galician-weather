@@ -62,6 +62,7 @@
                 android:layout_marginTop="24dp"
                 android:text="@string/temperature_last_minutes_title"
                 app:layout_constraintEnd_toStartOf="@+id/infoTemperature"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -75,22 +76,46 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="24dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/infoTemperatureTitle"
                 app:layout_constraintTop_toTopOf="@+id/infoTemperatureTitle"
                 tools:text="24ºC" />
+
+            <TextView
+                android:id="@+id/infoHumidityTitle"
+                style="@style/TextDarkGrey20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/humidity_last_minutes_title"
+                app:layout_constraintEnd_toStartOf="@+id/infoHumidity"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="@+id/infoTemperatureTitle"
+                app:layout_constraintTop_toBottomOf="@+id/infoTemperatureTitle"
+                tools:text="Humidity" />
+
+            <TextView
+                android:id="@+id/infoHumidity"
+                style="@style/TextDarkGrey20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/infoTemperature"
+                app:layout_constraintStart_toEndOf="@+id/infoHumidityTitle"
+                app:layout_constraintTop_toTopOf="@+id/infoHumidityTitle"
+                tools:text="55%" />
+
 
             <TextView
                 android:id="@+id/infoRainTitle"
                 style="@style/TextDarkGrey20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/rain_last_minutes_title"
                 app:layout_constraintEnd_toStartOf="@+id/infoRain"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/infoTemperatureTitle"
+                app:layout_constraintStart_toStartOf="@+id/infoHumidityTitle"
+                app:layout_constraintTop_toBottomOf="@+id/infoHumidityTitle"
                 tools:text="Rain" />
 
             <TextView
@@ -98,7 +123,7 @@
                 style="@style/TextDarkGrey20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="@+id/infoTemperature"
+                app:layout_constraintEnd_toEndOf="@+id/infoHumidity"
                 app:layout_constraintStart_toEndOf="@+id/infoRainTitle"
                 app:layout_constraintTop_toTopOf="@+id/infoRainTitle"
                 tools:text="0.0L/m2" />
@@ -118,11 +143,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="32dp"
-                android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/rain_daily_title"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/infoRainTitle"
                 app:layout_constraintTop_toBottomOf="@+id/infoRainTitle"
                 tools:text="Daily Rain" />
 
@@ -139,7 +163,7 @@
                 android:id="@+id/infoGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:constraint_referenced_ids="infoRainDailyTitle,infoRainDaily,infoTemperatureTitle,infoTemperature,infoRain,infoRainTitle" />
+                app:constraint_referenced_ids="infoTemperatureTitle, infoTemperature,infoRainDailyTitle,infoRainDaily,infoRain,infoRainTitle,infoHumidityTitle, infoHumidity" />
 
         </android.support.constraint.ConstraintLayout>
     </android.support.v4.widget.NestedScrollView>

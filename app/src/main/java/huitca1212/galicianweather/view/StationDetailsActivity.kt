@@ -101,6 +101,10 @@ class StationDetailsActivity : AppCompatActivity(), StationViewTranslator {
         infoTemperature.text = getString(R.string.temperature_last_minutes).format(value, units)
     }
 
+    override fun updateHumidity(value: Float, units: String) {
+        infoHumidity.text = getString(R.string.humidity_last_minutes).format(value, units)
+    }
+
     override fun updateCurrentRain(value: Float, units: String) {
         infoRain.text = getString(R.string.rain_last_minutes).format(value, units)
     }
