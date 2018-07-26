@@ -28,9 +28,4 @@
         <item name="android:textColor">@color/dark_grey</item>
     </style>
 
-    <style name="TextDarkGrey34">
-        <item name="android:textSize">@dimen/standard34sp</item>
-        <item name="android:textColor">@color/dark_grey</item>
-    </style>
-
 </resources>

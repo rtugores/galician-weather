@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity
 import huitca1212.galicianweather.R
 import huitca1212.galicianweather.network.StationApi
 import huitca1212.galicianweather.view.util.gone
+import huitca1212.galicianweather.view.util.invisible
 import huitca1212.galicianweather.view.util.visible
 import kotlinx.android.synthetic.main.activity_station_datails.*
 import org.koin.android.ext.android.inject
@@ -53,18 +54,18 @@ class StationDetailsActivity : AppCompatActivity(), StationViewTranslator {
     }
 
     override fun showLoaderScreen() {
-        infoGroup.gone()
+        infoGroup.invisible()
         progressBar.visible()
     }
 
     override suspend fun showErrorDialog(): DialogResult {
-        infoGroup.gone()
+        infoGroup.invisible()
         progressBar.gone()
         return showRetryDialog(R.string.request_failure_error)
     }
 
     override suspend fun showNoInternetDialog(): DialogResult {
-        infoGroup.gone()
+        infoGroup.invisible()
         progressBar.gone()
         return showRetryDialog(R.string.request_no_internet_error)
     }
@@ -104,16 +105,8 @@ class StationDetailsActivity : AppCompatActivity(), StationViewTranslator {
         infoRain.text = getString(R.string.rain_last_minutes).format(value, units)
     }
 
-    override fun updateCurrentRainNoRain() {
-        infoRain.text = getString(R.string.no_rain)
-    }
-
     override fun updateDailyRain(value: Float, units: String) {
         infoRainDaily.text = getString(R.string.rain_daily).format(value, units)
-    }
-
-    override fun updateDailyRainNoRain() {
-        infoRainDaily.text = getString(R.string.no_rain_all_day)
     }
 }
 

@@ -4,13 +4,15 @@
     <string name="request_failure_error">Algo fue mal</string>
     <string name="request_no_internet_error">No hay conexión a Internet</string>
 
-    <string name="no_rain">No llueve</string>
-    <string name="no_rain_all_day">No ha llovido en todo el día</string>
-    <string name="rain_last_minutes">Lluvia: %.1f%s</string>
-    <string name="rain_daily">Lluvia acumulada: %.1f%s</string>
+    <string name="temperature_last_minutes_title">Temperatura</string>
+    <string name="temperature_last_minutes">%.1f%s</string>
+
+    <string name="rain_last_minutes_title">Lluvia</string>
+    <string name="rain_last_minutes">%.1f%s</string>
+    <string name="rain_daily_title">Lluvia acumulada</string>
+    <string name="rain_daily">%.1f%s</string>
 
     <string name="dialog_retry">Reintentar</string>
     <string name="dialog_cancel">Cancelar</string>
 
-    <string name="temperature_last_minutes">%.1f%s</string>
 </resources>

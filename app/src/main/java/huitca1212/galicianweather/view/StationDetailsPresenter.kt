@@ -66,21 +66,13 @@ class StationDetailsPresenter(private val view: StationViewTranslator, private v
     private suspend fun processLastMinutesInfo(lastMinutesInfo: DataLastMinutesWrapper) {
         lastMinutesInfo.getDataLastMinutes()?.let {
             view.updateTemperature(it.temperatureValue, it.temperatureUnits)
-            if (it.rainValue > 0) {
-                view.updateCurrentRain(it.rainValue, it.rainUnits)
-            } else {
-                view.updateCurrentRainNoRain()
-            }
+            view.updateCurrentRain(it.rainValue, it.rainUnits)
         } ?: view.showErrorDialog()
     }
 
     private suspend fun processDailyInfo(dailyInfo: DataDailyWrapper) {
         dailyInfo.getDataDaily()?.let {
-            if (it.rainValue > 0) {
-                view.updateDailyRain(it.rainValue, it.rainUnits)
-            } else {
-                view.updateDailyRainNoRain()
-            }
+            view.updateDailyRain(it.rainValue, it.rainUnits)
         } ?: view.showErrorDialog()
     }
 }
@@ -89,9 +81,7 @@ interface StationViewTranslator {
     fun initScreenInfo(name: String, @DrawableRes image: Int)
     fun updateTemperature(value: Float, units: String)
     fun updateCurrentRain(value: Float, units: String)
-    fun updateCurrentRainNoRain()
     fun updateDailyRain(value: Float, units: String)
-    fun updateDailyRainNoRain()
     fun showLoaderScreen()
     suspend fun showErrorDialog(): DialogResult
     suspend fun showNoInternetDialog(): DialogResult

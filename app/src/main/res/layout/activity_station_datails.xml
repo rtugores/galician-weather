@@ -16,6 +16,7 @@
             android:id="@+id/productDetailsCollapsingToolbar"
             android:layout_width="match_parent"
             android:layout_height="280dp"
+            android:fitsSystemWindows="true"
             app:contentScrim="@color/blue"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -53,51 +54,82 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/infoTemperature"
-                style="@style/TextDarkGrey34"
-                android:layout_width="0dp"
+                android:id="@+id/infoTemperatureTitle"
+                style="@style/TextDarkGrey20"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="24dp"
-                app:layout_constraintBottom_toTopOf="@+id/infoRain"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@string/temperature_last_minutes_title"
+                app:layout_constraintEnd_toStartOf="@+id/infoTemperature"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed"
+                tools:text="Temparature" />
+
+            <TextView
+                android:id="@+id/infoTemperature"
+                style="@style/TextDarkGrey20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/infoTemperatureTitle"
+                app:layout_constraintTop_toTopOf="@+id/infoTemperatureTitle"
                 tools:text="24ºC" />
 
             <TextView
-                android:id="@+id/infoRain"
-                style="@style/TextDarkGrey34"
-                android:layout_width="0dp"
+                android:id="@+id/infoRainTitle"
+                style="@style/TextDarkGrey20"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:layout_constraintBottom_toTopOf="@+id/infoRainDaily"
-                app:layout_constraintEnd_toEndOf="@+id/infoTemperature"
-                app:layout_constraintStart_toStartOf="@+id/infoTemperature"
-                app:layout_constraintTop_toBottomOf="@+id/infoTemperature"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/rain_last_minutes_title"
+                app:layout_constraintEnd_toStartOf="@+id/infoRain"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/infoTemperatureTitle"
                 tools:text="Rain" />
 
             <TextView
+                android:id="@+id/infoRain"
+                style="@style/TextDarkGrey20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/infoTemperature"
+                app:layout_constraintStart_toEndOf="@+id/infoRainTitle"
+                app:layout_constraintTop_toTopOf="@+id/infoRainTitle"
+                tools:text="0.0L/m2" />
+
+            <TextView
                 android:id="@+id/infoRainDaily"
-                style="@style/TextDarkGrey34"
+                style="@style/TextDarkGrey20"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/infoRain"
-                app:layout_constraintStart_toStartOf="@+id/infoRain"
-                app:layout_constraintTop_toBottomOf="@+id/infoRain"
+                app:layout_constraintTop_toTopOf="@+id/infoRainDailyTitle"
+                tools:text="0.0L/m2" />
+
+            <TextView
+                android:id="@+id/infoRainDailyTitle"
+                style="@style/TextDarkGrey20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/rain_daily_title"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/infoRainTitle"
                 tools:text="Daily Rain" />
 
             <ProgressBar
                 android:id="@+id/progressBar"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginBottom="24dp"
-                android:layout_marginTop="24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -107,7 +139,7 @@
                 android:id="@+id/infoGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:constraint_referenced_ids="infoRainDaily,infoTemperature,infoRain" />
+                app:constraint_referenced_ids="infoRainDailyTitle,infoRainDaily,infoTemperatureTitle,infoTemperature,infoRain,infoRainTitle" />
 
         </android.support.constraint.ConstraintLayout>
     </android.support.v4.widget.NestedScrollView>
