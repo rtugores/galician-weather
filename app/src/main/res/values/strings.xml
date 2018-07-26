@@ -8,7 +8,7 @@
     <string name="temperature_last_minutes">%.1f%s</string>
 
     <string name="humidity_last_minutes_title">Humedad relativa</string>
-    <string name="humidity_last_minutes">%.1f%s</string>
+    <string name="humidity_last_minutes">%.0f%s</string>
 
     <string name="rain_last_minutes_title">Lluvia</string>
     <string name="rain_last_minutes">%.1f%s</string>
