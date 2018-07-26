@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.annotation.StringRes
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.view.WindowManager
 import huitca1212.galicianweather.R
 import huitca1212.galicianweather.network.StationApi
 import huitca1212.galicianweather.view.util.gone
@@ -35,6 +36,8 @@ class StationDetailsActivity : AppCompatActivity(), StationViewTranslator {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_station_datails)
+        window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+
         setSupportActionBar(stationDetailsToolbar)
         supportActionBar!!.apply {
             setDisplayShowTitleEnabled(false)
