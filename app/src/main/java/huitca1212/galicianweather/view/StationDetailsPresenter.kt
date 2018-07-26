@@ -17,7 +17,7 @@ class StationDetailsPresenter(private val view: StationViewTranslator, private v
 
     fun onCreate(extras: Bundle) {
         station = extras.getSerializable(StationDetailsActivity.ARG_STATION) as Station
-        view.initScreenInfo(station.name, station.imageResId)
+        view.initScreenInfo(station.name, station.imageUrl)
     }
 
     fun onResume() {
@@ -79,7 +79,7 @@ class StationDetailsPresenter(private val view: StationViewTranslator, private v
 }
 
 interface StationViewTranslator {
-    fun initScreenInfo(name: String, @DrawableRes image: Int)
+    fun initScreenInfo(name: String, imageUrl: String)
     fun updateTemperature(value: Float, units: String)
     fun updateHumidity(value: Float, units: String)
     fun updateCurrentRain(value: Float, units: String)

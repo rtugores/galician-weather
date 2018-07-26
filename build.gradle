@@ -36,6 +36,8 @@ ext{
     support = '27.1.1'
     constraint_layout = '1.1.2'
 
+    glideLibrary = "4.6.1"
+
     retrofit = '2.4.0'
     okhttplogLibrary = "3.6.0"
 }

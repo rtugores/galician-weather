@@ -11,6 +11,7 @@ import huitca1212.galicianweather.R
 import huitca1212.galicianweather.network.StationApi
 import huitca1212.galicianweather.view.util.gone
 import huitca1212.galicianweather.view.util.invisible
+import huitca1212.galicianweather.view.util.setImageUrl
 import huitca1212.galicianweather.view.util.visible
 import kotlinx.android.synthetic.main.activity_station_datails.*
 import org.koin.android.ext.android.inject
@@ -95,9 +96,9 @@ class StationDetailsActivity : AppCompatActivity(), StationViewTranslator {
         progressBar.gone()
     }
 
-    override fun initScreenInfo(name: String, image: Int) {
+    override fun initScreenInfo(name: String, imageUrl: String) {
         stationDetailsToolbar.title = name
-        stationDetailsImage.setImageResource(image)
+        stationDetailsImage.setImageUrl("$imageUrl${System.currentTimeMillis()}")
     }
 
     override fun updateTemperature(value: Float, units: String) {

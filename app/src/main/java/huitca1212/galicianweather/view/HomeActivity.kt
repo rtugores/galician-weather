@@ -18,10 +18,10 @@ class HomeActivity : AppCompatActivity(), HomeViewTranslator {
         setSupportActionBar(homeToolbar)
 
         val stations = listOf(
-            Station("14000", "Coruña - Dique", R.drawable.coruna_dique),
-            Station("10157", "Coruña - Torre de Hércules", R.drawable.coruna_torre_de_hercules),
-            Station("10155", "Ourense - Estacións", R.drawable.ourense_estacions),
-            Station("10148", "Ourense - Ourense", R.drawable.ourense_ourense)
+            Station("14000", "Coruña - Dique", "http://85.91.64.26/coruna/readImage.asp?dummy="),
+            Station("10157", "Coruña - Torre de Hércules", "http://85.91.64.26/coruna/readImage.asp?dummy="),
+            Station("10155", "Ourense - Estacións", "http://85.91.64.26/ourense/readImage.asp?dummy="),
+            Station("10148", "Ourense - Ourense", "http://85.91.64.26/ourense/readImage.asp?dummy=")
         )
 
         stationsRecyclerView.apply {

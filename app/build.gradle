@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 27
@@ -34,6 +35,9 @@ dependencies {
     implementation "com.android.support.constraint:constraint-layout:$constraint_layout"
     implementation "com.android.support:appcompat-v7:$support"
     implementation "com.android.support:design:$support"
+
+    implementation "com.github.bumptech.glide:glide:$glideLibrary"
+    kapt "com.github.bumptech.glide:compiler:$glideLibrary"
 
     implementation "com.squareup.retrofit2:retrofit:$retrofit"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"

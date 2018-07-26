@@ -1,12 +1,12 @@
 package huitca1212.galicianweather.view
 
 import android.content.Context
-import android.support.annotation.DrawableRes
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import huitca1212.galicianweather.R
+import huitca1212.galicianweather.view.util.setImageUrl
 import kotlinx.android.synthetic.main.item_station.view.*
 import java.io.Serializable
 
@@ -42,7 +42,7 @@ class StationAdapter(
     class StationViewHolder(private val item: View) : RecyclerView.ViewHolder(item) {
         fun bind(station: Station) {
             item.itemStationName.text = station.name
-            item.itemStationImage.setImageResource(station.imageResId)
+            item.itemStationImage.setImageUrl("${station.imageUrl}${System.currentTimeMillis()}")
         }
     }
 }
@@ -50,5 +50,5 @@ class StationAdapter(
 data class Station(
     val code: String,
     val name: String,
-    @DrawableRes val imageResId: Int
+    val imageUrl: String
 ) : Serializable
