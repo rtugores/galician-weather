@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Galician weather</string>
+    <string name="app_name">El tiempo en Galicia</string>
 
     <string name="request_failure_error">Algo fue mal</string>
     <string name="request_no_internet_error">No hay conexión a Internet</string>
