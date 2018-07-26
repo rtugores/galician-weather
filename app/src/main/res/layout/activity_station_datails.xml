@@ -32,7 +32,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="280dp"
-                android:background="@color/transparent_black_20p"
+                android:background="@drawable/gradient_light_grey"
                 android:fitsSystemWindows="true"
                 app:layout_collapseMode="parallax" />
 
