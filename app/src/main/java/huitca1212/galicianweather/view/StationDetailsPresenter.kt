@@ -50,6 +50,7 @@ class StationDetailsPresenter(private val view: StationViewTranslator, private v
             lastMinutesInfo is Success && dailyInfo is Success -> {
                 processLastMinutesInfo(lastMinutesInfo.response)
                 processDailyInfo(dailyInfo.response)
+                view.updateRadarImage()
                 view.showDataScreen()
             }
             lastMinutesInfo is NoInternetError || dailyInfo is NoInternetError ->
@@ -87,5 +88,6 @@ interface StationViewTranslator {
     fun showLoaderScreen()
     suspend fun showErrorDialog(): DialogResult
     suspend fun showNoInternetDialog(): DialogResult
+    fun updateRadarImage()
     fun showDataScreen()
 }
