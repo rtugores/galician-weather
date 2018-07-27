@@ -1,7 +1,6 @@
 package huitca1212.galicianweather.view
 
 import android.os.Bundle
-import android.support.annotation.DrawableRes
 import huitca1212.galicianweather.data.datasource.DailyInfoNetworkDataSource
 import huitca1212.galicianweather.data.datasource.LastMinutesInfoNetworkDataSource
 import huitca1212.galicianweather.data.datasource.model.DataDailyWrapper
@@ -26,6 +25,10 @@ class StationDetailsPresenter(private val view: StationViewTranslator, private v
 
     fun onPause() {
         coroutinesManager.cancelAll()
+    }
+
+    fun onBackButtonClick() {
+        view.finish()
     }
 
     private fun retrieveStationData() {
@@ -90,4 +93,5 @@ interface StationViewTranslator {
     suspend fun showNoInternetDialog(): DialogResult
     fun updateRadarImage()
     fun showDataScreen()
+    fun finish()
 }

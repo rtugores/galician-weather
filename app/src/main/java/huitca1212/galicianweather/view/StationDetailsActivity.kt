@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.annotation.StringRes
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.view.MenuItem
 import android.view.WindowManager
 import huitca1212.galicianweather.R
 import huitca1212.galicianweather.network.StationApi
@@ -39,11 +40,12 @@ class StationDetailsActivity : AppCompatActivity(), StationViewTranslator {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_station_datails)
-        window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
 
         setSupportActionBar(stationDetailsToolbar)
         supportActionBar!!.apply {
             setDisplayShowTitleEnabled(false)
+            setDisplayHomeAsUpEnabled(true)
+            setHomeAsUpIndicator(R.drawable.ic_back_arrow_white)
         }
 
         presenter.onCreate(intent.extras)
@@ -57,6 +59,13 @@ class StationDetailsActivity : AppCompatActivity(), StationViewTranslator {
     override fun onPause() {
         presenter.onPause()
         super.onPause()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            presenter.onBackButtonClick()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun showLoaderScreen() {
@@ -152,7 +161,8 @@ class StationDetailsActivity : AppCompatActivity(), StationViewTranslator {
             }
 
         }
-        radarImage.setImageUrl("http://www.meteogalicia.gal/datosred/radar/$year/$month/$day/PPI/$year$month${day}_$hour${minutes}_PPI.png")    }
+        radarImage.setImageUrl("http://www.meteogalicia.gal/datosred/radar/$year/$month/$day/PPI/$year$month${day}_$hour${minutes}_PPI.png")
+    }
 }
 
 enum class DialogResult {
