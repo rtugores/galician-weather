@@ -154,7 +154,7 @@
                 android:id="@+id/radarImage"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="24dp"
                 android:layout_marginEnd="24dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
@@ -163,7 +163,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/infoRainDailyTitle"
-                app:srcCompat="@drawable/gradient_light_grey" />
+                tools:srcCompat="@drawable/gradient_light_grey" />
 
             <ProgressBar
                 android:id="@+id/progressBar"
@@ -178,7 +178,7 @@
                 android:id="@+id/infoGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:constraint_referenced_ids="infoTemperatureTitle, infoTemperature,infoRainDailyTitle,infoRainDaily,infoRain,infoRainTitle,infoHumidityTitle, infoHumidity" />
+                app:constraint_referenced_ids="infoTemperatureTitle, infoTemperature,infoRainDailyTitle,infoRainDaily,infoRain,infoRainTitle,infoHumidityTitle,infoHumidity,radarImage" />
 
         </android.support.constraint.ConstraintLayout>
     </android.support.v4.widget.NestedScrollView>
