@@ -15,7 +15,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@tools:sample/avatars" />
+        tools:src="@sample/stationimages" />
 
     <TextView
         android:id="@+id/itemStationName"
@@ -26,6 +26,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/itemStationImage"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="@tools:sample/cities" />
+        tools:text="@sample/stations" />
 
 </android.support.constraint.ConstraintLayout>

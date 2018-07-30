@@ -23,6 +23,7 @@
         android:id="@+id/stationsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        tools:itemCount="11"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:listitem="@layout/item_station" />
