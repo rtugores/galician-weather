@@ -20,7 +20,7 @@ data class DataDailyWrapper(
                     null
                 } else {
                     DataDaily().apply {
-                        rainValue = if (it.value < 0) 0f else it.value
+                        rainValue = it.value
                         rainUnits = it.units
                     }
                 }

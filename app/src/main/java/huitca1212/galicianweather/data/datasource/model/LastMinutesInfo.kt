@@ -41,7 +41,7 @@ data class DataLastMinutesWrapper(
                     if (it.value == null || it.units == null) {
                         return null
                     } else {
-                        info.rainValue = if (it.value < 0) 0f else it.value
+                        info.rainValue = it.value
                         info.rainUnits = it.units
                     }
                 }

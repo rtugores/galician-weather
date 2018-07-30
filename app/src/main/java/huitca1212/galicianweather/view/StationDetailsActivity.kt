@@ -7,7 +7,6 @@ import android.support.annotation.StringRes
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
-import android.view.WindowManager
 import huitca1212.galicianweather.R
 import huitca1212.galicianweather.network.StationApi
 import huitca1212.galicianweather.view.util.gone
@@ -121,11 +120,11 @@ class StationDetailsActivity : AppCompatActivity(), StationViewTranslator {
     }
 
     override fun updateCurrentRain(value: Float, units: String) {
-        infoRain.text = getString(R.string.rain_last_minutes).format(value, units)
+        infoRain.text = if (value < 0) "-" else getString(R.string.rain_last_minutes).format(value, units)
     }
 
     override fun updateDailyRain(value: Float, units: String) {
-        infoRainDaily.text = getString(R.string.rain_daily).format(value, units)
+        infoRainDaily.text = if (value < 0) "-" else getString(R.string.rain_daily).format(value, units)
     }
 
     override fun updateRadarImage() {

@@ -177,7 +177,7 @@
                 android:id="@+id/infoGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:constraint_referenced_ids="infoTemperatureTitle, infoTemperature,infoRainDailyTitle,infoRainDaily,infoRain,infoRainTitle,infoHumidityTitle,infoHumidity,radarImage" />
+                app:constraint_referenced_ids="infoTemperatureTitle,infoTemperature,infoRainDailyTitle,infoRainDaily,infoRain,infoRainTitle,infoHumidityTitle,infoHumidity,radarImage" />
 
         </android.support.constraint.ConstraintLayout>
     </android.support.v4.widget.NestedScrollView>
