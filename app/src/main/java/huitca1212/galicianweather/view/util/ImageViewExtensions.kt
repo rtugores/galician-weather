@@ -16,7 +16,7 @@ fun ImageView.setImageUrl(url: String) {
 }
 
 fun ImageView.addRadarImage() {
-    val now = Date().time - 420000 // Minus 7 minutes
+    val now = Date().time - 12 * 60 * 1000 // Minus 12 minutes
     val zone = "GMT"
     val year = SimpleDateFormat("yyyy", Locale.getDefault()).run {
         timeZone = TimeZone.getTimeZone(zone)
@@ -37,13 +37,12 @@ fun ImageView.addRadarImage() {
     val minutes = SimpleDateFormat("mm", Locale.getDefault()).run {
         timeZone = TimeZone.getTimeZone(zone)
         when (format(now).toInt()) {
-            in 0..4 -> "55"
-            in 5..14 -> "05"
-            in 15..24 -> "15"
-            in 25..34 -> "25"
-            in 35..44 -> "35"
-            in 45..54 -> "45"
-            in 55..59 -> "55"
+            in 0..9 -> "05"
+            in 10..19 -> "15"
+            in 20..29 -> "25"
+            in 30..39 -> "35"
+            in 40..49 -> "45"
+            in 50..59 -> "55"
             else -> "0"
         }
     }
