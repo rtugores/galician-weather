@@ -6,13 +6,15 @@ import java.lang.ref.WeakReference
 /**
  * Base class for the presenter.
  */
-abstract class BasePresenter<out T>
+abstract class BasePresenter<T>
 /**
  * The base constructor with the view translator.
 
  * @param translatorView The view translator of the MVP.
  */
-    (private val translatorView: WeakReference<T>) : IBasePresenter {
+    (translatorView: T) : IBasePresenter {
+
+    private val translatorViewWeakReference  = WeakReference<T>(translatorView)
 
     /**
      * Provides the view.
@@ -20,7 +22,7 @@ abstract class BasePresenter<out T>
      * @return The current view.
      */
     val view: T?
-        get() = translatorView.get()
+        get() = translatorViewWeakReference.get()
 
     override fun onCreate() {}
 

@@ -13,7 +13,7 @@ import java.lang.ref.WeakReference
 class StationDetailsPresenter(
     view: StationViewTranslator,
     private val stationApi: StationApi
-) : BasePresenter<StationViewTranslator>(WeakReference(view)) {
+) : BasePresenter<StationViewTranslator>(view) {
 
     lateinit var station: Station
     private val coroutinesManager = CoroutinesManager()
