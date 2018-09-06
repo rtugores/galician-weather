@@ -1,9 +1,14 @@
 package huitca1212.galicianweather.view
 
-class HomePresenter(private val view: HomeViewTranslator) {
+import huitca1212.galicianweather.view.base.BasePresenter
+import java.lang.ref.WeakReference
+
+class HomePresenter(
+    view: HomeViewTranslator
+) : BasePresenter<HomeViewTranslator>(WeakReference(view)) {
 
     fun onStationClick(station: Station) {
-        view.openStationDetailsScreen(station)
+        view?.openStationDetailsScreen(station)
     }
 }
 

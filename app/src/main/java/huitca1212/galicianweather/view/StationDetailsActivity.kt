@@ -9,13 +9,14 @@ import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import huitca1212.galicianweather.R
 import huitca1212.galicianweather.network.StationApi
+import huitca1212.galicianweather.view.base.BaseActivity
 import huitca1212.galicianweather.view.util.*
 import kotlinx.android.synthetic.main.activity_station_datails.*
 import org.koin.android.ext.android.inject
 import kotlin.coroutines.experimental.Continuation
 import kotlin.coroutines.experimental.suspendCoroutine
 
-class StationDetailsActivity : AppCompatActivity(), StationViewTranslator {
+class StationDetailsActivity : BaseActivity<StationDetailsPresenter>(), StationViewTranslator {
 
     companion object {
         const val ARG_STATION = "arg_station"
@@ -29,7 +30,8 @@ class StationDetailsActivity : AppCompatActivity(), StationViewTranslator {
     }
 
     private val stationApi: StationApi by inject()
-    private val presenter: StationDetailsPresenter = StationDetailsPresenter(this, stationApi)
+    override val presenter = StationDetailsPresenter(this, stationApi)
+    override val layoutRes = R.layout.activity_station_datails
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +44,7 @@ class StationDetailsActivity : AppCompatActivity(), StationViewTranslator {
             setHomeAsUpIndicator(R.drawable.ic_back_arrow_white)
         }
 
-        presenter.onCreate(intent.extras)
+        presenter.station = intent.extras.getSerializable(StationDetailsActivity.ARG_STATION) as Station
     }
 
     override fun onResume() {

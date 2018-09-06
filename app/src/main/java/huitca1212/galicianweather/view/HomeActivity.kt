@@ -1,19 +1,19 @@
 package huitca1212.galicianweather.view
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import huitca1212.galicianweather.R
+import huitca1212.galicianweather.view.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_home.*
 
-class HomeActivity : AppCompatActivity(), HomeViewTranslator {
+class HomeActivity : BaseActivity<HomePresenter>(), HomeViewTranslator {
 
-    private val presenter: HomePresenter = HomePresenter(this)
+    override val presenter = HomePresenter(this)
+    override val layoutRes = R.layout.activity_home
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
 
         setSupportActionBar(homeToolbar)
 
@@ -31,7 +31,7 @@ class HomeActivity : AppCompatActivity(), HomeViewTranslator {
             Station("14001", "Vigo - Puerto", "http://85.91.64.19/vigo/readImage.asp?dummy=")
         )
 
-        stationsRecyclerView.apply {
+        stationsRecyclerView.run {
             setHasFixedSize(true)
             addItemDecoration(DividerItemDecoration(this@HomeActivity, LinearLayoutManager.VERTICAL))
             adapter = StationAdapter(context, stations, presenter::onStationClick)

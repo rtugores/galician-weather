@@ -1,38 +1,41 @@
 package huitca1212.galicianweather.view
 
-import android.os.Bundle
 import huitca1212.galicianweather.data.datasource.DailyInfoNetworkDataSource
 import huitca1212.galicianweather.data.datasource.LastMinutesInfoNetworkDataSource
 import huitca1212.galicianweather.data.datasource.model.DataDailyWrapper
 import huitca1212.galicianweather.data.datasource.model.DataLastMinutesWrapper
 import huitca1212.galicianweather.network.StationApi
 import huitca1212.galicianweather.usecase.*
+import huitca1212.galicianweather.view.base.BasePresenter
 import huitca1212.galicianweather.view.util.CoroutinesManager
+import java.lang.ref.WeakReference
 
-class StationDetailsPresenter(private val view: StationViewTranslator, private val stationApi: StationApi) {
+class StationDetailsPresenter(
+    view: StationViewTranslator,
+    private val stationApi: StationApi
+) : BasePresenter<StationViewTranslator>(WeakReference(view)) {
 
     lateinit var station: Station
     private val coroutinesManager = CoroutinesManager()
 
-    fun onCreate(extras: Bundle) {
-        station = extras.getSerializable(StationDetailsActivity.ARG_STATION) as Station
-        view.initScreenInfo(station.name, station.imageUrl)
+    override fun onReady() {
+        view?.initScreenInfo(station.name, station.imageUrl)
     }
 
-    fun onResume() {
+    override fun onResume() {
         retrieveStationData()
     }
 
-    fun onPause() {
+    override fun onPause() {
         coroutinesManager.cancelAll()
     }
 
     fun onBackButtonClick() {
-        view.finish()
+        view?.finish()
     }
 
     private fun retrieveStationData() {
-        view.showLoaderScreen()
+        view?.showLoaderScreen()
         coroutinesManager.launchAsync {
             val lastMinutesInfoJob = LastMinutesInfoUseCase(LastMinutesInfoNetworkDataSource(stationApi))
                 .execute(station.code)
@@ -53,15 +56,15 @@ class StationDetailsPresenter(private val view: StationViewTranslator, private v
             lastMinutesInfo is Success && dailyInfo is Success -> {
                 processLastMinutesInfo(lastMinutesInfo.response)
                 processDailyInfo(dailyInfo.response)
-                view.updateRadarImage()
-                view.showDataScreen()
+                view?.updateRadarImage()
+                view?.showDataScreen()
             }
             lastMinutesInfo is NoInternetError || dailyInfo is NoInternetError ->
-                if (view.showNoInternetDialog() == DialogResult.RETRY) {
+                if (view?.showNoInternetDialog() == DialogResult.RETRY) {
                     retrieveStationData()
                 }
             else ->
-                if (view.showErrorDialog() == DialogResult.RETRY) {
+                if (view?.showErrorDialog() == DialogResult.RETRY) {
                     retrieveStationData()
                 }
         }
@@ -69,16 +72,16 @@ class StationDetailsPresenter(private val view: StationViewTranslator, private v
 
     private suspend fun processLastMinutesInfo(lastMinutesInfo: DataLastMinutesWrapper) {
         lastMinutesInfo.getDataLastMinutes()?.let {
-            view.updateTemperature(it.temperatureValue, it.temperatureUnits)
-            view.updateHumidity(it.humidityValue, it.humidityUnits)
-            view.updateCurrentRain(it.rainValue, it.rainUnits)
-        } ?: view.showErrorDialog()
+            view?.updateTemperature(it.temperatureValue, it.temperatureUnits)
+            view?.updateHumidity(it.humidityValue, it.humidityUnits)
+            view?.updateCurrentRain(it.rainValue, it.rainUnits)
+        } ?: view?.showErrorDialog()
     }
 
     private suspend fun processDailyInfo(dailyInfo: DataDailyWrapper) {
         dailyInfo.getDataDaily()?.let {
-            view.updateDailyRain(it.rainValue, it.rainUnits)
-        } ?: view.showErrorDialog()
+            view?.updateDailyRain(it.rainValue, it.rainUnits)
+        } ?: view?.showErrorDialog()
     }
 }
 
