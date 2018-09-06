@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.StringRes
 import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import huitca1212.galicianweather.R
 import huitca1212.galicianweather.network.StationApi
@@ -30,7 +29,9 @@ class StationDetailsActivity : BaseActivity<StationDetailsPresenter>(), StationV
     }
 
     private val stationApi: StationApi by inject()
+
     override val presenter = StationDetailsPresenter(this, stationApi)
+
     override val layoutRes = R.layout.activity_station_datails
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,16 +46,6 @@ class StationDetailsActivity : BaseActivity<StationDetailsPresenter>(), StationV
         }
 
         presenter.station = intent.extras.getSerializable(StationDetailsActivity.ARG_STATION) as Station
-    }
-
-    override fun onResume() {
-        super.onResume()
-        presenter.onResume()
-    }
-
-    override fun onPause() {
-        presenter.onPause()
-        super.onPause()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -125,7 +116,7 @@ class StationDetailsActivity : BaseActivity<StationDetailsPresenter>(), StationV
     }
 
     override fun updateRadarImage() {
-        radarImage.addRadarImage()
+        radarImage.initRadarImage()
     }
 }
 

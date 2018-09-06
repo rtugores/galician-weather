@@ -15,27 +15,23 @@ fun ImageView.setImageUrl(url: String) {
     }
 }
 
-fun ImageView.addRadarImage() {
+fun ImageView.initRadarImage() {
+
     val now = Date().time - 12 * 60 * 1000 // Minus 12 minutes
-    val zone = "GMT"
-    val year = SimpleDateFormat("yyyy", Locale.getDefault()).run {
-        timeZone = TimeZone.getTimeZone(zone)
+    val zone = TimeZone.getTimeZone("GMT")
+    val locale = Locale.getDefault()
+
+    fun customDateFormatter(pattern: String) = SimpleDateFormat(pattern, locale).run {
+        timeZone = zone
         format(now)
     }
-    val month = SimpleDateFormat("MM", Locale.getDefault()).run {
-        timeZone = TimeZone.getTimeZone(zone)
-        format(now)
-    }
-    val day = SimpleDateFormat("dd", Locale.getDefault()).run {
-        timeZone = TimeZone.getTimeZone(zone)
-        format(now)
-    }
-    val hour = SimpleDateFormat("HH", Locale.getDefault()).run {
-        timeZone = TimeZone.getTimeZone(zone)
-        format(now)
-    }
-    val minutes = SimpleDateFormat("mm", Locale.getDefault()).run {
-        timeZone = TimeZone.getTimeZone(zone)
+
+    val year = customDateFormatter("yyyy")
+    val month = customDateFormatter("MM")
+    val day = customDateFormatter("dd")
+    val hour = customDateFormatter("HH")
+    val minutes = SimpleDateFormat("mm", locale).run {
+        timeZone = zone
         when (format(now).toInt()) {
             in 0..9 -> "05"
             in 10..19 -> "15"
