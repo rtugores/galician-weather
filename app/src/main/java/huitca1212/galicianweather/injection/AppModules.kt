@@ -23,6 +23,7 @@ inline fun <reified T> Activity.injectActivity(): Lazy<T> =
 object AppModules {
 
     const val ACTIVITY_PARAM = "activity"
+    private const val timeout = 30L
 
     val homeModule = applicationContext {
         factory { HomePresenter(it[ACTIVITY_PARAM]) }
@@ -55,7 +56,7 @@ object AppModules {
     private fun okHttpClient() =
         OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor { message -> Log.d("Interceptor", message) }.apply { level = HttpLoggingInterceptor.Level.BODY })
-            .connectTimeout(30, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
+            .connectTimeout(timeout, TimeUnit.SECONDS)
+            .readTimeout(timeout, TimeUnit.SECONDS)
             .build()
 }
