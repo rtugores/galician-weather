@@ -1,8 +1,8 @@
 package huitca1212.galicianweather.data.repository
 
 import huitca1212.galicianweather.data.datasource.LastMinutesInfoNetworkDataSource
-import huitca1212.galicianweather.usecase.DataPolicy
-import huitca1212.galicianweather.usecase.Error
+import huitca1212.galicianweather.domain.DataPolicy
+import huitca1212.galicianweather.domain.Error
 
 class LastMinutesInfoRepository(private val dataSource: LastMinutesInfoNetworkDataSource) {
 

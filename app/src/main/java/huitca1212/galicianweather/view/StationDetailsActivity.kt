@@ -7,6 +7,7 @@ import android.support.annotation.StringRes
 import android.support.v7.app.AlertDialog
 import android.view.MenuItem
 import huitca1212.galicianweather.R
+import huitca1212.galicianweather.injection.injectActivity
 import huitca1212.galicianweather.network.StationApi
 import huitca1212.galicianweather.view.base.BaseActivity
 import huitca1212.galicianweather.view.util.*
@@ -28,10 +29,7 @@ class StationDetailsActivity : BaseActivity<StationDetailsPresenter>(), StationV
         }
     }
 
-    private val stationApi: StationApi by inject()
-
-    override val presenter = StationDetailsPresenter(this, stationApi)
-
+    override val presenter: StationDetailsPresenter by injectActivity()
     override val layoutRes = R.layout.activity_station_datails
 
     override fun onCreate(savedInstanceState: Bundle?) {

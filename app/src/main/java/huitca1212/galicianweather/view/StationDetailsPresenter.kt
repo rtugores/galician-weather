@@ -1,18 +1,15 @@
 package huitca1212.galicianweather.view
 
-import huitca1212.galicianweather.data.datasource.DailyInfoNetworkDataSource
-import huitca1212.galicianweather.data.datasource.LastMinutesInfoNetworkDataSource
 import huitca1212.galicianweather.data.datasource.model.DataDailyWrapper
 import huitca1212.galicianweather.data.datasource.model.DataLastMinutesWrapper
-import huitca1212.galicianweather.network.StationApi
-import huitca1212.galicianweather.usecase.*
+import huitca1212.galicianweather.domain.*
 import huitca1212.galicianweather.view.base.BasePresenter
 import huitca1212.galicianweather.view.util.CoroutinesManager
-import java.lang.ref.WeakReference
 
 class StationDetailsPresenter(
     view: StationViewTranslator,
-    private val stationApi: StationApi
+    private val lastMinutesInfoUseCase: LastMinutesInfoUseCase,
+    private val dailyInfoNetworkDataSource: DailyInfoUseCase
 ) : BasePresenter<StationViewTranslator>(view) {
 
     lateinit var station: Station
@@ -37,10 +34,10 @@ class StationDetailsPresenter(
     private fun retrieveStationData() {
         view?.showLoaderScreen()
         coroutinesManager.launchAsync {
-            val lastMinutesInfoJob = LastMinutesInfoUseCase(LastMinutesInfoNetworkDataSource(stationApi))
+            val lastMinutesInfoJob = lastMinutesInfoUseCase
                 .execute(station.code)
                 .also { coroutinesManager.add(it) }
-            val dailyInfoJob = DailyInfoUseCase(DailyInfoNetworkDataSource(stationApi))
+            val dailyInfoJob = dailyInfoNetworkDataSource
                 .execute(station.code)
                 .also { coroutinesManager.add(it) }
 

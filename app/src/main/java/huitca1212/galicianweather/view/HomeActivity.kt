@@ -4,12 +4,13 @@ import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import huitca1212.galicianweather.R
+import huitca1212.galicianweather.injection.injectActivity
 import huitca1212.galicianweather.view.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : BaseActivity<HomePresenter>(), HomeViewTranslator {
 
-    override val presenter = HomePresenter(this)
+    override val presenter: HomePresenter by injectActivity()
     override val layoutRes = R.layout.activity_home
 
     override fun onCreate(savedInstanceState: Bundle?) {

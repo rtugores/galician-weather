@@ -1,4 +1,4 @@
-package huitca1212.galicianweather.usecase
+package huitca1212.galicianweather.domain
 
 import huitca1212.galicianweather.data.datasource.DailyInfoNetworkDataSource
 import huitca1212.galicianweather.data.datasource.model.DataDailyWrapper

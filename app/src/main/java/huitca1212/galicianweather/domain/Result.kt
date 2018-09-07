@@ -1,4 +1,4 @@
-package huitca1212.galicianweather.usecase
+package huitca1212.galicianweather.domain
 
 
 @Suppress("unused")

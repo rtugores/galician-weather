@@ -1,4 +1,4 @@
-package huitca1212.galicianweather.usecase
+package huitca1212.galicianweather.domain
 
 import kotlinx.coroutines.experimental.async
 import kotlin.coroutines.experimental.CoroutineContext

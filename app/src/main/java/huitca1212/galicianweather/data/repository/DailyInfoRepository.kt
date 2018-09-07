@@ -1,8 +1,8 @@
 package huitca1212.galicianweather.data.repository
 
 import huitca1212.galicianweather.data.datasource.DailyInfoNetworkDataSource
-import huitca1212.galicianweather.usecase.DataPolicy
-import huitca1212.galicianweather.usecase.Error
+import huitca1212.galicianweather.domain.DataPolicy
+import huitca1212.galicianweather.domain.Error
 
 class DailyInfoRepository(private val dataSource: DailyInfoNetworkDataSource) {
 

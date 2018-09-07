@@ -2,10 +2,10 @@ package huitca1212.galicianweather.data.datasource
 
 import huitca1212.galicianweather.data.datasource.model.DataLastMinutesWrapper
 import huitca1212.galicianweather.network.StationApi
-import huitca1212.galicianweather.usecase.Error
-import huitca1212.galicianweather.usecase.NoInternetError
-import huitca1212.galicianweather.usecase.Result
-import huitca1212.galicianweather.usecase.Success
+import huitca1212.galicianweather.domain.Error
+import huitca1212.galicianweather.domain.NoInternetError
+import huitca1212.galicianweather.domain.Result
+import huitca1212.galicianweather.domain.Success
 import java.io.IOException
 
 class LastMinutesInfoNetworkDataSource(private val stationApi: StationApi) {
