@@ -5,11 +5,11 @@ import huitca1212.galicianweather.data.datasource.LastMinutesInfoNetworkDataSour
 
 
 data class DataLastMinutes(
-    var temperatureValue: Float = -1f,
+    var temperatureValue: String = "-",
     var temperatureUnits: String = "",
-    var humidityValue: Float = -1f,
+    var humidityValue: String = "-",
     var humidityUnits: String = "",
-    var rainValue: Float = -1f,
+    var rainValue: String = "-",
     var rainUnits: String = ""
 )
 
@@ -17,31 +17,25 @@ data class DataLastMinutesWrapper(
     @SerializedName("listUltimos10min") val list: List<DataStationLastMinutes>
 ) {
 
-    fun getDataLastMinutes(): DataLastMinutes? {
+    fun getDataLastMinutes(): DataLastMinutes {
         val info = DataLastMinutes()
         list.firstOrNull()?.measureLastMinutes?.forEach {
             when (it.parameterCode) {
-                LastMinutesInfoNetworkDataSource.TEMPERATURE_PARAM -> {
-                    if (it.value == null || it.units == null) {
-                        return null
-                    } else {
-                        info.temperatureValue = it.value
+                LastMinutesInfoNetworkDataSource.TEMPERATURE_PARAM, LastMinutesInfoNetworkDataSource.TEMPERATURE_PARAM_WRONG -> {
+                    if (it.value != null && it.units != null) {
+                        info.temperatureValue = String.format("%.1f", it.value)
                         info.temperatureUnits = it.units
                     }
                 }
-                LastMinutesInfoNetworkDataSource.HUMIDITY_PARAM -> {
-                    if (it.value == null || it.units == null) {
-                        return null
-                    } else {
-                        info.humidityValue = it.value
+                LastMinutesInfoNetworkDataSource.HUMIDITY_PARAM, LastMinutesInfoNetworkDataSource.HUMIDITY_PARAM_WRONG -> {
+                    if (it.value != null && it.units != null) {
+                        info.humidityValue = String.format("%.0f", it.value)
                         info.humidityUnits = it.units
                     }
                 }
                 LastMinutesInfoNetworkDataSource.RAIN_PARAM -> {
-                    if (it.value == null || it.units == null) {
-                        return null
-                    } else {
-                        info.rainValue = it.value
+                    if (it.value != null && it.units != null) {
+                        info.rainValue = String.format("%.1f", it.value)
                         info.rainUnits = it.units
                     }
                 }

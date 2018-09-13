@@ -8,13 +8,9 @@ import android.support.v7.app.AlertDialog
 import android.view.MenuItem
 import huitca1212.galicianweather.R
 import huitca1212.galicianweather.injection.injectActivity
-import huitca1212.galicianweather.network.StationApi
 import huitca1212.galicianweather.view.base.BaseActivity
 import huitca1212.galicianweather.view.util.*
 import kotlinx.android.synthetic.main.activity_station_datails.*
-import org.koin.android.ext.android.inject
-import kotlin.coroutines.experimental.Continuation
-import kotlin.coroutines.experimental.suspendCoroutine
 
 class StationDetailsActivity : BaseActivity<StationDetailsPresenter>(), StationViewTranslator {
 
@@ -58,33 +54,33 @@ class StationDetailsActivity : BaseActivity<StationDetailsPresenter>(), StationV
         progressBar.visible()
     }
 
-    override suspend fun showErrorDialog(): DialogResult {
+    override fun showErrorDialog() {
         infoGroup.invisible()
         progressBar.gone()
-        return showRetryDialog(R.string.request_failure_error)
+        showRetryDialog(R.string.request_failure_error) {
+            presenter.onRetryButtonClick()
+        }
     }
 
-    override suspend fun showNoInternetDialog(): DialogResult {
+    override fun showNoInternetDialog() {
         infoGroup.invisible()
         progressBar.gone()
-        return showRetryDialog(R.string.request_no_internet_error)
+        showRetryDialog(R.string.request_no_internet_error) {
+            presenter.onRetryButtonClick()
+        }
     }
 
-    private suspend fun showRetryDialog(@StringRes messageId: Int): DialogResult {
-        lateinit var result: Continuation<DialogResult>
+    private fun showRetryDialog(@StringRes messageId: Int, onRetry: () -> Unit) {
         AlertDialog.Builder(this)
             .setMessage(getString(messageId))
             .setPositiveButton(getString(R.string.dialog_retry)) { dialog, _ ->
                 dialog.dismiss()
-                result.resume(DialogResult.RETRY)
+                onRetry()
             }.setNegativeButton(getString(R.string.dialog_cancel)) { dialog, _ ->
                 dialog.dismiss()
-                result.resume(DialogResult.CANCEL)
             }
             .create()
             .show()
-
-        return suspendCoroutine { result = it }
     }
 
     override fun showDataScreen() {
@@ -97,27 +93,23 @@ class StationDetailsActivity : BaseActivity<StationDetailsPresenter>(), StationV
         stationDetailsImage.setImageUrl("$imageUrl${System.currentTimeMillis()}")
     }
 
-    override fun updateTemperature(value: Float, units: String) {
+    override fun updateTemperature(value: String, units: String) {
         infoTemperature.text = getString(R.string.temperature_last_minutes).format(value, units)
     }
 
-    override fun updateHumidity(value: Float, units: String) {
+    override fun updateHumidity(value: String, units: String) {
         infoHumidity.text = getString(R.string.humidity_last_minutes).format(value, units)
     }
 
-    override fun updateCurrentRain(value: Float, units: String) {
-        infoRain.text = if (value < 0) "-" else getString(R.string.rain_last_minutes).format(value, units)
+    override fun updateCurrentRain(value: String, units: String) {
+        infoRain.text = getString(R.string.rain_last_minutes).format(value, units)
     }
 
-    override fun updateDailyRain(value: Float, units: String) {
-        infoRainDaily.text = if (value < 0) "-" else getString(R.string.rain_daily).format(value, units)
+    override fun updateDailyRain(value: String, units: String) {
+        infoRainDaily.text = getString(R.string.rain_daily).format(value, units)
     }
 
     override fun updateRadarImage() {
         radarImage.initRadarImage()
     }
-}
-
-enum class DialogResult {
-    RETRY, CANCEL
 }

@@ -8,7 +8,8 @@ class LastMinutesInfoRepository(private val dataSource: LastMinutesInfoNetworkDa
 
     fun getLastMinutesInfo(policy: DataPolicy, stationId: String) =
         when (policy) {
-            DataPolicy.LOCAL -> Error()
-            DataPolicy.NETWORK -> dataSource.getLastMinutesInfo(stationId)
+            DataPolicy.Local -> Error()
+            DataPolicy.Network -> dataSource.getLastMinutesInfo(stationId)
+            DataPolicy.LocalAndNetwork -> dataSource.getLastMinutesInfo(stationId)
         }
 }

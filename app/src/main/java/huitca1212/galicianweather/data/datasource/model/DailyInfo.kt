@@ -5,7 +5,7 @@ import huitca1212.galicianweather.data.datasource.DailyInfoNetworkDataSource
 
 
 data class DataDaily(
-    var rainValue: Float = 0f,
+    var rainValue: String = "-",
     var rainUnits: String = ""
 )
 
@@ -13,20 +13,17 @@ data class DataDailyWrapper(
     @SerializedName("listDatosDiarios") val list: List<DataStationDaily>?
 ) {
 
-    fun getDataDaily(): DataDaily? {
+    fun getDataDaily(): DataDaily {
+        val info = DataDaily()
         list?.firstOrNull()?.stations?.firstOrNull()?.measuresDaily?.forEach {
             if (it.parameterCode == DailyInfoNetworkDataSource.RAIN_PARAM) {
-                return if (it.value == null || it.units == null) {
-                    null
-                } else {
-                    DataDaily().apply {
-                        rainValue = it.value
-                        rainUnits = it.units
-                    }
+                if (it.value != null && it.units != null) {
+                    info.rainValue = String.format("%.1f", it.value)
+                    info.rainUnits = it.units
                 }
             }
         }
-        return null
+        return info
     }
 }
 

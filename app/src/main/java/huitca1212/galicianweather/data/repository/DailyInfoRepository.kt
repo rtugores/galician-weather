@@ -8,7 +8,8 @@ class DailyInfoRepository(private val dataSource: DailyInfoNetworkDataSource) {
 
     fun getDailyInfo(policy: DataPolicy, stationId: String) =
         when (policy) {
-            DataPolicy.LOCAL -> Error()
-            DataPolicy.NETWORK -> dataSource.getDailyInfo(stationId)
+            DataPolicy.Local -> Error()
+            DataPolicy.Network -> dataSource.getDailyInfo(stationId)
+            DataPolicy.LocalAndNetwork -> dataSource.getDailyInfo(stationId)
         }
 }
