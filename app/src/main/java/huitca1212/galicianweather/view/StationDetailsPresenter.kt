@@ -36,7 +36,8 @@ class StationDetailsPresenter(
 
     private fun retrieveStationData() {
         view?.showLoaderScreen()
-        invoker.executeParallel(listOf(lastMinutesInfoUseCase, dailyInfoNetworkDataSource), station.code, DataPolicy.Network, {
+        val useCases = mapOf(lastMinutesInfoUseCase to station.code, dailyInfoNetworkDataSource to station.code)
+        invoker.executeParallel(useCases, DataPolicy.Network, {
             if (it is Success) {
                 when (it.response) {
                     is DataLastMinutesWrapper -> processLastMinutesInfo(it.response)

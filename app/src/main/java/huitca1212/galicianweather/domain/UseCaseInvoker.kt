@@ -32,9 +32,8 @@ class UseCaseInvoker(private val contextProvider: CoroutineContextProvider = Cor
         }
     }
 
-    fun <P> executeParallel(
-        useCases: List<UseCase<P, out Any>>,
-        params: P,
+    fun executeParallel(
+        useCases: Map<UseCase<String, out Any>, String>,
         policy: DataPolicy,
         onResult: ((Result<out Any>) -> Unit)?,
         onFinish: ((Result<out Any>) -> Unit)?
@@ -42,14 +41,15 @@ class UseCaseInvoker(private val contextProvider: CoroutineContextProvider = Cor
         launchAsync {
             try {
                 val results = mutableListOf<Deferred<Result<out Any>>>()
-                useCases.forEach {
+                useCases.forEach{ (useCase, params) ->
                     when (policy) {
-                        DataPolicy.Local, DataPolicy.Network -> results.add(async { it.run(policy, params) })
+                        DataPolicy.Local, DataPolicy.Network -> results.add(async { useCase.run(policy, params) })
                         DataPolicy.LocalAndNetwork -> {
-                            results.add(async { it.run(DataPolicy.Local, params) })
-                            results.add(async { it.run(DataPolicy.Network, params) })
+                            results.add(async { useCase.run(DataPolicy.Local, params) })
+                            results.add(async { useCase.run(DataPolicy.Network, params) })
                         }
                     }
+
                 }
                 val resultsToNotify = mutableListOf<Result<out Any>>()
                 results.forEach {
