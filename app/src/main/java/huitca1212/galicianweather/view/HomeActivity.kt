@@ -11,10 +11,10 @@ import kotlinx.android.synthetic.main.activity_home.*
 class HomeActivity : BaseActivity<HomePresenter>(), HomeViewTranslator {
 
     override val presenter: HomePresenter by injectActivity()
-    override val layoutRes = R.layout.activity_home
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_home)
 
         setSupportActionBar(homeToolbar)
 

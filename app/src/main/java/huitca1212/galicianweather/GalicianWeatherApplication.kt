@@ -9,8 +9,8 @@ class GalicianWeatherApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         startKoin(
-            this
-            , listOf(
+            this,
+            listOf(
                 AppModules.networkModule,
                 AppModules.homeModule,
                 AppModules.stationDetailsModule

@@ -12,35 +12,36 @@ import huitca1212.galicianweather.view.StationDetailsPresenter
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.android.inject
+import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module.applicationContext
+import org.koin.dsl.module.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-inline fun <reified T> Activity.injectActivity(): Lazy<T> =
-    inject(parameters = { mapOf(AppModules.ACTIVITY_PARAM to this) })
+inline fun <reified T : Any> Activity.injectActivity(): Lazy<T> =
+    inject { parametersOf(this) }
 
 object AppModules {
 
-    const val ACTIVITY_PARAM = "activity"
     private const val timeout = 30L
 
-    val homeModule = applicationContext {
-        factory { HomePresenter(it[ACTIVITY_PARAM]) }
+    val homeModule = module {
+        factory { HomePresenter(it[0]) }
     }
 
-    val stationDetailsModule = applicationContext {
+    val stationDetailsModule = module {
         factory { LastMinutesInfoNetworkDataSource(get()) }
         factory { DailyInfoNetworkDataSource(get()) }
         factory { LastMinutesInfoUseCase(get()) }
         factory { DailyInfoUseCase(get()) }
-        factory { StationDetailsPresenter(it[ACTIVITY_PARAM], get(), get()) }
+        factory { StationDetailsPresenter(it[0], get(), get()) }
     }
 
-    val networkModule = applicationContext {
-        bean { stationApi(get()) }
-        bean { retrofit(get()) }
-        bean { okHttpClient() }
+    val networkModule = module {
+        single { stationApi(get()) }
+        single { retrofit(get()) }
+        single { okHttpClient() }
     }
 
     private fun stationApi(retrofit: Retrofit): StationApi =

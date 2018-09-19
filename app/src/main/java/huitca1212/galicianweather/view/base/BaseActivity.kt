@@ -15,14 +15,8 @@ abstract class BaseActivity<out T : IBasePresenter> : AppCompatActivity() {
      */
     protected abstract val presenter: T
 
-    /**
-     * The current layout.
-     */
-    protected abstract val layoutRes: Int
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(layoutRes)
         presenter.onCreate()
     }
 

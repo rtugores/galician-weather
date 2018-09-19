@@ -26,7 +26,6 @@ class StationDetailsActivity : BaseActivity<StationDetailsPresenter>(), StationV
     }
 
     override val presenter: StationDetailsPresenter by injectActivity()
-    override val layoutRes = R.layout.activity_station_datails
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
