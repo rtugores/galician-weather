@@ -1,46 +1,27 @@
 package huitca1212.galicianweather.view.base
 
-import test.kotlin.clean.ficiverson.presentation.IBasePresenter
-import java.lang.ref.WeakReference
-
 /**
  * Base class for the presenter.
  */
-abstract class BasePresenter<T>
-/**
- * The base constructor with the view translator.
+abstract class BasePresenter {
 
- * @param translatorView The view translator of the MVP.
- */
-    (translatorView: T) : IBasePresenter {
+    open fun onCreate() {}
 
-    private val translatorViewWeakReference  = WeakReference<T>(translatorView)
+    open fun onReady() {}
 
-    /**
-     * Provides the view.
+    open fun onStart() {}
 
-     * @return The current view.
-     */
-    val view: T?
-        get() = translatorViewWeakReference.get()
+    open fun onResume() {}
 
-    override fun onCreate() {}
+    open fun onPause() {}
 
-    override fun onReady() {}
+    open fun onStop() {}
 
-    override fun onStart() {}
+    open fun onDestroy() {}
 
-    override fun onResume() {}
+    open fun onRestoreInstanceState() {}
 
-    override fun onPause() {}
+    open fun onSaveInstanceState() {}
 
-    override fun onStop() {}
-
-    override fun onDestroy() {}
-
-    override fun onRestoreInstanceState() {}
-
-    override fun onSaveInstanceState() {}
-
-    override fun onActivityResult() {}
+    open fun onActivityResult() {}
 }

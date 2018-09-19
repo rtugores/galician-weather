@@ -6,16 +6,16 @@ import huitca1212.galicianweather.domain.*
 import huitca1212.galicianweather.view.base.BasePresenter
 
 class StationDetailsPresenter(
-    view: StationViewTranslator,
+    private val view: StationViewTranslator,
     private val lastMinutesInfoUseCase: LastMinutesInfoUseCase,
     private val dailyInfoNetworkDataSource: DailyInfoUseCase
-) : BasePresenter<StationViewTranslator>(view) {
+) : BasePresenter() {
 
     lateinit var station: Station
     private val invoker = UseCaseInvoker()
 
     override fun onReady() {
-        view?.initScreenInfo(station.name, station.imageUrl)
+        view.initScreenInfo(station.name, station.imageUrl)
     }
 
     override fun onResume() {
@@ -27,7 +27,7 @@ class StationDetailsPresenter(
     }
 
     fun onBackButtonClick() {
-        view?.finish()
+        view.finish()
     }
 
     fun onRetryButtonClick() {
@@ -35,7 +35,7 @@ class StationDetailsPresenter(
     }
 
     private fun retrieveStationData() {
-        view?.showLoaderScreen()
+        view.showLoaderScreen()
         val useCases = listOf(
             UseCaseExecutor(lastMinutesInfoUseCase, station.code, DataPolicy.Network),
             UseCaseExecutor(dailyInfoNetworkDataSource, station.code, DataPolicy.Network)
@@ -50,26 +50,26 @@ class StationDetailsPresenter(
         }, {
             when (it) {
                 is Success -> {
-                    view?.updateRadarImage()
-                    view?.showDataScreen()
+                    view.updateRadarImage()
+                    view.showDataScreen()
                 }
-                is NoInternetError -> view?.showNoInternetDialog()
-                is Error -> view?.showErrorDialog()
+                is NoInternetError -> view.showNoInternetDialog()
+                is Error -> view.showErrorDialog()
             }
         })
     }
 
     private fun processLastMinutesInfo(lastMinutesInfo: DataLastMinutesWrapper) {
         lastMinutesInfo.getDataLastMinutes().let {
-            view?.updateTemperature(it.temperatureValue, it.temperatureUnits)
-            view?.updateHumidity(it.humidityValue, it.humidityUnits)
-            view?.updateCurrentRain(it.rainValue, it.rainUnits)
+            view.updateTemperature(it.temperatureValue, it.temperatureUnits)
+            view.updateHumidity(it.humidityValue, it.humidityUnits)
+            view.updateCurrentRain(it.rainValue, it.rainUnits)
         }
     }
 
     private fun processDailyInfo(dailyInfo: DataDailyWrapper) {
         dailyInfo.getDataDaily().let {
-            view?.updateDailyRain(it.rainValue, it.rainUnits)
+            view.updateDailyRain(it.rainValue, it.rainUnits)
         }
     }
 }
