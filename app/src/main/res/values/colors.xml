@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">@color/darkBlue</color>
     <color name="colorAccent">@color/pink</color>
 
+    <color name="ic_launcher_background">#CCEEFF</color>
+
     <color name="transparent">#00000000</color>
     <color name="white">#FFFFFF</color>
     <color name="darkGrey">#404040</color>
@@ -12,4 +14,5 @@
     <color name="darkBlue">#303F9F</color>
     <color name="red">#FF0000</color>
     <color name="pink">#FF4081</color>
+
 </resources>
