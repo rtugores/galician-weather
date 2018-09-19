@@ -4,6 +4,7 @@ import huitca1212.galicianweather.data.datasource.model.DataDailyWrapper
 import huitca1212.galicianweather.data.datasource.model.DataLastMinutesWrapper
 import huitca1212.galicianweather.domain.*
 import huitca1212.galicianweather.view.base.BasePresenter
+import kotlinx.coroutines.experimental.JobCancellationException
 
 class StationDetailsPresenter(
     private val view: StationViewTranslator,
@@ -54,7 +55,7 @@ class StationDetailsPresenter(
                     view.showDataScreen()
                 }
                 is NoInternetError -> view.showNoInternetDialog()
-                is Error -> view.showErrorDialog()
+                is Error -> if (it.exception !is JobCancellationException) view.showErrorDialog()
             }
         })
     }
