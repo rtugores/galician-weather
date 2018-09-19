@@ -21,7 +21,7 @@ abstract class BaseActivity<out T : BasePresenter> : AppCompatActivity() {
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        presenter.onReady()
+        presenter.onPostCreate()
     }
 
     override fun onStart() {

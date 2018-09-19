@@ -7,7 +7,7 @@ abstract class BasePresenter {
 
     open fun onCreate() {}
 
-    open fun onReady() {}
+    open fun onPostCreate() {}
 
     open fun onStart() {}
 

@@ -14,7 +14,7 @@ class StationDetailsPresenter(
     lateinit var station: Station
     private val invoker = UseCaseInvoker()
 
-    override fun onReady() {
+    override fun onPostCreate() {
         view.initScreenInfo(station.name, station.imageUrl)
     }
 
@@ -60,16 +60,16 @@ class StationDetailsPresenter(
     }
 
     private fun processLastMinutesInfo(lastMinutesInfo: DataLastMinutesWrapper) {
-        lastMinutesInfo.getDataLastMinutes().let {
-            view.updateTemperature(it.temperatureValue, it.temperatureUnits)
-            view.updateHumidity(it.humidityValue, it.humidityUnits)
-            view.updateCurrentRain(it.rainValue, it.rainUnits)
+        lastMinutesInfo.getDataLastMinutes().run {
+            view.updateTemperature(temperatureValue, temperatureUnits)
+            view.updateHumidity(humidityValue, humidityUnits)
+            view.updateCurrentRain(rainValue, rainUnits)
         }
     }
 
     private fun processDailyInfo(dailyInfo: DataDailyWrapper) {
-        dailyInfo.getDataDaily().let {
-            view.updateDailyRain(it.rainValue, it.rainUnits)
+        dailyInfo.getDataDaily().run {
+            view.updateDailyRain(rainValue, rainUnits)
         }
     }
 }
