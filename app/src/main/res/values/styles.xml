@@ -11,22 +11,22 @@
 
     <style name="TextDarkGrey12">
         <item name="android:textSize">@dimen/standard12sp</item>
-        <item name="android:textColor">@color/dark_grey</item>
+        <item name="android:textColor">@color/darkGrey</item>
     </style>
 
     <style name="TextDarkGrey14">
         <item name="android:textSize">@dimen/standard14sp</item>
-        <item name="android:textColor">@color/dark_grey</item>
+        <item name="android:textColor">@color/darkGrey</item>
     </style>
 
     <style name="TextDarkGrey16">
         <item name="android:textSize">@dimen/standard16sp</item>
-        <item name="android:textColor">@color/dark_grey</item>
+        <item name="android:textColor">@color/darkGrey</item>
     </style>
 
     <style name="TextDarkGrey20">
         <item name="android:textSize">@dimen/standard20sp</item>
-        <item name="android:textColor">@color/dark_grey</item>
+        <item name="android:textColor">@color/darkGrey</item>
     </style>
 
 </resources>

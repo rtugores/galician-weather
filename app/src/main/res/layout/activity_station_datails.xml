@@ -27,7 +27,7 @@
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax"
-                tools:src="@color/dark_grey" />
+                tools:src="@color/darkGrey" />
 
             <View
                 android:layout_width="match_parent"
