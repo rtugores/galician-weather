@@ -8,6 +8,7 @@ data class Success<T>(val data: T, val status: DataStatus) : Result<T>(status)
 data class NoInternetError(val error: Exception = Exception(), val message: String? = null) : Result<Nothing>()
 data class UnknownError(val error: Exception = Exception(), val message: String? = null) : Result<Nothing>()
 data class NoData(val error: Exception = Exception()) : Result<Nothing>()
+object Finish : Result<Nothing>()
 
 enum class DataStatus {
     LOCAL, REMOTE, ERROR

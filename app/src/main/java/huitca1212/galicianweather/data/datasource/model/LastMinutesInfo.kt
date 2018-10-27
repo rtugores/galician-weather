@@ -22,19 +22,19 @@ data class DataLastMinutesWrapper(
         list.firstOrNull()?.measureLastMinutes?.forEach {
             when (it.parameterCode) {
                 LastMinutesInfoNetworkDataSource.TEMPERATURE_PARAM, LastMinutesInfoNetworkDataSource.TEMPERATURE_PARAM_WRONG -> {
-                    if (it.value != null && it.units != null) {
+                    if (it.value != null && it.value >= 0 && it.units != null) {
                         info.temperatureValue = String.format("%.1f", it.value)
                         info.temperatureUnits = it.units
                     }
                 }
                 LastMinutesInfoNetworkDataSource.HUMIDITY_PARAM, LastMinutesInfoNetworkDataSource.HUMIDITY_PARAM_WRONG -> {
-                    if (it.value != null && it.units != null) {
+                    if (it.value != null && it.value >= 0 && it.units != null) {
                         info.humidityValue = String.format("%.0f", it.value)
                         info.humidityUnits = it.units
                     }
                 }
                 LastMinutesInfoNetworkDataSource.RAIN_PARAM -> {
-                    if (it.value != null && it.units != null) {
+                    if (it.value != null && it.value >= 0 && it.units != null) {
                         info.rainValue = String.format("%.1f", it.value)
                         info.rainUnits = it.units
                     }

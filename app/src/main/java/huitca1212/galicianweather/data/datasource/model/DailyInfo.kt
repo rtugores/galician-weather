@@ -17,7 +17,7 @@ data class DataDailyWrapper(
         val info = DataDaily()
         list?.firstOrNull()?.stations?.firstOrNull()?.measuresDaily?.forEach {
             if (it.parameterCode == DailyInfoNetworkDataSource.RAIN_PARAM) {
-                if (it.value != null && it.units != null) {
+                if (it.value != null && it.value >= 0 && it.units != null) {
                     info.rainValue = String.format("%.1f", it.value)
                     info.rainUnits = it.units
                 }

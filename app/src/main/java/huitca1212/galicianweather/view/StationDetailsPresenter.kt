@@ -4,6 +4,7 @@ import huitca1212.galicianweather.data.datasource.model.DataDailyWrapper
 import huitca1212.galicianweather.data.datasource.model.DataLastMinutesWrapper
 import huitca1212.galicianweather.domain.*
 import huitca1212.galicianweather.view.base.BasePresenter
+import kotlinx.coroutines.CancellationException
 
 class StationDetailsPresenter(
     private val view: StationViewTranslator,
@@ -16,9 +17,6 @@ class StationDetailsPresenter(
 
     override fun onPostCreate() {
         view.initScreenInfo(station.name, station.imageUrl)
-    }
-
-    override fun onResume() {
         retrieveStationData()
     }
 
@@ -37,30 +35,33 @@ class StationDetailsPresenter(
     private fun retrieveStationData() {
         view.showLoaderScreen()
 
-        val stationParams = GetStationsUseCaseParams(
-            remoteUseCaseParams = GetRemoteStationsUseCaseParams(station.code)
-        )
+        val stationParams = GetStationsUseCaseParams(GetRemoteStationsUseCaseParams(station.code))
+
         invoker.executeMultiple(
             lastMinutesInfoUseCase withParams stationParams,
             dailyInfoNetworkDataSource withParams stationParams
         ) {
-            if (it is Success) {
-                when (it.data) {
-                    is DataLastMinutesWrapper -> processLastMinutesInfo(it.data)
-                    is DataDailyWrapper -> processDailyInfo(it.data)
+            when (it) {
+                is Success -> {
+                    when (it.data) {
+                        is DataLastMinutesWrapper -> processLastMinutesInfo(it.data)
+                        is DataDailyWrapper -> processDailyInfo(it.data)
+                    }
+                }
+                is NoInternetError -> {
+                    invoker.cancelAllAsync()
+                    view.showNoInternetDialog()
+                }
+                is UnknownError -> {
+                    invoker.cancelAllAsync()
+                    if (it.error !is CancellationException) view.showErrorDialog()
+                }
+                is Finish -> {
+                    view.updateRadarImage()
+                    view.showDataScreen()
                 }
             }
         }
-//        , {
-//                when (it) {
-//                    is Success -> {
-//                        view.updateRadarImage()
-//                        view.showDataScreen()
-//                    }
-//                    is NoInternetError -> view.showNoInternetDialog()
-//                    is Error -> if (it.exception !is JobCancellationException) view.showErrorDialog()
-//                }
-//            })
     }
 
     private fun processLastMinutesInfo(lastMinutesInfo: DataLastMinutesWrapper) {

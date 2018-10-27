@@ -17,6 +17,7 @@ class UseCaseInvoker(private val contextProvider: CoroutineContextProvider = Cor
     }
 
     fun executeMultiple(vararg useCases: UseCase<*>, executeSimultaneously: Boolean = true, result: ((Result<*>) -> Unit)?) {
+        var useCasesSize = useCases.size
         launchAndCompletion {
             try {
                 executeUseCases(
@@ -24,6 +25,7 @@ class UseCaseInvoker(private val contextProvider: CoroutineContextProvider = Cor
                     executeSimultaneously = executeSimultaneously
                 ) {
                     result?.invoke(it)
+                    if (--useCasesSize == 0) result?.invoke(Finish)
                 }
             } catch (ex: Exception) {
                 result?.invoke(UnknownError(ex))
@@ -31,7 +33,7 @@ class UseCaseInvoker(private val contextProvider: CoroutineContextProvider = Cor
         }
     }
 
-    fun isPendingTask(): Boolean = asyncJobs.size > 0
+    fun isPendingTask() = asyncJobs.size > 0
 
     fun cancelAllAsync() {
         asyncJobs.takeIf {
@@ -49,7 +51,9 @@ class UseCaseInvoker(private val contextProvider: CoroutineContextProvider = Cor
             /**
              * On cancellation might be thrown a ConcurrentException due to multiple manipulation of [asyncJobs]
              */
-            job.takeUnless { it.isCancelled }?.run { asyncJobs.remove(this) }
+            job.takeUnless { it.isCancelled }?.run {
+                asyncJobs.remove(this)
+            }
         }
     }
 
