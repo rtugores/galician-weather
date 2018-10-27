@@ -16,12 +16,14 @@ class StationDetailsPresenter(
     private val invoker = UseCaseInvoker()
 
     override fun onPostCreate() {
+        super.onPostCreate()
         view.initScreenInfo(station.name, station.imageUrl)
         retrieveStationData()
     }
 
-    override fun onPause() {
+    override fun onDestroy() {
         invoker.cancelAllTasks()
+        super.onDestroy()
     }
 
     fun onBackButtonClick() {
