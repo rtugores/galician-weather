@@ -18,14 +18,12 @@ abstract class UseCaseParams {
 
 object NoUseCaseParams : UseCaseParams()
 
-interface RemoteUseCaseParams {
-    var map: MutableMap<String, String>
+abstract class RemoteUseCaseParams {
+    open var map = mutableMapOf<String, String>()
 }
 
-interface LocalUseCaseParams
+abstract class LocalUseCaseParams
 
-object NoRemoteUseCaseParams : RemoteUseCaseParams {
-    override var map = mutableMapOf<String, String>()
-}
+object NoRemoteUseCaseParams : RemoteUseCaseParams()
 
-object NoLocalUseCaseParams : LocalUseCaseParams
+object NoLocalUseCaseParams : LocalUseCaseParams()

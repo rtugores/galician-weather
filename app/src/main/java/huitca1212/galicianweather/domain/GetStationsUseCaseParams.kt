@@ -2,9 +2,7 @@ package huitca1212.galicianweather.domain
 
 data class GetRemoteStationsUseCaseParams(
     val _idEst: String
-) : RemoteUseCaseParams {
-
-    override var map = mutableMapOf<String, String>()
+) : RemoteUseCaseParams() {
 
     private var idEst: String by map
 
