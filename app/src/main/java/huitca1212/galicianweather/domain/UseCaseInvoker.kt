@@ -1,11 +1,11 @@
 package huitca1212.galicianweather.domain
 
-import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.android.UI
-import kotlin.coroutines.experimental.CoroutineContext
-import kotlin.coroutines.experimental.coroutineContext
+import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers.Default
+import kotlinx.coroutines.Dispatchers.Main
+import kotlin.coroutines.CoroutineContext
 
-open class UseCaseInvoker(private val contextProvider: CoroutineContextProvider = CoroutineContextProvider()) {
+class UseCaseInvoker(private val contextProvider: CoroutineContextProvider = CoroutineContextProvider()) {
 
     private val asyncJobs = mutableListOf<Job>()
 
@@ -43,7 +43,7 @@ open class UseCaseInvoker(private val contextProvider: CoroutineContextProvider 
     }
 
     private fun launchAndCompletion(block: suspend CoroutineScope.() -> Unit) {
-        val job: Job = launch(contextProvider.main) { block() }
+        val job: Job = GlobalScope.async(contextProvider.main) { block() }
         asyncJobs.add(job)
         job.invokeOnCompletion { _ ->
             /**
@@ -54,9 +54,9 @@ open class UseCaseInvoker(private val contextProvider: CoroutineContextProvider 
     }
 
     private suspend fun <T> runUseCase(defaultInit: Boolean, block: suspend CoroutineScope.() -> T): Job {
-        return launch(
-            context = coroutineContext + contextProvider.background,
-            start = if (defaultInit) CoroutineStart.DEFAULT else CoroutineStart.LAZY
+        return GlobalScope.launch(
+            kotlin.coroutines.coroutineContext + contextProvider.background,
+            if (defaultInit) CoroutineStart.DEFAULT else CoroutineStart.LAZY
         ) {
             block()
         }
@@ -86,6 +86,6 @@ open class UseCaseInvoker(private val contextProvider: CoroutineContextProvider 
 }
 
 open class CoroutineContextProvider {
-    open val main: CoroutineContext by lazy { UI }
-    open val background: CoroutineContext by lazy { DefaultDispatcher }
+    open val main: CoroutineContext by lazy { Main }
+    open val background: CoroutineContext by lazy { Default }
 }
