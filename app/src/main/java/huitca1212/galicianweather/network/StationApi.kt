@@ -4,12 +4,12 @@ import huitca1212.galicianweather.data.datasource.model.DataDailyWrapper
 import huitca1212.galicianweather.data.datasource.model.DataLastMinutesWrapper
 import retrofit2.Call
 import retrofit2.http.GET
-import retrofit2.http.Query
+import retrofit2.http.QueryMap
 
 interface StationApi {
     @GET("ultimos10minEstacionsMeteo.action")
-    fun getLastMinutesDataStation(@Query("idEst") stationId: String): Call<DataLastMinutesWrapper>
+    fun getLastMinutesDataStation(@QueryMap map: Map<String, String>): Call<DataLastMinutesWrapper>
 
     @GET("datosDiariosEstacionsMeteo.action")
-    fun getDailyInfo(@Query("idEst") stationId: String): Call<DataDailyWrapper>
+    fun getDailyInfo(@QueryMap map: Map<String, String>): Call<DataDailyWrapper>
 }

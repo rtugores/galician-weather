@@ -1,5 +1,7 @@
 package huitca1212.galicianweather.domain
 
-enum class DataPolicy {
-    Local, Network, LocalAndNetwork
-}
+interface DataPolicy
+
+object Local : DataPolicy
+object Network: DataPolicy
+object LocalAndNetwork: DataPolicy

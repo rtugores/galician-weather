@@ -2,8 +2,13 @@ package huitca1212.galicianweather.domain
 
 
 @Suppress("unused")
-interface Result<T>
+sealed class Result<out T>(val dataStatus: DataStatus = DataStatus.ERROR)
 
-data class Success<T>(val response: T) : Result<T>
-data class NoInternetError<T>(val exception: Exception = Exception()) : Result<T>
-data class Error<T>(val exception: Exception = Exception()) : Result<T>
+data class Success<T>(val data: T, val status: DataStatus) : Result<T>(status)
+data class NoInternetError(val error: Exception = Exception(), val message: String? = null) : Result<Nothing>()
+data class UnknownError(val error: Exception = Exception(), val message: String? = null) : Result<Nothing>()
+data class NoData(val error: Exception = Exception()) : Result<Nothing>()
+
+enum class DataStatus {
+    LOCAL, REMOTE, ERROR
+}

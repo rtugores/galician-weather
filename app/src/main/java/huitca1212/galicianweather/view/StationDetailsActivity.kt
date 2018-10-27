@@ -3,9 +3,9 @@ package huitca1212.galicianweather.view
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.annotation.StringRes
-import android.support.v7.app.AlertDialog
+import androidx.annotation.StringRes
 import android.view.MenuItem
+import androidx.appcompat.app.AlertDialog
 import huitca1212.galicianweather.R
 import huitca1212.galicianweather.injection.injectActivity
 import huitca1212.galicianweather.view.base.BaseActivity
@@ -38,7 +38,7 @@ class StationDetailsActivity : BaseActivity<StationDetailsPresenter>(), StationV
             setHomeAsUpIndicator(R.drawable.ic_back_arrow_white)
         }
 
-        presenter.station = intent.extras.getSerializable(StationDetailsActivity.ARG_STATION) as Station
+        presenter.station = intent.extras!!.getSerializable(StationDetailsActivity.ARG_STATION) as Station
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

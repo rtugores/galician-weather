@@ -2,7 +2,7 @@ package huitca1212.galicianweather.view.base
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 
 /*
 * Base activity that supports MVP.

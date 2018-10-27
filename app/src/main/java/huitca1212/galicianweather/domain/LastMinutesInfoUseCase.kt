@@ -8,8 +8,9 @@ import huitca1212.galicianweather.data.repository.LastMinutesInfoRepository
 class LastMinutesInfoUseCase(
     dataSource: LastMinutesInfoNetworkDataSource,
     private val repository: LastMinutesInfoRepository = LastMinutesInfoRepository(dataSource)
-    ) : UseCase<String, DataLastMinutesWrapper> {
+) : UseCase<DataLastMinutesWrapper>() {
 
-    override suspend fun run(policy: DataPolicy, params: String): Result<DataLastMinutesWrapper> =
-        repository.getLastMinutesInfo(DataPolicy.Network, params)
+    override suspend fun run(listener: (Result<DataLastMinutesWrapper>) -> Unit) =
+        repository.getLastMinutesInfo(useCaseParams, listener)
+
 }

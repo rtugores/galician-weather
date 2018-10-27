@@ -8,8 +8,9 @@ import huitca1212.galicianweather.data.repository.DailyInfoRepository
 class DailyInfoUseCase(
     dataSource: DailyInfoNetworkDataSource,
     private val repository: DailyInfoRepository = DailyInfoRepository(dataSource)
-) : UseCase<String, DataDailyWrapper> {
+) : UseCase<DataDailyWrapper>() {
 
-    override suspend fun run(policy: DataPolicy, params: String): Result<DataDailyWrapper> =
-        repository.getDailyInfo(DataPolicy.Network, params)
+    override suspend fun run(listener: ((Result<DataDailyWrapper>) -> Unit)) =
+        repository.getDailyInfo(useCaseParams, listener)
+
 }
