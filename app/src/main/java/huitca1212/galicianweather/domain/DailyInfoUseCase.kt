@@ -10,7 +10,6 @@ class DailyInfoUseCase(
     private val repository: DailyInfoRepository = DailyInfoRepository(dataSource)
 ) : UseCase<DataDailyWrapper>() {
 
-    override suspend fun run(listener: ((Result<DataDailyWrapper>) -> Unit)) =
+    override suspend fun run(listener: Callback<DataDailyWrapper>) =
         repository.getDailyInfo(useCaseParams, listener)
-
 }

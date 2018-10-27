@@ -21,7 +21,7 @@ class StationDetailsPresenter(
     }
 
     override fun onPause() {
-        invoker.cancelAllAsync()
+        invoker.cancelAllTasks()
     }
 
     fun onBackButtonClick() {
@@ -49,11 +49,11 @@ class StationDetailsPresenter(
                     }
                 }
                 is NoInternetError -> {
-                    invoker.cancelAllAsync()
+                    invoker.cancelAllTasks()
                     view.showNoInternetDialog()
                 }
                 is UnknownError -> {
-                    invoker.cancelAllAsync()
+                    invoker.cancelAllTasks()
                     if (it.error !is CancellationException) view.showErrorDialog()
                 }
                 is Finish -> {

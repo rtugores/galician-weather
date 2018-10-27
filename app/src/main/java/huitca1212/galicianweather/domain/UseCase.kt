@@ -4,9 +4,9 @@ abstract class UseCase<T> {
 
     var useCaseParams: UseCaseParams = NoUseCaseParams
 
-    abstract suspend fun run(listener: ((Result<T>) -> Unit))
+    abstract suspend fun run(listener: Callback<T>)
 
-    infix fun withParams(useCaseParams: UseCaseParams) = also {
+    infix fun withParams(useCaseParams: UseCaseParams) = apply {
         this.useCaseParams = useCaseParams
     }
 }
@@ -20,10 +20,6 @@ object NoUseCaseParams : UseCaseParams()
 
 interface RemoteUseCaseParams {
     var map: MutableMap<String, String>
-
-    fun map(): MutableMap<String, String> = map
-
-    operator fun invoke() = map()
 }
 
 interface LocalUseCaseParams

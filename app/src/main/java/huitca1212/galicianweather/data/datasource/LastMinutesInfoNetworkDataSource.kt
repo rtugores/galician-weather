@@ -15,8 +15,8 @@ class LastMinutesInfoNetworkDataSource(private val stationApi: StationApi) {
         const val RAIN_PARAM = "PP_SUM_1.5m"
     }
 
-    fun getLastMinutesInfo(useCaseParams: UseCaseParams, listener: ((Result<DataLastMinutesWrapper>) -> Unit)) = try {
-        val response = stationApi.getLastMinutesDataStation(useCaseParams.remoteUseCaseParams()).execute()
+    fun getLastMinutesInfo(useCaseParams: UseCaseParams, listener: Callback<DataLastMinutesWrapper>) = try {
+        val response = stationApi.getLastMinutesDataStation(useCaseParams.remoteUseCaseParams.map).execute()
         if (response.isSuccessful) {
             response.body()?.let {
                 listener(Success(it, DataStatus.REMOTE))

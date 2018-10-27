@@ -11,8 +11,8 @@ class DailyInfoNetworkDataSource(private val stationApi: StationApi) {
         const val RAIN_PARAM = "PP_SUM_1.5m"
     }
 
-    fun getDailyInfo(useCaseParams: UseCaseParams, listener: ((Result<DataDailyWrapper>) -> Unit)) = try {
-        val response = stationApi.getDailyInfo(useCaseParams.remoteUseCaseParams()).execute()
+    fun getDailyInfo(useCaseParams: UseCaseParams, listener: Callback<DataDailyWrapper>) = try {
+        val response = stationApi.getDailyInfo(useCaseParams.remoteUseCaseParams.map).execute()
         if (response.isSuccessful) {
             response.body()?.let {
                 listener(Success(it, DataStatus.REMOTE))

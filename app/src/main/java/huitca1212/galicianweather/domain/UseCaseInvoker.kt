@@ -3,21 +3,24 @@ package huitca1212.galicianweather.domain
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.Default
 import kotlinx.coroutines.Dispatchers.Main
+import java.util.concurrent.atomic.AtomicInteger
 import kotlin.coroutines.CoroutineContext
+
+typealias Callback<T> = (Result<T>) -> Unit
 
 class UseCaseInvoker(private val contextProvider: CoroutineContextProvider = CoroutineContextProvider()) {
 
     private val asyncJobs = mutableListOf<Job>()
 
     @Suppress("unchecked_cast")
-    fun <T> execute(useCase: UseCase<T>, result: ((Result<T>) -> Unit)?) {
+    fun <T> execute(useCase: UseCase<T>, result: Callback<T>?) {
         executeMultiple(useCase, executeSimultaneously = false) {
             result?.invoke(it as Result<T>)
         }
     }
 
-    fun executeMultiple(vararg useCases: UseCase<*>, executeSimultaneously: Boolean = true, result: ((Result<*>) -> Unit)?) {
-        var useCasesSize = useCases.size
+    fun executeMultiple(vararg useCases: UseCase<*>, executeSimultaneously: Boolean = true, result: Callback<*>?) {
+        val useCasesSize = AtomicInteger(useCases.size)
         launchAndCompletion {
             try {
                 executeUseCases(
@@ -25,7 +28,9 @@ class UseCaseInvoker(private val contextProvider: CoroutineContextProvider = Cor
                     executeSimultaneously = executeSimultaneously
                 ) {
                     result?.invoke(it)
-                    if (--useCasesSize == 0) result?.invoke(Finish)
+                    if (useCasesSize.decrementAndGet() == 0) {
+                        result?.invoke(Finish)
+                    }
                 }
             } catch (ex: Exception) {
                 result?.invoke(UnknownError(ex))
@@ -35,7 +40,7 @@ class UseCaseInvoker(private val contextProvider: CoroutineContextProvider = Cor
 
     fun isPendingTask() = asyncJobs.size > 0
 
-    fun cancelAllAsync() {
+    fun cancelAllTasks() {
         asyncJobs.takeIf {
             isPendingTask()
         }?.forEach {
@@ -66,7 +71,7 @@ class UseCaseInvoker(private val contextProvider: CoroutineContextProvider = Cor
         }
     }
 
-    private suspend fun executeUseCases(vararg useCases: UseCase<*>, executeSimultaneously: Boolean, listener: (Result<*>) -> Unit) {
+    private suspend fun executeUseCases(vararg useCases: UseCase<*>, executeSimultaneously: Boolean, listener: Callback<*>) {
         val jobs = mutableListOf<Job>()
         useCases.forEach { useCase ->
             val job = runUseCase(executeSimultaneously) {

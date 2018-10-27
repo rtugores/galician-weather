@@ -10,7 +10,7 @@ class LastMinutesInfoUseCase(
     private val repository: LastMinutesInfoRepository = LastMinutesInfoRepository(dataSource)
 ) : UseCase<DataLastMinutesWrapper>() {
 
-    override suspend fun run(listener: (Result<DataLastMinutesWrapper>) -> Unit) =
+    override suspend fun run(listener: Callback<DataLastMinutesWrapper>) =
         repository.getLastMinutesInfo(useCaseParams, listener)
 
 }
