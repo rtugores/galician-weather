@@ -11,18 +11,20 @@ class DailyInfoNetworkDataSource(private val stationApi: StationApi) {
         const val RAIN_PARAM = "PP_SUM_1.5m"
     }
 
-    fun getDailyInfo(useCaseParams: UseCaseParams, listener: Callback<DataDailyWrapper>) = try {
-        val response = stationApi.getDailyInfo(useCaseParams.remoteUseCaseParams.map).execute()
-        if (response.isSuccessful) {
-            response.body()?.let {
-                listener(Success(it, DataStatus.REMOTE))
-            } ?: listener(UnknownError())
-        } else {
-            listener(UnknownError())
+    fun getDailyInfo(useCaseParams: UseCaseParams, listener: Callback<DataDailyWrapper>) = listener(
+        try {
+            val response = stationApi.getDailyInfo(useCaseParams.remoteUseCaseParams.map).execute()
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Success(it, DataStatus.REMOTE)
+                } ?: UnknownError()
+            } else {
+                UnknownError()
+            }
+        } catch (e: IOException) {
+            NoInternetError(e)
+        } catch (e: Exception) {
+            UnknownError(e)
         }
-    } catch (e: IOException) {
-        listener(NoInternetError(e))
-    } catch (e: Exception) {
-        listener(UnknownError(e))
-    }
+    )
 }
