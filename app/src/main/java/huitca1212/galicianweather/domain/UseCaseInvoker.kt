@@ -32,17 +32,16 @@ class UseCaseInvoker(private val contextProvider: CoroutineContextProvider = Cor
                         result?.invoke(Finish)
                     }
                 }
-            } catch (ex: Exception) {
-                result?.invoke(UnknownError(ex))
+            } catch (e: Exception) {
             }
         }
     }
 
-    fun isPendingTask() = asyncJobs.size > 0
+    fun arePendingTasks() = asyncJobs.size > 0
 
     fun cancelAllTasks() {
         asyncJobs.takeIf {
-            isPendingTask()
+            arePendingTasks()
         }?.forEach {
             it.cancel()
         }
@@ -76,8 +75,8 @@ class UseCaseInvoker(private val contextProvider: CoroutineContextProvider = Cor
         useCases.forEach { useCase ->
             val job = runUseCase(executeSimultaneously) {
                 useCase.run {
-                    if (isPendingTask()) {
-                        runBlocking(contextProvider.main) {
+                    runBlocking(contextProvider.main) {
+                        if (arePendingTasks()) {
                             listener(it)
                         }
                     }

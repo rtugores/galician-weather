@@ -3,7 +3,7 @@ package huitca1212.galicianweather.data.datasource
 import huitca1212.galicianweather.data.datasource.model.DataDailyWrapper
 import huitca1212.galicianweather.domain.*
 import huitca1212.galicianweather.network.StationApi
-import java.io.IOException
+import java.net.UnknownHostException
 
 class DailyInfoNetworkDataSource(private val stationApi: StationApi) {
 
@@ -21,7 +21,7 @@ class DailyInfoNetworkDataSource(private val stationApi: StationApi) {
             } else {
                 UnknownError()
             }
-        } catch (e: IOException) {
+        } catch (e: UnknownHostException) {
             NoInternetError(e)
         } catch (e: Exception) {
             UnknownError(e)

@@ -4,6 +4,7 @@ import huitca1212.galicianweather.data.datasource.model.DataLastMinutesWrapper
 import huitca1212.galicianweather.domain.*
 import huitca1212.galicianweather.network.StationApi
 import java.io.IOException
+import java.net.UnknownHostException
 
 class LastMinutesInfoNetworkDataSource(private val stationApi: StationApi) {
 
@@ -15,18 +16,20 @@ class LastMinutesInfoNetworkDataSource(private val stationApi: StationApi) {
         const val RAIN_PARAM = "PP_SUM_1.5m"
     }
 
-    fun getLastMinutesInfo(useCaseParams: UseCaseParams, listener: Callback<DataLastMinutesWrapper>) = try {
-        val response = stationApi.getLastMinutesDataStation(useCaseParams.remoteUseCaseParams.map).execute()
-        if (response.isSuccessful) {
-            response.body()?.let {
-                listener(Success(it, DataStatus.REMOTE))
-            } ?: listener(UnknownError())
-        } else {
-            listener(UnknownError())
+    fun getLastMinutesInfo(useCaseParams: UseCaseParams, listener: Callback<DataLastMinutesWrapper>) = listener(
+        try {
+            val response = stationApi.getLastMinutesDataStation(useCaseParams.remoteUseCaseParams.map).execute()
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Success(it, DataStatus.REMOTE)
+                } ?: UnknownError()
+            } else {
+                UnknownError()
+            }
+        } catch (e: UnknownHostException) {
+            NoInternetError(e)
+        } catch (e: Exception) {
+            UnknownError(e)
         }
-    } catch (e: IOException) {
-        listener(NoInternetError(e))
-    } catch (e: Exception) {
-        listener(UnknownError(e))
-    }
+    )
 }

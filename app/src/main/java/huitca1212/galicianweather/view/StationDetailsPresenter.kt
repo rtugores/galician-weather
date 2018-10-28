@@ -56,7 +56,7 @@ class StationDetailsPresenter(
                 }
                 is UnknownError -> {
                     invoker.cancelAllTasks()
-                    if (it.error !is CancellationException) view.showErrorDialog()
+                    view.showErrorDialog()
                 }
                 is Finish -> {
                     view.updateRadarImage()
