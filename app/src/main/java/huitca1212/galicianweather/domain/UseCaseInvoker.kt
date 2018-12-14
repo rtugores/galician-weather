@@ -5,95 +5,66 @@ import kotlinx.coroutines.Dispatchers.Default
 import kotlinx.coroutines.Dispatchers.Main
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.coroutines.CoroutineContext
-
-typealias Callback<T> = (Result<T>) -> Unit
+import kotlin.coroutines.coroutineContext
 
 class UseCaseInvoker(private val contextProvider: CoroutineContextProvider = CoroutineContextProvider()) {
 
-    private val asyncJobs = mutableListOf<Job>()
+    private var parentJob: Job? = null
+    private var useCasesAmount = AtomicInteger(0)
 
-    @Suppress("unchecked_cast")
-    fun <T> execute(useCase: UseCase<T>, result: Callback<T>?) {
-        executeMultiple(useCase, executeSimultaneously = false) {
-            result?.invoke(it as Result<T>)
-        }
-    }
-
-    fun executeMultiple(vararg useCases: UseCase<*>, executeSimultaneously: Boolean = true, result: Callback<*>?) {
-        val useCasesSize = AtomicInteger(useCases.size)
-        launchAndCompletion {
+    fun executeParallel(vararg useCases: UseCase<*, *>, result: Callback<*>?) {
+        GlobalScope.launch(contextProvider.main) {
+            parentJob = coroutineContext[Job]
             try {
-                executeUseCases(
-                    *useCases,
-                    executeSimultaneously = executeSimultaneously
-                ) {
+                useCasesAmount.getAndAdd(useCases.size)
+                executeUseCases(*useCases) {
                     result?.invoke(it)
-                    if (useCasesSize.decrementAndGet() == 0) {
-                        result?.invoke(Finish)
-                    }
                 }
-            } catch (e: Exception) {
+            } catch (ex: CancellationException) {
+                // Do nothing
             }
         }
     }
-
-    fun arePendingTasks() = asyncJobs.size > 0
 
     fun cancelAllTasks() {
-        asyncJobs.takeIf {
-            arePendingTasks()
-        }?.forEach {
-            it.cancel()
-        }
-        asyncJobs.clear()
+        parentJob?.cancel()
+        parentJob = null
+        useCasesAmount.getAndSet(0)
     }
 
-    private fun launchAndCompletion(block: suspend CoroutineScope.() -> Unit) {
-        val job: Job = GlobalScope.async(contextProvider.main) { block() }
-        asyncJobs.add(job)
-        job.invokeOnCompletion { _ ->
-            /**
-             * On cancellation might be thrown a ConcurrentException due to multiple manipulation of [asyncJobs]
-             */
-            job.takeUnless { it.isCancelled }?.run {
-                asyncJobs.remove(this)
-            }
-        }
-    }
+    private suspend fun executeUseCases(vararg useCases: UseCase<*, *>, listener: Callback<*>) {
+        val childJobs = mutableListOf<Job>()
+        val results = mutableListOf<Result<*>>()
 
-    private suspend fun <T> runUseCase(defaultInit: Boolean, block: suspend CoroutineScope.() -> T): Job {
-        return GlobalScope.launch(
-            kotlin.coroutines.coroutineContext + contextProvider.background,
-            if (defaultInit) CoroutineStart.DEFAULT else CoroutineStart.LAZY
-        ) {
-            block()
-        }
-    }
-
-    private suspend fun executeUseCases(vararg useCases: UseCase<*>, executeSimultaneously: Boolean, listener: Callback<*>) {
-        val jobs = mutableListOf<Job>()
         useCases.forEach { useCase ->
-            val job = runUseCase(executeSimultaneously) {
+            val childJob = GlobalScope.launch(coroutineContext + contextProvider.background, CoroutineStart.DEFAULT) {
                 useCase.run {
-                    runBlocking(contextProvider.main) {
-                        if (arePendingTasks()) {
-                            listener(it)
-                        }
+                    handleResult(it, results, listener)
+                }
+            }
+            childJobs.add(childJob)
+        }
+
+        childJobs.forEach {
+            it.join()
+        }
+    }
+
+    private fun handleResult(result: Result<*>, results: MutableList<Result<*>>, listener: Callback<*>) {
+        runBlocking(contextProvider.main) {
+            parentJob?.let {
+                if (useCasesAmount.getAndDecrement() > 0) {
+                    results.add(result)
+                    if (useCasesAmount.get() == 0) {
+                        listener(Multiple(results))
                     }
                 }
             }
-            jobs.add(job)
-        }
-
-        jobs.map {
-            //If simultaneous execution was not selected the coroutine(s) was(were) init by lazy, so there won't be initialized until start()
-            if (!executeSimultaneously) it.start()
-            it.join()
         }
     }
 }
 
-open class CoroutineContextProvider {
-    open val main: CoroutineContext by lazy { Main }
-    open val background: CoroutineContext by lazy { Default }
+class CoroutineContextProvider {
+    val main: CoroutineContext by lazy { Main }
+    val background: CoroutineContext by lazy { Default }
 }

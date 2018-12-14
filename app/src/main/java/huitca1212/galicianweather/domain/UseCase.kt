@@ -1,29 +1,14 @@
 package huitca1212.galicianweather.domain
 
-abstract class UseCase<T> {
+typealias Callback<T> = (Result<T>) -> Unit
 
-    var useCaseParams: UseCaseParams = NoUseCaseParams
+abstract class UseCase<P: Any, T> {
+
+    protected lateinit var useCaseParams: P
 
     abstract suspend fun run(listener: Callback<T>)
 
-    infix fun withParams(useCaseParams: UseCaseParams) = apply {
+    infix fun withParams(useCaseParams: P) = apply {
         this.useCaseParams = useCaseParams
     }
 }
-
-abstract class UseCaseParams {
-    open val remoteUseCaseParams: RemoteUseCaseParams = NoRemoteUseCaseParams
-    open val localUseCaseParams: LocalUseCaseParams = NoLocalUseCaseParams
-}
-
-object NoUseCaseParams : UseCaseParams()
-
-abstract class RemoteUseCaseParams {
-    open var map = mutableMapOf<String, String>()
-}
-
-abstract class LocalUseCaseParams
-
-object NoRemoteUseCaseParams : RemoteUseCaseParams()
-
-object NoLocalUseCaseParams : LocalUseCaseParams()

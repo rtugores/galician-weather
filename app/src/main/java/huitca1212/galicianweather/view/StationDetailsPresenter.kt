@@ -4,30 +4,36 @@ import huitca1212.galicianweather.data.datasource.model.DataDailyWrapper
 import huitca1212.galicianweather.data.datasource.model.DataLastMinutesWrapper
 import huitca1212.galicianweather.domain.*
 import huitca1212.galicianweather.view.base.BasePresenter
-import kotlinx.coroutines.CancellationException
 
 class StationDetailsPresenter(
     private val view: StationViewTranslator,
+    private val invoker: UseCaseInvoker,
     private val lastMinutesInfoUseCase: LastMinutesInfoUseCase,
-    private val dailyInfoNetworkDataSource: DailyInfoUseCase
+    private val dailyInfoNetworkUseCase: DailyInfoUseCase
 ) : BasePresenter() {
 
-    lateinit var station: Station
-    private val invoker = UseCaseInvoker()
+    private val station: Station by lazy {
+        view.getStationArg()
+    }
+    private var content: Any? = null
 
     override fun onPostCreate() {
         super.onPostCreate()
         view.initScreenInfo(station.name, station.imageUrl)
-        retrieveStationData()
     }
 
-    override fun onDestroy() {
-        invoker.cancelAllTasks()
-        super.onDestroy()
+    override fun onStart() {
+        super.onStart()
+        content ?: retrieveStationData()
+    }
+
+    override fun onStop() {
+        content ?: invoker.cancelAllTasks()
+        super.onStop()
     }
 
     fun onBackButtonClick() {
-        view.finish()
+        view.closeScreen()
     }
 
     fun onRetryButtonClick() {
@@ -37,32 +43,32 @@ class StationDetailsPresenter(
     private fun retrieveStationData() {
         view.showLoaderScreen()
 
-        val stationParams = GetStationsUseCaseParams(GetRemoteStationsUseCaseParams(station.code))
-
-        invoker.executeMultiple(
+        val stationParams = GetStationsUseCaseParams(station.code)
+        invoker.executeParallel(
             lastMinutesInfoUseCase withParams stationParams,
-            dailyInfoNetworkDataSource withParams stationParams
-        ) {
-            when (it) {
-                is Success -> {
-                    when (it.data) {
-                        is DataLastMinutesWrapper -> processLastMinutesInfo(it.data)
-                        is DataDailyWrapper -> processDailyInfo(it.data)
+            dailyInfoNetworkUseCase withParams stationParams
+        ) { result ->
+            val data = (result as Multiple).data as List<*>
+
+            if (data.any { it is NoInternetError }) {
+                view.showNoInternetDialog()
+                return@executeParallel
+            }
+            if (data.any { it is UnknownError }) {
+                view.showErrorDialog()
+                return@executeParallel
+            }
+
+            data.forEach {
+                content = (it as Success<*>).data.apply {
+                    when (this) {
+                        is DataLastMinutesWrapper -> processLastMinutesInfo(this)
+                        is DataDailyWrapper -> processDailyInfo(this)
                     }
                 }
-                is NoInternetError -> {
-                    invoker.cancelAllTasks()
-                    view.showNoInternetDialog()
-                }
-                is UnknownError -> {
-                    invoker.cancelAllTasks()
-                    view.showErrorDialog()
-                }
-                is Finish -> {
-                    view.updateRadarImage()
-                    view.showDataScreen()
-                }
             }
+            view.updateRadarImage()
+            view.showDataScreen()
         }
     }
 
@@ -82,6 +88,7 @@ class StationDetailsPresenter(
 }
 
 interface StationViewTranslator {
+    fun getStationArg(): Station
     fun initScreenInfo(name: String, imageUrl: String)
     fun updateTemperature(value: String, units: String)
     fun updateHumidity(value: String, units: String)
@@ -92,5 +99,5 @@ interface StationViewTranslator {
     fun showNoInternetDialog()
     fun updateRadarImage()
     fun showDataScreen()
-    fun finish()
+    fun closeScreen()
 }

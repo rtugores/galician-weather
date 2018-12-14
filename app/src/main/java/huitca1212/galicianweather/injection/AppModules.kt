@@ -4,8 +4,11 @@ import android.app.Activity
 import android.util.Log
 import huitca1212.galicianweather.data.datasource.DailyInfoNetworkDataSource
 import huitca1212.galicianweather.data.datasource.LastMinutesInfoNetworkDataSource
+import huitca1212.galicianweather.data.repository.DailyInfoRepository
+import huitca1212.galicianweather.data.repository.LastMinutesInfoRepository
 import huitca1212.galicianweather.domain.DailyInfoUseCase
 import huitca1212.galicianweather.domain.LastMinutesInfoUseCase
+import huitca1212.galicianweather.domain.UseCaseInvoker
 import huitca1212.galicianweather.network.StationApi
 import huitca1212.galicianweather.view.HomePresenter
 import huitca1212.galicianweather.view.StationDetailsPresenter
@@ -32,9 +35,16 @@ object AppModules {
     val stationDetailsModule = module {
         factory { LastMinutesInfoNetworkDataSource(get()) }
         factory { DailyInfoNetworkDataSource(get()) }
+
+        factory { DailyInfoRepository(get()) }
+        factory { LastMinutesInfoRepository(get()) }
+
         factory { LastMinutesInfoUseCase(get()) }
         factory { DailyInfoUseCase(get()) }
-        factory { StationDetailsPresenter(it[0], get(), get()) }
+
+        factory { UseCaseInvoker() }
+
+        factory { StationDetailsPresenter(it[0], get(), get(), get()) }
     }
 
     val networkModule = module {

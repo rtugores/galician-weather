@@ -12,15 +12,11 @@ import java.io.Serializable
 
 class StationAdapter(
     private val context: Context,
-    stations: List<Station>,
+    private val stations: List<Station>,
     private val listener: (Station) -> Unit
 ) : RecyclerView.Adapter<StationAdapter.StationViewHolder>() {
 
-    private val stations = mutableListOf<Station>()
-
     init {
-        this.stations.clear()
-        this.stations.addAll(stations)
         setHasStableIds(true)
     }
 
