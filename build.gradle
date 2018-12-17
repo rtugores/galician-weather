@@ -40,4 +40,8 @@ ext{
 
     retrofit = '2.4.0'
     okhttplogLibrary = '3.6.0'
+
+    barista = '2.7.0'
+    junit = '4.12'
+    assertj = "3.9.0"
 }
