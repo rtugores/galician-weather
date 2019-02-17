@@ -78,7 +78,7 @@ class StationDetailsPresenter(
         lastMinutesInfo.getDataLastMinutes().run {
             view.updateTemperature(temperatureValue, temperatureUnits)
             view.updateHumidity(humidityValue, humidityUnits)
-            view.updateCurrentRain(rainValue, rainUnits)
+            view.updateCurrentRain(rainValue)
         }
     }
 
@@ -94,7 +94,7 @@ interface StationViewTranslator : BaseViewTranslator {
     fun initScreenInfo(name: String, imageUrl: String)
     fun updateTemperature(value: String, units: String)
     fun updateHumidity(value: String, units: String)
-    fun updateCurrentRain(value: String, units: String)
+    fun updateCurrentRain(value: String)
     fun updateDailyRain(value: String, units: String)
     fun showLoaderScreen()
     fun showErrorDialog()

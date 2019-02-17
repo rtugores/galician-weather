@@ -9,8 +9,7 @@ data class DataLastMinutes(
     var temperatureUnits: String = "",
     var humidityValue: String = "-",
     var humidityUnits: String = "",
-    var rainValue: String = "-",
-    var rainUnits: String = ""
+    var rainValue: String = "-"
 )
 
 data class DataLastMinutesWrapper(
@@ -42,7 +41,6 @@ data class DataLastMinutesWrapper(
                 LastMinutesInfoRemoteDataSource.RAIN_PARAM -> {
                     if (it.value != null && it.value >= MIN_RAIN_ALLOWED && it.units != null) {
                         info.rainValue = "%.1f".format(it.value)
-                        info.rainUnits = it.units
                     }
                 }
             }

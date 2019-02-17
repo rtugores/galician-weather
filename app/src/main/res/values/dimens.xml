@@ -13,7 +13,6 @@
     <dimen name="standard14sp">14sp</dimen>
     <dimen name="standard16sp">16sp</dimen>
     <dimen name="standard20sp">20sp</dimen>
+    <dimen name="standard50sp">50sp</dimen>
     <dimen name="standard34sp">34sp</dimen>
-    <dimen name="standard60sp">60sp</dimen>
-
 </resources>

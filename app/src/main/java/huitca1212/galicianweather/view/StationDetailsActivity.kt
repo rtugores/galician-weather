@@ -102,8 +102,14 @@ class StationDetailsActivity : BaseActivity<StationDetailsPresenter>(), StationV
         infoHumidity.text = getString(R.string.humidity_last_minutes).format(value, units)
     }
 
-    override fun updateCurrentRain(value: String, units: String) {
-        infoRain.text = getString(R.string.rain_last_minutes).format(value, units)
+    override fun updateCurrentRain(value: String) {
+        try {
+            val currentRain = value.toFloat()
+            infoRain.text = getString(if (currentRain > 0) R.string.rain_last_minutes_raining else R.string.rain_last_minutes_not_raining)
+            infoRain.visible()
+        } catch (e: NumberFormatException) {
+            infoRain.gone()
+        }
     }
 
     override fun updateDailyRain(value: String, units: String) {

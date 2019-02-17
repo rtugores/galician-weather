@@ -29,4 +29,9 @@
         <item name="android:textColor">@color/darkGrey</item>
     </style>
 
+    <style name="TextDarkGrey50">
+        <item name="android:textSize">@dimen/standard50sp</item>
+        <item name="android:textColor">@color/darkGrey</item>
+    </style>
+
 </resources>
