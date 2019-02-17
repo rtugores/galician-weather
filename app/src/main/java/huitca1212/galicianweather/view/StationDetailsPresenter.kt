@@ -4,6 +4,8 @@ import huitca1212.galicianweather.data.datasource.model.DataDailyWrapper
 import huitca1212.galicianweather.data.datasource.model.DataLastMinutesWrapper
 import huitca1212.galicianweather.domain.*
 import huitca1212.galicianweather.view.base.BasePresenter
+import huitca1212.galicianweather.view.base.BaseViewTranslator
+import huitca1212.galicianweather.view.model.StationViewModel
 
 class StationDetailsPresenter(
     private val view: StationViewTranslator,
@@ -12,7 +14,7 @@ class StationDetailsPresenter(
     private val dailyInfoNetworkUseCase: DailyInfoUseCase
 ) : BasePresenter() {
 
-    private val station: Station by lazy {
+    private val station: StationViewModel by lazy {
         view.getStationArg()
     }
     private var content: Any? = null
@@ -41,34 +43,34 @@ class StationDetailsPresenter(
     }
 
     private fun retrieveStationData() {
-        view.showLoaderScreen()
+        if (view.isNetworkAvailable()) {
+            view.showLoaderScreen()
 
-        val stationParams = GetStationsUseCaseParams(station.code)
-        invoker.executeParallel(
-            lastMinutesInfoUseCase withParams stationParams,
-            dailyInfoNetworkUseCase withParams stationParams
-        ) { result ->
-            val data = (result as Multiple).data as List<*>
+            val stationParams = GetStationsUseCaseParams(station.code)
+            invoker.executeParallel(
+                lastMinutesInfoUseCase withParams stationParams,
+                dailyInfoNetworkUseCase withParams stationParams
+            ) { result ->
+                val data = (result as Multiple).data as List<*>
 
-            if (data.any { it is NoInternetError }) {
-                view.showNoInternetDialog()
-                return@executeParallel
-            }
-            if (data.any { it is UnknownError }) {
-                view.showErrorDialog()
-                return@executeParallel
-            }
+                if (data.any { it is Error }) {
+                    view.showErrorDialog()
+                    return@executeParallel
+                }
 
-            data.forEach {
-                content = (it as Success<*>).data.apply {
-                    when (this) {
-                        is DataLastMinutesWrapper -> processLastMinutesInfo(this)
-                        is DataDailyWrapper -> processDailyInfo(this)
+                data.forEach {
+                    content = (it as Success<*>).data.apply {
+                        when (this) {
+                            is DataLastMinutesWrapper -> processLastMinutesInfo(this)
+                            is DataDailyWrapper -> processDailyInfo(this)
+                        }
                     }
                 }
+                view.updateRadarImage()
+                view.showDataScreen()
             }
-            view.updateRadarImage()
-            view.showDataScreen()
+        } else {
+            view.showNoInternetDialog()
         }
     }
 
@@ -87,8 +89,8 @@ class StationDetailsPresenter(
     }
 }
 
-interface StationViewTranslator {
-    fun getStationArg(): Station
+interface StationViewTranslator : BaseViewTranslator {
+    fun getStationArg(): StationViewModel
     fun initScreenInfo(name: String, imageUrl: String)
     fun updateTemperature(value: String, units: String)
     fun updateHumidity(value: String, units: String)

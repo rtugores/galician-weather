@@ -1,13 +1,15 @@
 package huitca1212.galicianweather.view.base
 
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 
 /*
 * Base activity that supports MVP.
 */
-abstract class BaseActivity<out T : BasePresenter> : AppCompatActivity() {
+abstract class BaseActivity<out T : BasePresenter> : AppCompatActivity(), BaseViewTranslator {
 
     /**
      * The current presenter.
@@ -62,5 +64,11 @@ abstract class BaseActivity<out T : BasePresenter> : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         presenter.onActivityResult()
+    }
+
+    override fun isNetworkAvailable(): Boolean {
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetworkInfo = connectivityManager.activeNetworkInfo
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected
     }
 }

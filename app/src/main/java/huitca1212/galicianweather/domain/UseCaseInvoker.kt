@@ -23,7 +23,7 @@ class UseCaseInvoker(private val contextProvider: CoroutineContextProvider = Cor
             } catch (e: CancellationException) {
                 // Do nothing
             } catch (e: Exception) {
-                result?.invoke(UnknownError(e))
+                result?.invoke(Error(e))
             }
         }
     }

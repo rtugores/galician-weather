@@ -8,13 +8,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import huitca1212.galicianweather.R
+import huitca1212.galicianweather.view.model.StationViewModel
 import huitca1212.galicianweather.view.util.setImageUrl
-import java.io.Serializable
 
 class StationAdapter(
     private val context: Context,
-    private val stations: List<Station>,
-    private val listener: (Station) -> Unit
+    private val stations: List<StationViewModel>,
+    private val listener: (StationViewModel) -> Unit
 ) : RecyclerView.Adapter<StationAdapter.StationViewHolder>() {
 
     init {
@@ -41,15 +41,9 @@ class StationAdapter(
         private val itemStationName = item.findViewById<TextView>(R.id.itemStationName)
         private val itemStationImage = item.findViewById<ImageView>(R.id.itemStationImage)
 
-        fun bind(station: Station) {
+        fun bind(station: StationViewModel) {
             itemStationName.text = station.name
             itemStationImage.setImageUrl("${station.imageUrl}${System.currentTimeMillis()}")
         }
     }
 }
-
-data class Station(
-    val code: String,
-    val name: String,
-    val imageUrl: String
-) : Serializable

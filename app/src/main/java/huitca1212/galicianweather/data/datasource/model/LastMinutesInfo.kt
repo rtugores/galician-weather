@@ -1,7 +1,7 @@
 package huitca1212.galicianweather.data.datasource.model
 
 import com.google.gson.annotations.SerializedName
-import huitca1212.galicianweather.data.datasource.LastMinutesInfoNetworkDataSource
+import huitca1212.galicianweather.data.datasource.LastMinutesInfoRemoteDataSource
 
 
 data class DataLastMinutes(
@@ -27,19 +27,19 @@ data class DataLastMinutesWrapper(
         val info = DataLastMinutes()
         list.firstOrNull()?.measureLastMinutes?.forEach {
             when (it.parameterCode) {
-                LastMinutesInfoNetworkDataSource.TEMPERATURE_PARAM, LastMinutesInfoNetworkDataSource.TEMPERATURE_PARAM_WRONG -> {
+                LastMinutesInfoRemoteDataSource.TEMPERATURE_PARAM, LastMinutesInfoRemoteDataSource.TEMPERATURE_PARAM_WRONG -> {
                     if (it.value != null && it.value >= MIN_TEMPERATURE_ALLOWED && it.units != null) {
                         info.temperatureValue = "%.1f".format(it.value)
                         info.temperatureUnits = it.units
                     }
                 }
-                LastMinutesInfoNetworkDataSource.HUMIDITY_PARAM, LastMinutesInfoNetworkDataSource.HUMIDITY_PARAM_WRONG -> {
+                LastMinutesInfoRemoteDataSource.HUMIDITY_PARAM, LastMinutesInfoRemoteDataSource.HUMIDITY_PARAM_WRONG -> {
                     if (it.value != null && it.value >= MIN_HUMIDITY_ALLOWED && it.units != null) {
                         info.humidityValue = "%.0f".format(it.value)
                         info.humidityUnits = it.units
                     }
                 }
-                LastMinutesInfoNetworkDataSource.RAIN_PARAM -> {
+                LastMinutesInfoRemoteDataSource.RAIN_PARAM -> {
                     if (it.value != null && it.value >= MIN_RAIN_ALLOWED && it.units != null) {
                         info.rainValue = "%.1f".format(it.value)
                         info.rainUnits = it.units

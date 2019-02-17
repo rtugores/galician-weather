@@ -9,6 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import huitca1212.galicianweather.R
 import huitca1212.galicianweather.injection.injectActivity
 import huitca1212.galicianweather.view.base.BaseActivity
+import huitca1212.galicianweather.view.model.StationViewModel
 import huitca1212.galicianweather.view.util.*
 import kotlinx.android.synthetic.main.activity_station_datails.*
 
@@ -17,7 +18,7 @@ class StationDetailsActivity : BaseActivity<StationDetailsPresenter>(), StationV
     companion object {
         const val ARG_STATION = "arg_station"
 
-        fun startActivity(context: Context, station: Station) {
+        fun startActivity(context: Context, station: StationViewModel) {
             context.startActivity(
                 Intent(context, StationDetailsActivity::class.java)
                     .putExtra(ARG_STATION, station)
@@ -40,7 +41,7 @@ class StationDetailsActivity : BaseActivity<StationDetailsPresenter>(), StationV
     }
 
     override fun getStationArg() =
-        intent.extras!!.getSerializable(StationDetailsActivity.ARG_STATION) as Station
+        intent.extras!!.getSerializable(StationDetailsActivity.ARG_STATION) as StationViewModel
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {

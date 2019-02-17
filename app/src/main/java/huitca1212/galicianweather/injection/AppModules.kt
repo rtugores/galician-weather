@@ -2,10 +2,9 @@ package huitca1212.galicianweather.injection
 
 import android.app.Activity
 import android.util.Log
-import huitca1212.galicianweather.data.datasource.DailyInfoNetworkDataSource
-import huitca1212.galicianweather.data.datasource.LastMinutesInfoNetworkDataSource
-import huitca1212.galicianweather.data.repository.DailyInfoRepository
-import huitca1212.galicianweather.data.repository.LastMinutesInfoRepository
+import huitca1212.galicianweather.data.datasource.DailyInfoRemoteDataSource
+import huitca1212.galicianweather.data.datasource.LastMinutesInfoRemoteDataSource
+import huitca1212.galicianweather.data.repository.WeatherRepository
 import huitca1212.galicianweather.domain.DailyInfoUseCase
 import huitca1212.galicianweather.domain.LastMinutesInfoUseCase
 import huitca1212.galicianweather.domain.UseCaseInvoker
@@ -33,11 +32,10 @@ object AppModules {
     }
 
     val stationDetailsModule = module {
-        factory { LastMinutesInfoNetworkDataSource(get()) }
-        factory { DailyInfoNetworkDataSource(get()) }
+        factory { LastMinutesInfoRemoteDataSource() }
+        factory { DailyInfoRemoteDataSource() }
 
-        factory { DailyInfoRepository(get()) }
-        factory { LastMinutesInfoRepository(get()) }
+        factory { WeatherRepository(get(), get()) }
 
         factory { LastMinutesInfoUseCase(get()) }
         factory { DailyInfoUseCase(get()) }
