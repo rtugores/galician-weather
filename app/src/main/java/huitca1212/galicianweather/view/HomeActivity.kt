@@ -22,6 +22,7 @@ class HomeActivity : BaseActivity<HomePresenter>(), HomeViewTranslator {
         val stations = listOf(
             Station("14000", "Coruña - Dique", "http://85.91.64.26/coruna/readImage.asp?dummy="),
             Station("10157", "Coruña - Torre de Hércules", "http://85.91.64.26/coruna/readImage.asp?dummy="),
+            Station("10050", "Ferrol - CIS", "http://85.91.64.19/ferrol/readImage.asp?dummy="),
             Station("10053", "Lugo - Campus", "http://85.91.64.19/lugo/readImage.asp?dummy="),
             Station("10148", "Ourense - Campus", "http://85.91.64.26/ourense/readImage.asp?dummy="),
             Station("10155", "Ourense - Estación de bus", "http://85.91.64.26/ourense/readImage.asp?dummy="),

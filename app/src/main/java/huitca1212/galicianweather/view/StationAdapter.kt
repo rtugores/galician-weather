@@ -4,10 +4,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import huitca1212.galicianweather.R
 import huitca1212.galicianweather.view.util.setImageUrl
-import kotlinx.android.synthetic.main.item_station.view.*
 import java.io.Serializable
 
 class StationAdapter(
@@ -35,10 +36,14 @@ class StationAdapter(
         holder.bind(stations[position])
     }
 
-    class StationViewHolder(private val item: View) : RecyclerView.ViewHolder(item) {
+    class StationViewHolder(item: View) : RecyclerView.ViewHolder(item) {
+
+        private val itemStationName = item.findViewById<TextView>(R.id.itemStationName)
+        private val itemStationImage = item.findViewById<ImageView>(R.id.itemStationImage)
+
         fun bind(station: Station) {
-            item.itemStationName.text = station.name
-            item.itemStationImage.setImageUrl("${station.imageUrl}${System.currentTimeMillis()}")
+            itemStationName.text = station.name
+            itemStationImage.setImageUrl("${station.imageUrl}${System.currentTimeMillis()}")
         }
     }
 }

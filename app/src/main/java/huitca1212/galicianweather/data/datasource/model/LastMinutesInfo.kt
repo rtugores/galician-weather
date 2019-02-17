@@ -17,25 +17,31 @@ data class DataLastMinutesWrapper(
     @SerializedName("listUltimos10min") val list: List<DataStationLastMinutes>
 ) {
 
+    companion object {
+        private const val MIN_TEMPERATURE_ALLOWED = -50
+        private const val MIN_HUMIDITY_ALLOWED = 0
+        private const val MIN_RAIN_ALLOWED = 0
+    }
+
     fun getDataLastMinutes(): DataLastMinutes {
         val info = DataLastMinutes()
         list.firstOrNull()?.measureLastMinutes?.forEach {
             when (it.parameterCode) {
                 LastMinutesInfoNetworkDataSource.TEMPERATURE_PARAM, LastMinutesInfoNetworkDataSource.TEMPERATURE_PARAM_WRONG -> {
-                    if (it.value != null && it.value >= 0 && it.units != null) {
-                        info.temperatureValue = String.format("%.1f", it.value)
+                    if (it.value != null && it.value >= MIN_TEMPERATURE_ALLOWED && it.units != null) {
+                        info.temperatureValue = "%.1f".format(it.value)
                         info.temperatureUnits = it.units
                     }
                 }
                 LastMinutesInfoNetworkDataSource.HUMIDITY_PARAM, LastMinutesInfoNetworkDataSource.HUMIDITY_PARAM_WRONG -> {
-                    if (it.value != null && it.value >= 0 && it.units != null) {
-                        info.humidityValue = String.format("%.0f", it.value)
+                    if (it.value != null && it.value >= MIN_HUMIDITY_ALLOWED && it.units != null) {
+                        info.humidityValue = "%.0f".format(it.value)
                         info.humidityUnits = it.units
                     }
                 }
                 LastMinutesInfoNetworkDataSource.RAIN_PARAM -> {
-                    if (it.value != null && it.value >= 0 && it.units != null) {
-                        info.rainValue = String.format("%.1f", it.value)
+                    if (it.value != null && it.value >= MIN_RAIN_ALLOWED && it.units != null) {
+                        info.rainValue = "%.1f".format(it.value)
                         info.rainUnits = it.units
                     }
                 }

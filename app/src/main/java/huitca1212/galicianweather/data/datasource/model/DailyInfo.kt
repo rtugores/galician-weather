@@ -13,12 +13,16 @@ data class DataDailyWrapper(
     @SerializedName("listDatosDiarios") val list: List<DataStationDaily>?
 ) {
 
+    companion object {
+        private const val MIN_RAIN_ALLOWED = 0
+    }
+
     fun getDataDaily(): DataDaily {
         val info = DataDaily()
         list?.firstOrNull()?.stations?.firstOrNull()?.measuresDaily?.forEach {
             if (it.parameterCode == DailyInfoNetworkDataSource.RAIN_PARAM) {
-                if (it.value != null && it.value >= 0 && it.units != null) {
-                    info.rainValue = String.format("%.1f", it.value)
+                if (it.value != null && it.value >= MIN_RAIN_ALLOWED && it.units != null) {
+                    info.rainValue = "%.1f".format(it.value)
                     info.rainUnits = it.units
                 }
             }

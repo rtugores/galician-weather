@@ -20,8 +20,10 @@ class UseCaseInvoker(private val contextProvider: CoroutineContextProvider = Cor
                 executeUseCases(*useCases) {
                     result?.invoke(it)
                 }
-            } catch (ex: CancellationException) {
+            } catch (e: CancellationException) {
                 // Do nothing
+            } catch (e: Exception) {
+                result?.invoke(UnknownError(e))
             }
         }
     }
