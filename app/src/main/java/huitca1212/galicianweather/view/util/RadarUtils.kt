@@ -1,7 +1,6 @@
 package huitca1212.galicianweather.view.util
 
 import android.widget.ImageView
-import huitca1212.galicianweather.injection.GlideApp
 import java.text.SimpleDateFormat
 import java.util.*
 

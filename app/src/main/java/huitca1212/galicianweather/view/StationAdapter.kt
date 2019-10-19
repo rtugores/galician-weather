@@ -43,7 +43,7 @@ class StationAdapter(
 
         fun bind(station: StationViewModel) {
             itemStationName.text = station.name
-            itemStationImage.setImageUrl("${station.imageUrl}${System.currentTimeMillis()}")
+            itemStationImage.setImageUrl(station.imageUrl)
         }
     }
 }

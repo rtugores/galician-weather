@@ -41,7 +41,7 @@ class StationDetailsActivity : BaseActivity<StationDetailsPresenter>(), StationV
     }
 
     override fun getStationArg() =
-        intent.extras!!.getSerializable(StationDetailsActivity.ARG_STATION) as StationViewModel
+        intent.extras!!.getSerializable(ARG_STATION) as StationViewModel
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
@@ -91,7 +91,7 @@ class StationDetailsActivity : BaseActivity<StationDetailsPresenter>(), StationV
 
     override fun initScreenInfo(name: String, imageUrl: String) {
         stationDetailsToolbar.title = name
-        stationDetailsImage.setImageUrl("$imageUrl${System.currentTimeMillis()}")
+        stationDetailsImage.setImageUrl(imageUrl)
     }
 
     override fun updateTemperature(value: String, units: String) {
