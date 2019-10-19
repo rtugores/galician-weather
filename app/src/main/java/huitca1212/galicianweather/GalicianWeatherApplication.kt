@@ -2,19 +2,23 @@ package huitca1212.galicianweather
 
 import android.app.Application
 import huitca1212.galicianweather.injection.AppModules
-import org.koin.android.ext.android.startKoin
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
 
 class GalicianWeatherApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        startKoin(
-            this,
-            listOf(
-                AppModules.networkModule,
-                AppModules.homeModule,
-                AppModules.stationDetailsModule
+
+        startKoin {
+            androidContext(this@GalicianWeatherApplication)
+            modules(
+                listOf(
+                    AppModules.networkModule,
+                    AppModules.homeModule,
+                    AppModules.stationDetailsModule
+                )
             )
-        )
+        }
     }
 }
