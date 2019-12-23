@@ -101,7 +101,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/infoRainDaily"
                 tools:text="No llueve" />
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <com.github.chrisbanes.photoview.PhotoView
                 android:id="@+id/radarImage"
                 android:layout_width="0dp"
                 android:layout_height="0dp"

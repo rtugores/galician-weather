@@ -68,3 +68,4 @@ fastlane/readme.md
 .idea/runConfigurations.xml
 app/release
 keystore
+.idea/vcs.xml

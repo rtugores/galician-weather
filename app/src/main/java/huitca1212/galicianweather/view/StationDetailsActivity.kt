@@ -38,6 +38,7 @@ class StationDetailsActivity : BaseActivity<StationDetailsPresenter>(), StationV
             setDisplayHomeAsUpEnabled(true)
             setHomeAsUpIndicator(R.drawable.ic_back_arrow_white)
         }
+        radarImage.maximumScale = 3.5f
     }
 
     override fun getStationArg() =
@@ -104,7 +105,7 @@ class StationDetailsActivity : BaseActivity<StationDetailsPresenter>(), StationV
 
     override fun updateCurrentRain(value: String) {
         try {
-            val currentRain = value.toFloat()
+            val currentRain = value.replace(",",".").toFloat()
             infoRain.text = getString(if (currentRain > 0) R.string.rain_last_minutes_raining else R.string.rain_last_minutes_not_raining)
             infoRain.visible()
         } catch (e: NumberFormatException) {
