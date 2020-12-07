@@ -3,9 +3,11 @@ package huitca1212.galicianweather.data.datasource
 import huitca1212.galicianweather.data.datasource.extensions.executeCall
 import huitca1212.galicianweather.data.repository.GWNullBodyException
 import huitca1212.galicianweather.network.StationApi
-import org.koin.core.KoinComponent
-import org.koin.core.inject
+import org.koin.core.component.KoinApiExtension
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
+@KoinApiExtension
 class LastMinutesInfoRemoteDataSource : KoinComponent {
 
     companion object {

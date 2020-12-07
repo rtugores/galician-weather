@@ -69,3 +69,5 @@ fastlane/readme.md
 app/release
 keystore
 .idea/vcs.xml
+.idea/compiler.xml
+.idea/jarRepositories.xml
