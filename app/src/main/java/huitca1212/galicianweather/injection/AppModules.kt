@@ -53,22 +53,23 @@ object AppModules {
         single { okHttpClient() }
     }
 
-    private fun stationApi(retrofit: Retrofit): StationApi =
-        retrofit.create(StationApi::class.java)
+    private fun stationApi(retrofit: Retrofit): StationApi = retrofit.create(StationApi::class.java)
 
-    private fun retrofit(okHttpClient: OkHttpClient) =
-        Retrofit.Builder()
+    private fun retrofit(okHttpClient: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
             .baseUrl("http://servizos.meteogalicia.gal/rss/observacion/")
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+    }
 
-    private fun okHttpClient() =
-        OkHttpClient.Builder()
+    private fun okHttpClient(): OkHttpClient {
+        return OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor { message ->
                 Log.d("Interceptor", message)
             }.apply { level = HttpLoggingInterceptor.Level.BODY })
             .connectTimeout(timeout, TimeUnit.SECONDS)
             .readTimeout(timeout, TimeUnit.SECONDS)
             .build()
+    }
 }

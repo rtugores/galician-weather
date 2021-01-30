@@ -1,8 +1,13 @@
 package huitca1212.galicianweather.domain
 
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers.Default
 import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.coroutineContext
@@ -67,6 +72,7 @@ class UseCaseInvoker(private val contextProvider: CoroutineContextProvider = Cor
 }
 
 class CoroutineContextProvider {
+
     val main: CoroutineContext by lazy { Main }
     val background: CoroutineContext by lazy { Default }
 }

@@ -9,6 +9,7 @@ import retrofit2.http.QueryMap
 
 @KoinApiExtension
 interface StationApi {
+
     @GET("ultimos10minEstacionsMeteo.action")
     fun getLastMinutesDataStation(@QueryMap map: Map<String, String>): Call<DataLastMinutesWrapper>
 

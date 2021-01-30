@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName
 import huitca1212.galicianweather.data.datasource.DailyInfoRemoteDataSource
 import org.koin.core.component.KoinApiExtension
 
-
 data class DataDaily(
     var rainValue: String = "-",
     var rainUnits: String = ""
@@ -16,6 +15,7 @@ data class DataDailyWrapper(
 ) {
 
     companion object {
+
         private const val MIN_RAIN_ALLOWED = 0
     }
 
@@ -31,12 +31,13 @@ data class DataDailyWrapper(
         }
         return info
     }
+
+    data class DataStationDaily(
+        @SerializedName("listaEstacions") val stations: List<StationDaily>?
+    )
+
+    data class StationDaily(
+        @SerializedName("listaMedidas") val measuresDaily: List<Measure>?
+    )
 }
 
-data class DataStationDaily(
-    @SerializedName("listaEstacions") val stations: List<StationDaily>?
-)
-
-data class StationDaily(
-    @SerializedName("listaMedidas") val measuresDaily: List<Measure>?
-)

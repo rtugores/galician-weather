@@ -13,20 +13,26 @@ import huitca1212.galicianweather.view.util.setImageUrl
 
 class StationAdapter(
     private val context: Context,
-    private val stations: List<StationViewModel>,
     private val listener: (StationViewModel) -> Unit
 ) : RecyclerView.Adapter<StationAdapter.StationViewHolder>() {
+
+    var stations: MutableList<StationViewModel> = mutableListOf()
+        set(value) {
+            field.clear()
+            field.addAll(value)
+            notifyDataSetChanged()
+        }
 
     init {
         setHasStableIds(true)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StationViewHolder =
-        StationViewHolder(LayoutInflater.from(context).inflate(R.layout.item_station, parent, false)).apply {
-            itemView.setOnClickListener {
-                listener(stations[adapterPosition])
-            }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StationViewHolder {
+        val item = LayoutInflater.from(context).inflate(R.layout.item_station, parent, false)
+        return StationViewHolder(item).apply {
+            itemView.setOnClickListener { listener(stations[adapterPosition]) }
         }
+    }
 
     override fun getItemCount(): Int = stations.size
 

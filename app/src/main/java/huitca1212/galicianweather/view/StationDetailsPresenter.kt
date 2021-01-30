@@ -56,7 +56,7 @@ class StationDetailsPresenter(
                 val data = (result as Multiple).data as List<*>
 
                 if (data.any { it is Error }) {
-                    view.showErrorDialog()
+                    view.showUnknownErrorDialog()
                     return@executeParallel
                 }
 
@@ -100,7 +100,7 @@ interface StationViewTranslator : BaseViewTranslator {
     fun updateCurrentRain(value: String)
     fun updateDailyRain(value: String, units: String)
     fun showLoaderScreen()
-    fun showErrorDialog()
+    fun showUnknownErrorDialog()
     fun showNoInternetDialog()
     fun updateRadarImage()
     fun showDataScreen()

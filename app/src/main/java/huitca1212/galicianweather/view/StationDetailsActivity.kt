@@ -26,10 +26,8 @@ class StationDetailsActivity : BaseActivity<StationDetailsPresenter>(), StationV
         const val ARG_STATION = "arg_station"
 
         fun startActivity(context: Context, station: StationViewModel) {
-            context.startActivity(
-                Intent(context, StationDetailsActivity::class.java)
-                    .putExtra(ARG_STATION, station)
-            )
+            val intent = Intent(context, StationDetailsActivity::class.java).putExtra(ARG_STATION, station)
+            context.startActivity(intent)
         }
     }
 
@@ -64,28 +62,24 @@ class StationDetailsActivity : BaseActivity<StationDetailsPresenter>(), StationV
         binding.progressBar.visible()
     }
 
-    override fun showErrorDialog() {
+    override fun showUnknownErrorDialog() {
         binding.infoGroup.invisible()
         binding.progressBar.gone()
-        showRetryDialog(R.string.request_failure_error) {
-            presenter.onRetryButtonClick()
-        }
+        showRetryDialog(R.string.request_failure_error)
     }
 
     override fun showNoInternetDialog() {
         binding.infoGroup.invisible()
         binding.progressBar.gone()
-        showRetryDialog(R.string.request_no_internet_error) {
-            presenter.onRetryButtonClick()
-        }
+        showRetryDialog(R.string.request_no_internet_error)
     }
 
-    private fun showRetryDialog(@StringRes messageId: Int, onRetry: () -> Unit) {
+    private fun showRetryDialog(@StringRes messageId: Int) {
         AlertDialog.Builder(this)
             .setMessage(getString(messageId))
             .setPositiveButton(getString(R.string.dialog_retry)) { dialog, _ ->
                 dialog.dismiss()
-                onRetry()
+                presenter.onRetryButtonClick()
             }.setNegativeButton(getString(R.string.dialog_cancel)) { dialog, _ ->
                 dialog.dismiss()
             }
@@ -104,18 +98,22 @@ class StationDetailsActivity : BaseActivity<StationDetailsPresenter>(), StationV
     }
 
     override fun updateTemperature(value: String, units: String) {
-        binding.infoTemperature.text = getString(R.string.temperature_last_minutes).format(value, units)
+        binding.infoTemperature.text = getString(R.string.temperature_last_minutes, value, units)
     }
 
     override fun updateHumidity(value: String, units: String) {
-        binding.infoHumidity.text = getString(R.string.humidity_last_minutes).format(value, units)
+        binding.infoHumidity.text = getString(R.string.humidity_last_minutes, value, units)
     }
 
     override fun updateCurrentRain(value: String) {
         try {
             val currentRain = value.replace(",", ".").toFloat()
-            binding.infoRain.text =
-                getString(if (currentRain > 0) R.string.rain_last_minutes_raining else R.string.rain_last_minutes_not_raining)
+            val currentRainStringRes = if (currentRain > 0) {
+                R.string.rain_last_minutes_raining
+            } else {
+                R.string.rain_last_minutes_not_raining
+            }
+            binding.infoRain.text = getString(currentRainStringRes)
             binding.infoRain.visible()
         } catch (e: NumberFormatException) {
             binding.infoRain.gone()
@@ -123,7 +121,7 @@ class StationDetailsActivity : BaseActivity<StationDetailsPresenter>(), StationV
     }
 
     override fun updateDailyRain(value: String, units: String) {
-        binding.infoRainDaily.text = getString(R.string.rain_daily).format(value, units)
+        binding.infoRainDaily.text = getString(R.string.rain_daily, value, units)
     }
 
     override fun updateRadarImage() {

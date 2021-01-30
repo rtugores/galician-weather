@@ -8,8 +8,8 @@ import java.io.IOException
 import java.net.SocketTimeoutException
 
 @Throws(Exception::class)
-fun <T> Call<T>.executeCall(): T? =
-    try {
+fun <T> Call<T>.executeCall(): T? {
+    return try {
         execute().run {
             if (isSuccessful) {
                 body()
@@ -22,3 +22,4 @@ fun <T> Call<T>.executeCall(): T? =
     } catch (e: IOException) {
         throw GWNetworkException(e)
     }
+}
