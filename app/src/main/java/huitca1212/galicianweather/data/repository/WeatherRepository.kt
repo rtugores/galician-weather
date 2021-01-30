@@ -5,7 +5,9 @@ import huitca1212.galicianweather.data.datasource.LastMinutesInfoRemoteDataSourc
 import huitca1212.galicianweather.domain.DataStatus
 import huitca1212.galicianweather.domain.Error
 import huitca1212.galicianweather.domain.Success
+import org.koin.core.component.KoinApiExtension
 
+@KoinApiExtension
 class WeatherRepository(
     private val dailyInfoRemoteDataSource: DailyInfoRemoteDataSource,
     private val lastMinutesInfoRemoteDataSource: LastMinutesInfoRemoteDataSource

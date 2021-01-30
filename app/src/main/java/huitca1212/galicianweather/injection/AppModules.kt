@@ -14,6 +14,7 @@ import huitca1212.galicianweather.view.StationDetailsPresenter
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.android.inject
+import org.koin.core.component.KoinApiExtension
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -23,6 +24,7 @@ import java.util.concurrent.TimeUnit
 inline fun <reified T : Any> Activity.injectActivity(): Lazy<T> =
     inject { parametersOf(this) }
 
+@KoinApiExtension
 object AppModules {
 
     private const val timeout = 30L
@@ -64,10 +66,7 @@ object AppModules {
     private fun okHttpClient() =
         OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor { message ->
-                Log.d(
-                    "Interceptor",
-                    message
-                )
+                Log.d("Interceptor", message)
             }.apply { level = HttpLoggingInterceptor.Level.BODY })
             .connectTimeout(timeout, TimeUnit.SECONDS)
             .readTimeout(timeout, TimeUnit.SECONDS)

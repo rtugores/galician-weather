@@ -6,7 +6,9 @@ import huitca1212.galicianweather.domain.*
 import huitca1212.galicianweather.view.base.BasePresenter
 import huitca1212.galicianweather.view.base.BaseViewTranslator
 import huitca1212.galicianweather.view.model.StationViewModel
+import org.koin.core.component.KoinApiExtension
 
+@KoinApiExtension
 class StationDetailsPresenter(
     private val view: StationViewTranslator,
     private val invoker: UseCaseInvoker,
@@ -35,7 +37,7 @@ class StationDetailsPresenter(
     }
 
     fun onBackButtonClick() {
-        view.closeScreen()
+        view.finish()
     }
 
     fun onRetryButtonClick() {
@@ -90,6 +92,7 @@ class StationDetailsPresenter(
 }
 
 interface StationViewTranslator : BaseViewTranslator {
+
     fun getStationArg(): StationViewModel
     fun initScreenInfo(name: String, imageUrl: String)
     fun updateTemperature(value: String, units: String)
@@ -101,5 +104,5 @@ interface StationViewTranslator : BaseViewTranslator {
     fun showNoInternetDialog()
     fun updateRadarImage()
     fun showDataScreen()
-    fun closeScreen()
+    fun finish()
 }

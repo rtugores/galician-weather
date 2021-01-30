@@ -2,6 +2,7 @@ package huitca1212.galicianweather.data.datasource.model
 
 import com.google.gson.annotations.SerializedName
 import huitca1212.galicianweather.data.datasource.LastMinutesInfoRemoteDataSource
+import org.koin.core.component.KoinApiExtension
 
 
 data class DataLastMinutes(
@@ -12,8 +13,9 @@ data class DataLastMinutes(
     var rainValue: String = "-"
 )
 
+@KoinApiExtension
 data class DataLastMinutesWrapper(
-    @SerializedName("listUltimos10min") val list: List<DataStationLastMinutes>
+    @SerializedName("listUltimos10min") val list: List<DataStationLastMinutes>?
 ) {
 
     companion object {
@@ -24,7 +26,7 @@ data class DataLastMinutesWrapper(
 
     fun getDataLastMinutes(): DataLastMinutes {
         val info = DataLastMinutes()
-        list.firstOrNull()?.measureLastMinutes?.forEach {
+        list?.firstOrNull()?.measureLastMinutes?.forEach {
             when (it.parameterCode) {
                 LastMinutesInfoRemoteDataSource.TEMPERATURE_PARAM, LastMinutesInfoRemoteDataSource.TEMPERATURE_PARAM_WRONG -> {
                     if (it.value != null && it.value >= MIN_TEMPERATURE_ALLOWED && it.units != null) {

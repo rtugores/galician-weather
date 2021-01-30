@@ -2,6 +2,7 @@ package huitca1212.galicianweather.data.datasource.model
 
 import com.google.gson.annotations.SerializedName
 import huitca1212.galicianweather.data.datasource.DailyInfoRemoteDataSource
+import org.koin.core.component.KoinApiExtension
 
 
 data class DataDaily(
@@ -9,6 +10,7 @@ data class DataDaily(
     var rainUnits: String = ""
 )
 
+@KoinApiExtension
 data class DataDailyWrapper(
     @SerializedName("listDatosDiarios") val list: List<DataStationDaily>?
 ) {
