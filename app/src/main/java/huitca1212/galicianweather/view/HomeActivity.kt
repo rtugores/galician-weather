@@ -14,7 +14,6 @@ import org.koin.core.component.KoinApiExtension
 class HomeActivity : BaseActivity<HomePresenter>(), HomeViewTranslator {
 
     override val presenter: HomePresenter by injectActivity()
-    private var stationAdapter: StationAdapter? = null
     private lateinit var binding: ActivityHomeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,17 +22,16 @@ class HomeActivity : BaseActivity<HomePresenter>(), HomeViewTranslator {
         binding = ActivityHomeBinding.bind(findViewById(R.id.homeMainContainer))
 
         setSupportActionBar(binding.homeToolbar)
-        stationAdapter = StationAdapter(this, presenter::onStationClick)
 
         with(binding.stationsRecyclerView) {
             setHasFixedSize(true)
             addItemDecoration(DividerItemDecoration(this@HomeActivity, LinearLayoutManager.VERTICAL))
-            adapter = stationAdapter
+            adapter = StationAdapter(presenter::onStationClick)
         }
     }
 
     override fun showStations(stations: List<StationViewModel>) {
-        (binding.stationsRecyclerView.adapter as StationAdapter).stations = stations.toMutableList()
+        (binding.stationsRecyclerView.adapter as StationAdapter).updateStations(stations)
     }
 
     override fun openStationDetailsScreen(station: StationViewModel) {

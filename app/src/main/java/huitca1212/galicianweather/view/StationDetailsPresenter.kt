@@ -23,7 +23,7 @@ class StationDetailsPresenter(
 
     override fun onPostCreate() {
         super.onPostCreate()
-        view.initScreenInfo(station.name, station.imageUrl)
+        view.initScreenInfo("${station.city} - ${station.place} ", station.imageUrl)
     }
 
     override fun onStart() {

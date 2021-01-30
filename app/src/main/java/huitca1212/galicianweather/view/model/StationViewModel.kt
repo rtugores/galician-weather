@@ -4,6 +4,7 @@ import java.io.Serializable
 
 data class StationViewModel(
     val code: String,
-    val name: String,
+    val city: String,
+    val place: String,
     val imageUrl: String
 ) : Serializable

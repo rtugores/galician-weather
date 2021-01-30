@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="72dp"
+    android:layout_height="wrap_content"
     android:background="?attr/selectableItemBackground">
 
     <ImageView
         android:id="@+id/itemStationImage"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginStart="16dp"
+        android:layout_margin="16dp"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,14 +18,26 @@
         tools:src="@sample/stationimages" />
 
     <TextView
-        android:id="@+id/itemStationName"
+        android:id="@+id/itemStationCity"
         style="@style/TextDarkGrey16"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/itemStationImage"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/itemStationImage"
+        app:layout_constraintTop_toTopOf="@id/itemStationImage"
         tools:text="@sample/stations" />
+
+    <TextView
+        android:id="@+id/itemStationPlace"
+        style="@style/TextDarkGrey16"
+        android:layout_width="0dp"
+        android:textColor="@color/lightGrey"
+        android:textSize="12sp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@id/itemStationImage"
+        app:layout_constraintStart_toEndOf="@id/itemStationImage"
+        app:layout_constraintTop_toBottomOf="@id/itemStationCity"
+        tools:text="@sample/places" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
