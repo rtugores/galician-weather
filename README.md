@@ -3,7 +3,7 @@ An app for the current weather conditions in Galicia
 
 This repository contains the source code of the "Ahora Galicia - Tiempo actual" app available on the Play Store:
 
-<a href="https://play.google.com/store/apps/details?id=huitca1212.galicianweather">
+<a href="https://play.google.com/store/apps/details?id=com.galicianweather">
 <img alt="Get it on Google Play" src="http://steverichey.github.io/google-play-badge-svg/img/en_get.svg" width="50%"/>
 </a>
 
