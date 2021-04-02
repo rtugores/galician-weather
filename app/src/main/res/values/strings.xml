@@ -12,7 +12,6 @@
     <string name="rain_last_minutes_not_raining">No llueve</string>
     <string name="rain_daily">%s%s</string>
 
-    <string name="dialog_retry">Reintentar</string>
-    <string name="dialog_cancel">Cancelar</string>
+    <string name="info_error_retry">Reintentar</string>
 
 </resources>

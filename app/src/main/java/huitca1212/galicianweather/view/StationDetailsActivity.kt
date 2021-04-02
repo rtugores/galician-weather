@@ -4,8 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import androidx.annotation.StringRes
-import androidx.appcompat.app.AlertDialog
 import huitca1212.galicianweather.R
 import huitca1212.galicianweather.databinding.ActivityStationDatailsBinding
 import huitca1212.galicianweather.injection.injectActivity
@@ -13,7 +11,6 @@ import huitca1212.galicianweather.view.base.BaseActivity
 import huitca1212.galicianweather.view.model.StationViewModel
 import huitca1212.galicianweather.view.util.gone
 import huitca1212.galicianweather.view.util.initRadarImage
-import huitca1212.galicianweather.view.util.invisible
 import huitca1212.galicianweather.view.util.setImageUrl
 import huitca1212.galicianweather.view.util.visible
 import org.koin.core.component.KoinApiExtension
@@ -45,7 +42,10 @@ class StationDetailsActivity : BaseActivity<StationDetailsPresenter>(), StationV
             setDisplayHomeAsUpEnabled(true)
             setHomeAsUpIndicator(R.drawable.ic_back_arrow_white)
         }
-        binding.radarImage.maximumScale = 3.5f
+        binding.stationDetailsContent.radarImage.maximumScale = 3.5f
+        binding.stationDetailsError.infoErrorButton.setOnClickListener{
+            presenter.onRetryButtonClick()
+        }
     }
 
     override fun getStationArg() = intent.extras?.getSerializable(ARG_STATION) as StationViewModel
@@ -58,38 +58,37 @@ class StationDetailsActivity : BaseActivity<StationDetailsPresenter>(), StationV
     }
 
     override fun showLoaderScreen() {
-        binding.infoGroup.invisible()
-        binding.progressBar.visible()
+        with(binding) {
+            stationDetailsContent.root.gone()
+            stationDetailsError.root.gone()
+            stationDetailsLoading.root.visible()
+        }
     }
 
-    override fun showUnknownErrorDialog() {
-        binding.infoGroup.invisible()
-        binding.progressBar.gone()
-        showRetryDialog(R.string.request_failure_error)
+    override fun showUnknownError() {
+        with(binding) {
+            stationDetailsContent.root.gone()
+            stationDetailsLoading.root.gone()
+            stationDetailsError.root.visible()
+            stationDetailsError.infoErrorText.setText(R.string.request_failure_error)
+        }
     }
 
-    override fun showNoInternetDialog() {
-        binding.infoGroup.invisible()
-        binding.progressBar.gone()
-        showRetryDialog(R.string.request_no_internet_error)
+    override fun showNoInternetError() {
+        with(binding) {
+            stationDetailsContent.root.gone()
+            stationDetailsLoading.root.gone()
+            stationDetailsError.root.visible()
+            stationDetailsError.infoErrorText.setText(R.string.request_no_internet_error)
+        }
     }
 
-    private fun showRetryDialog(@StringRes messageId: Int) {
-        AlertDialog.Builder(this)
-            .setMessage(getString(messageId))
-            .setPositiveButton(getString(R.string.dialog_retry)) { dialog, _ ->
-                dialog.dismiss()
-                presenter.onRetryButtonClick()
-            }.setNegativeButton(getString(R.string.dialog_cancel)) { dialog, _ ->
-                dialog.dismiss()
-            }
-            .create()
-            .show()
-    }
-
-    override fun showDataScreen() {
-        binding.infoGroup.visible()
-        binding.progressBar.gone()
+    override fun showContent() {
+        with(binding) {
+            stationDetailsLoading.root.gone()
+            stationDetailsError.root.gone()
+            stationDetailsContent.root.visible()
+        }
     }
 
     override fun initScreenInfo(name: String, imageUrl: String) {
@@ -98,33 +97,35 @@ class StationDetailsActivity : BaseActivity<StationDetailsPresenter>(), StationV
     }
 
     override fun updateTemperature(value: String, units: String) {
-        binding.infoTemperature.text = getString(R.string.temperature_last_minutes, value, units)
+        binding.stationDetailsContent.infoTemperature.text = getString(R.string.temperature_last_minutes, value, units)
     }
 
     override fun updateHumidity(value: String, units: String) {
-        binding.infoHumidity.text = getString(R.string.humidity_last_minutes, value, units)
+        binding.stationDetailsContent.infoHumidity.text = getString(R.string.humidity_last_minutes, value, units)
     }
 
     override fun updateCurrentRain(value: String) {
-        try {
-            val currentRain = value.replace(",", ".").toFloat()
-            val currentRainStringRes = if (currentRain > 0) {
-                R.string.rain_last_minutes_raining
-            } else {
-                R.string.rain_last_minutes_not_raining
+        with(binding.stationDetailsContent) {
+            try {
+                val currentRain = value.replace(",", ".").toFloat()
+                val currentRainStringRes = if (currentRain > 0) {
+                    R.string.rain_last_minutes_raining
+                } else {
+                    R.string.rain_last_minutes_not_raining
+                }
+                infoRain.text = getString(currentRainStringRes)
+                infoRain.visible()
+            } catch (e: NumberFormatException) {
+                infoRain.gone()
             }
-            binding.infoRain.text = getString(currentRainStringRes)
-            binding.infoRain.visible()
-        } catch (e: NumberFormatException) {
-            binding.infoRain.gone()
         }
     }
 
     override fun updateDailyRain(value: String, units: String) {
-        binding.infoRainDaily.text = getString(R.string.rain_daily, value, units)
+        binding.stationDetailsContent.infoRainDaily.text = getString(R.string.rain_daily, value, units)
     }
 
     override fun updateRadarImage() {
-        binding.radarImage.initRadarImage()
+        binding.stationDetailsContent.radarImage.initRadarImage()
     }
 }

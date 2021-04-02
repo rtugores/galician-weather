@@ -2,8 +2,8 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:id="@+id/stationDetailsMainContainer"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
@@ -14,7 +14,6 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/productDetailsCollapsingToolbar"
             android:layout_width="match_parent"
             android:layout_height="280dp"
             app:contentScrim="@color/blue"
@@ -51,83 +50,31 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="24dp">
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/infoTemperature"
-                style="@style/TextDarkGrey50"
-                android:layout_width="wrap_content"
+            <include
+                android:id="@+id/stationDetailsContent"
+                layout="@layout/layout_station_details_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                app:layout_constraintBottom_toBottomOf="@+id/infoRain"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/infoHumidity"
-                tools:text="24ºC" />
+                android:layout_margin="24dp" />
 
-            <TextView
-                android:id="@+id/infoHumidity"
-                style="@style/TextDarkGrey20"
-                android:layout_width="wrap_content"
+            <include
+                android:id="@+id/stationDetailsLoading"
+                layout="@layout/layout_station_details_loading"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/ic_humidity"
-                android:drawablePadding="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="packed"
-                tools:text="55%" />
+                android:layout_margin="24dp" />
 
-            <TextView
-                android:id="@+id/infoRainDaily"
-                style="@style/TextDarkGrey20"
-                android:layout_width="0dp"
+            <include
+                android:id="@+id/stationDetailsError"
+                layout="@layout/layout_station_details_error"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:drawableEnd="@drawable/ic_rain"
-                android:drawablePadding="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/infoHumidity"
-                tools:text="0.0L/m2" />
+                android:layout_margin="24dp" />
+        </FrameLayout>
 
-            <TextView
-                android:id="@+id/infoRain"
-                style="@style/TextDarkGrey20"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/infoRainDaily"
-                tools:text="No llueve" />
-
-            <com.github.chrisbanes.photoview.PhotoView
-                android:id="@+id/radarImage"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginTop="24dp"
-                app:layout_constraintDimensionRatio="w,1:1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/infoRain"
-                tools:srcCompat="@drawable/gradient_light_grey" />
-
-            <ProgressBar
-                android:id="@+id/progressBar"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="40dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.constraintlayout.widget.Group
-                android:id="@+id/infoGroup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:constraint_referenced_ids="infoTemperature,infoRainDaily,infoRain,infoHumidity,radarImage" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

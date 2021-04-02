@@ -5,8 +5,8 @@ import android.util.Log
 import huitca1212.galicianweather.data.datasource.DailyInfoRemoteDataSource
 import huitca1212.galicianweather.data.datasource.LastMinutesInfoRemoteDataSource
 import huitca1212.galicianweather.data.repository.WeatherRepository
-import huitca1212.galicianweather.domain.DailyInfoUseCase
-import huitca1212.galicianweather.domain.LastMinutesInfoUseCase
+import huitca1212.galicianweather.domain.GetDailyInfoUseCase
+import huitca1212.galicianweather.domain.GetLastMinutesInfoUseCase
 import huitca1212.galicianweather.domain.UseCaseInvoker
 import huitca1212.galicianweather.network.StationApi
 import huitca1212.galicianweather.view.HomePresenter
@@ -39,8 +39,8 @@ object AppModules {
 
         factory { WeatherRepository(get(), get()) }
 
-        factory { LastMinutesInfoUseCase(get()) }
-        factory { DailyInfoUseCase(get()) }
+        factory { GetLastMinutesInfoUseCase(get()) }
+        factory { GetDailyInfoUseCase(get()) }
 
         factory { UseCaseInvoker() }
 

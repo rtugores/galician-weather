@@ -4,9 +4,8 @@ import huitca1212.galicianweather.data.datasource.model.DataLastMinutesWrapper
 import huitca1212.galicianweather.data.repository.WeatherRepository
 import org.koin.core.component.KoinApiExtension
 
-
 @KoinApiExtension
-class LastMinutesInfoUseCase(
+class GetLastMinutesInfoUseCase(
     private val repository: WeatherRepository
 ) : UseCase<GetStationsUseCaseParams, DataLastMinutesWrapper>() {
 

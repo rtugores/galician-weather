@@ -12,8 +12,8 @@ import org.koin.core.component.KoinApiExtension
 class StationDetailsPresenter(
     private val view: StationViewTranslator,
     private val invoker: UseCaseInvoker,
-    private val lastMinutesInfoUseCase: LastMinutesInfoUseCase,
-    private val dailyInfoNetworkUseCase: DailyInfoUseCase
+    private val getLastMinutesInfoUseCase: GetLastMinutesInfoUseCase,
+    private val getDailyInfoNetworkUseCase: GetDailyInfoUseCase
 ) : BasePresenter() {
 
     private val station: StationViewModel by lazy {
@@ -50,13 +50,13 @@ class StationDetailsPresenter(
 
             val stationParams = GetStationsUseCaseParams(station.code)
             invoker.executeParallel(
-                lastMinutesInfoUseCase withParams stationParams,
-                dailyInfoNetworkUseCase withParams stationParams
+                getLastMinutesInfoUseCase withParams stationParams,
+                getDailyInfoNetworkUseCase withParams stationParams
             ) { result ->
                 val data = (result as Multiple).data as List<*>
 
                 if (data.any { it is Error }) {
-                    view.showUnknownErrorDialog()
+                    view.showUnknownError()
                     return@executeParallel
                 }
 
@@ -69,10 +69,10 @@ class StationDetailsPresenter(
                     }
                 }
                 view.updateRadarImage()
-                view.showDataScreen()
+                view.showContent()
             }
         } else {
-            view.showNoInternetDialog()
+            view.showNoInternetError()
         }
     }
 
@@ -100,9 +100,9 @@ interface StationViewTranslator : BaseViewTranslator {
     fun updateCurrentRain(value: String)
     fun updateDailyRain(value: String, units: String)
     fun showLoaderScreen()
-    fun showUnknownErrorDialog()
-    fun showNoInternetDialog()
+    fun showUnknownError()
+    fun showNoInternetError()
     fun updateRadarImage()
-    fun showDataScreen()
+    fun showContent()
     fun finish()
 }
