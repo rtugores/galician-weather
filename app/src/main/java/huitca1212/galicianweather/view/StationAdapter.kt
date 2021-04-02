@@ -3,6 +3,7 @@ package huitca1212.galicianweather.view
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import huitca1212.galicianweather.R
 import huitca1212.galicianweather.databinding.ItemStationBinding
 import huitca1212.galicianweather.view.model.StationViewModel
 import huitca1212.galicianweather.view.util.setImageUrl
@@ -45,7 +46,7 @@ class StationAdapter(private val listener: (StationViewModel) -> Unit) :
             with(binding) {
                 itemStationCity.text = station.city
                 itemStationPlace.text = station.place
-                itemStationImage.setImageUrl(station.imageUrl)
+                itemStationImage.setImageUrl(url = station.imageUrl, placeholderRes = R.drawable.ic_placeholder)
             }
         }
     }
